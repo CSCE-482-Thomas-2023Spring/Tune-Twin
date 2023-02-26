@@ -1,0 +1,36 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Get Song Recommendations API"
+basePath: "/"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /Music:
+    get:
+      description: "Returns song recommendations based on a message"
+      produces:
+        - "application/json"
+      parameters:
+        - name: message
+          in: query
+          description: "A message to base song recommendations on"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            type: object
+            properties:
+              Msg:
+                type: string
+      security:
+        - basicAuth: []
+securityDefinitions:
+  basicAuth:
+    type: basic
