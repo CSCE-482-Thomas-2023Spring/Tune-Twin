@@ -15,6 +15,16 @@ html {
     background-color: #707793;
 }
 
+h1 {
+    color: #3BBA9C;
+    font-size: 4rem;
+    padding: 2rem;
+}
+
+a {
+    color: inherit;
+}
+
 .Nav-Bar {
     background-color: #2E3047;
     display: flex;
@@ -26,9 +36,7 @@ html {
 }
 
 .Nav-Title {
-    color: #3BBA9C;
-    font-size: 4rem;
-    padding: 2rem;
+    text-decoration: none;
 }
 
 .Nav-Button-List {
@@ -48,6 +56,7 @@ html {
     border-radius: .5rem;
     /* box-shadow: 0 0 .5rem #2E3047 inset, 0 0 .25rem #707793; */
     box-shadow: 0 0 .25rem #3BBA9C, 0 0 .5rem #2E3047 inset;
+    text-decoration: none;
 }
 
 .Nav-Button:hover {

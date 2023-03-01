@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import NavBar from '../components/navbar.js';
 
-class MainPage extends Component {
+class AboutPage extends Component {
     render() {
         return (
             <div>
                 <NavBar />
-                <p>Landing Page</p>
+                <p>Hello!</p>
             </div>
         );
     }
 }
   
-export default MainPage;
+export default AboutPage;
