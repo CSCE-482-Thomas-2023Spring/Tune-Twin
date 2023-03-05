@@ -3,7 +3,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    background: #4e1313;
+    background: #3C3F58;
     height: 40px;
     border-radius: 40px;
     padding: 10px;
@@ -15,8 +15,10 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #4e1313;
+    border: none;
+    background: none;
     display: flex;
+    cursor: pointer;
     justify-content: center;
     align-items: center;
 }
@@ -27,16 +29,11 @@
     outline: none;
     float: left;
     padding: 0;
-    color: white;
+    color: #707793;
     font-size: 16px;
     transition: 0.4s;
     line-height: 40px;
-    width: 360px;
-}
-
-.recc-item{
-    background:grey;
-    border-radius: 0px 0px 5px 5px;
+    width: 28rem;
 }
 
 .wrapper {
@@ -45,12 +42,43 @@
     min-width: 100px;
 }
 
-.list:hover {
-  background-color: #e5e5e5;
+.search-txt::placeholder {
+    color: #585c6d;
 }
 
-.drop-shadow {
+.recc-item,
+.search-bar {
+  width: 30rem;
+}
+
+.recc-item{
+    background:#e1e1e1;
+    border: none;
+    position: absolute;
+}
+
+.drop-shadow{
 
 filter: drop-shadow(0.10em 0.10em 0.1em rgba(0, 0, 0, 0.5));
 
 }
+
+.individual-items{
+    cursor: pointer;
+    padding: 5px;
+    color: #707793;
+    border: none;
+    outline: none;
+    user-select: none;
+}
+
+.individual-items:hover {
+    background-color: #2E3047;
+    border: none;
+    outline: none;
+}
+  
+.recc-item .individual-items:last-of-type,
+.recc-item {
+    border-radius: 0 0 5px 5px;
+  }
