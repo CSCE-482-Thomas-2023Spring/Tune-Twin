@@ -7,6 +7,7 @@ import MainPage from "./containers/main-page.js";
 import AboutPage from "./containers/about-page.js";
 import LoginPage from "./containers/login-page.js";
 import SignUpPage from "./containers/sign-up-page.js";
+import ProfilePage from "./containers/profile-page.js";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUpPage />
+  },
+  {
+    path: "/profile",
+    element: <ProfilePage />
   }
 ]);
 
