@@ -18,6 +18,7 @@ class MainPage extends Component {
             <div>
                 <NavBar />
                 <Description />
+                <br></br>
                 <Searchbar_Component />
                 <button className="filters-button" onClick={this.filtersPopUp}>Advanced Filters</button>
                 {
