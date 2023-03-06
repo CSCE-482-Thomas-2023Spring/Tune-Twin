@@ -1,14 +1,13 @@
-import './App.css';
-import Searchbar_Component from './components/searchbar';
+import logo from './logo.svg';
+//import './App.css';
+import MainPage from './containers/main-page.js';
 
 function App() {
-
   return (
-
-    <Searchbar_Component />
-
+    <div className="App">
+      <MainPage />
+    </div>
   );
-
 }
 
 export default App;
