@@ -1,0 +1,47 @@
+/* 
+    Colors:
+    #3BBA9C -> Mint
+    #2E3047 ->
+    #43455C
+    #3C3F58
+    #707793
+*/
+
+.filters-card {
+    font-size: 1.25rem;
+    background-color: #3BBA9C;
+    width: 70%;
+    margin: auto;
+    padding: 1rem;
+    text-align: center;
+    border-radius: .5rem;
+    box-shadow: 0 0 1rem #2E3047, 0 0 .25rem #E2E4ED inset;
+}
+
+.filters-button {
+    font-size: 1.25rem;
+    background-color: #E2E4ED;
+    text-decoration: none;
+    border-radius: .25rem;
+    padding: .25rem;
+    margin: 1rem;
+    box-shadow: 0 0 .25rem #2E3047;
+}
+
+.filters-button:hover {
+    background-color: #C7CEC8;
+}
+
+.clear-filters-button {
+    font-size: 1rem;
+    background-color: #E2E4ED;
+    text-decoration: none;
+    border-radius: .2rem;
+    padding: .25rem;
+    margin: .5rem;
+    box-shadow: 0 0 .25rem #2E3047;
+}
+
+.clear-filters-button:hover {
+    background-color: #C7CEC8;
+}
