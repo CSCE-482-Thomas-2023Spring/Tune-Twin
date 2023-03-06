@@ -12,23 +12,75 @@ produces:
 paths:
   /Music:
     get:
-      description: "Returns song recommendations based on a message"
+      description: "Returns song recommendations based on an input song"
       produces:
         - "application/json"
       parameters:
-        - name: message
+        - name: song_id
           in: query
-          description: "A message to base song recommendations on"
+          description: "The unique Spotify identifier of a song to base song recommendations on"
           required: true
           type: string
       responses:
         200:
-          description: "Successful response"
+          description: OK
           schema:
             type: object
             properties:
-              Msg:
-                type: string
+              recommendations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the recommended song
+                    artist:
+                      type: string
+                      description: The name of the recommended song's artist
+                    id:
+                      type: string
+                      description: The Spotify ID of the recommended song
+              input_features:
+                type: object
+                description: The audio features of the input track
+                properties:
+                  acousticness:
+                    type: number
+                    format: float
+                    description: A confidence measure of whether the input track is acoustic
+                  danceability:
+                    type: number
+                    format: float
+                    description: How suitable the input track is for dancing
+                  energy:
+                    type: number
+                    format: float
+                    description: A measure of intensity and activity in the input track
+                  instrumentalness:
+                    type: number
+                    format: float
+                    description: A confidence measure of whether the input track contains no vocals
+                  liveness:
+                    type: number
+                    format: float
+                    description: A confidence measure of whether the input track was performed live
+                  loudness:
+                    type: number
+                    format: float
+                    description: The overall loudness of the input track in decibels
+                  speechiness:
+                    type: number
+                    format: float
+                    description: A measure of how much spoken word there is in the input track
+                  tempo:
+                    type: number
+                    format: float
+                    description: The overall estimated tempo of the input track in beats per minute (BPM)
+                  valence:
+                    type: number
+                    format: float
+                    description: A measure of the positiveness of the input track
       security:
         - basicAuth: []
 securityDefinitions:

@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_swagger_ui import get_swaggerui_blueprint
+import requests
 app = Flask(__name__)
 
 import music_route
@@ -13,7 +14,6 @@ SWAGGER_BLUEPRINT = get_swaggerui_blueprint(
 app.register_blueprint(SWAGGER_BLUEPRINT, url_prefix = SWAGGER_URL)
 
 
+
 if __name__ == "__main__":
     app.run(port=8000, debug=True)
-
-# run using python3 app.py
