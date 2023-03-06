@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NavBar from '../components/navbar.js';
 import SearchFilters from '../components/search-filters.js';
 import Description from '../components/description.js';
-import '../style/search-filters.css';
+import Searchbar_Component from '../components/searchbar.jsx';
 
 class MainPage extends Component {
     state = {
@@ -18,6 +18,7 @@ class MainPage extends Component {
             <div>
                 <NavBar />
                 <Description />
+                <Searchbar_Component />
                 <button className="filters-button" onClick={this.filtersPopUp}>Advanced Filters</button>
                 {
                     this.state.filtersPresent ? <SearchFilters /> : <div></div>
