@@ -58,7 +58,7 @@ def get_token():
             return access_token
         else:
             # If the response status code is not 200, then there was an error retrieving the OAuth access token
-            print(f'Error retrieving OAuth access token. Status code: {response.status_code}')
+            print(f'Error retrieving OAuth access token. Status code: {response.status_code} ')
 
 def get_features(track):
     header = {'Authorization': "Bearer " + get_token()}
