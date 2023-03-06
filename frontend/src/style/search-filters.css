@@ -31,3 +31,17 @@
 .filters-button:hover {
     background-color: #C7CEC8;
 }
+
+.clear-filters-button {
+    font-size: 1rem;
+    background-color: #E2E4ED;
+    text-decoration: none;
+    border-radius: .2rem;
+    padding: .25rem;
+    margin: .5rem;
+    box-shadow: 0 0 .25rem #2E3047;
+}
+
+.clear-filters-button:hover {
+    background-color: #C7CEC8;
+}

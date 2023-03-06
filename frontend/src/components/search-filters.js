@@ -91,7 +91,7 @@ class SearchFilters extends Component {
                         tempo.map((element, i) => <option value={element} key={i}>{element}</option>)
                     }
                 </select><br></br>
-                <button onClick={this.clearFilters}>Clear Filters</button>
+                <button className="clear-filters-button" onClick={this.clearFilters}>Clear Filters</button>
             </div>
         );
     }
