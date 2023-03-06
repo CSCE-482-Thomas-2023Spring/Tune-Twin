@@ -16,8 +16,15 @@ class SearchFilters extends Component {
     }
 
     clearFilters = () => {
-        var acoustics = document.getElementById("sf-acousticness");
-        acoustics.setAttribute("value", "N/A");
+        this.setState({
+            acoustics: 'N/A',
+            danceability: 'N/A',
+            energy: 'N/A',
+            keys: 'N/A',
+            liveness: 'N/A',
+            loudness: 'N/A',
+            tempo: 'N/A'
+        });
     }
 
     render() {
@@ -42,46 +49,46 @@ class SearchFilters extends Component {
         return (
             <div className="filters-card">
                 <h3>Filters</h3>
-                <label for="acousticness-select">Select acousticness: </label>
-                <select name="acousticness-select" id="sf-acousticness">
+                <label htmlFor="acousticness-select">Select acousticness: </label>
+                <select name="acousticness-select" id="sf-acousticness" value={this.state.acoustics} onChange={(e) => this.setState({acoustics: e.target.value})}>
                     {
-                        acoustics.map(element => <option value={element}>{element}</option>)
+                        acoustics.map((element, i) => <option value={element} key={i}>{element}</option>)
                     }
                 </select><br></br>
-                <label for="danceability-select">Select danceability: </label>
-                <select name="danceability-select" id="sf-danceability">
+                <label htmlFor="danceability-select">Select danceability: </label>
+                <select name="danceability-select" id="sf-danceability" value={this.state.danceability} onChange={(e) => this.setState({danceability: e.target.value})}>
                     {
-                        danceability.map(element => <option value={element}>{element}</option>)
+                        danceability.map((element, i) => <option value={element} key={i}>{element}</option>)
                     }
                 </select><br></br>
-                <label for="energy-select">Select energy: </label>
-                <select name="energy-select" id="sf-energy">
+                <label htmlFor="energy-select">Select energy: </label>
+                <select name="energy-select" id="sf-energy" value={this.state.energy} onChange={(e) => this.setState({energy: e.target.value})}>
                     {
-                        energy.map(element => <option value={element}>{element}</option>)
+                        energy.map((element, i) => <option value={element} key={i}>{element}</option>)
                     }
                 </select><br></br>
-                <label for="key-select">Select key: </label>
-                <select name="key-select" id="sf-key">
+                <label htmlFor="key-select">Select key: </label>
+                <select name="key-select" id="sf-key" value={this.state.keys} onChange={(e) => this.setState({keys: e.target.value})}>
                     {
-                        keys.map(element => <option value={element}>{element}</option>)
+                        keys.map((element, i) => <option value={element} key={i}>{element}</option>)
                     }
                 </select><br></br>
-                <label for="liveness-select">Select liveness: </label>
-                <select name="liveness-select" id="sf-liveness">
+                <label htmlFor="liveness-select">Select liveness: </label>
+                <select name="liveness-select" id="sf-liveness" value={this.state.liveness} onChange={(e) => this.setState({liveness: e.target.value})}>
                     {
-                        liveness.map(element => <option value={element}>{element}</option>)
+                        liveness.map((element, i) => <option value={element} key={i}>{element}</option>)
                     }
                 </select><br></br>
-                <label for="loudness-select">Select loudness: </label>
-                <select name="loudness-select" id="sf-loudness">
+                <label htmlFor="loudness-select">Select loudness: </label>
+                <select name="loudness-select" id="sf-loudness" value={this.state.loudness} onChange={(e) => this.setState({loudness: e.target.value})}>
                     {
-                        loudness.map(element => <option value={element}>{element}</option>)
+                        loudness.map((element, i) => <option value={element} key={i}>{element}</option>)
                     }
                 </select><br></br>
-                <label for="tempo-select">Select tempo: </label>
-                <select name="tempo-select" id="sf-tempo">
+                <label htmlFor="tempo-select">Select tempo: </label>
+                <select name="tempo-select" id="sf-tempo" value={this.state.tempo} onChange={(e) => this.setState({tempo: e.target.value})}>
                     {
-                        tempo.map(element => <option value={element}>{element}</option>)
+                        tempo.map((element, i) => <option value={element} key={i}>{element}</option>)
                     }
                 </select><br></br>
                 <button onClick={this.clearFilters}>Clear Filters</button>
