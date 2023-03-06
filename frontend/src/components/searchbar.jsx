@@ -4,10 +4,13 @@ import fetchSongs from "../api/spotify";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
+
+
 function Searchbar_Component(props){
 
     const [searchString, setSearchString] = useState(""); /**<  Using the useState hook to change the search string as setSearchString updates it*/
     const [songResults, setSongResults] = useState([]); /**<  Using the useState hook to change the search results (as an array)*/
+
   
     /**
      * Using a hook to fetch song results as searchString changes.
@@ -18,29 +21,22 @@ function Searchbar_Component(props){
       }
       fetchSongResults();
     }, [searchString]);
+
+    
   
     /**
      * Search function
     */
-    const handleSearch = (event) => {
-  
-      // Behavior override
-      event.preventDefault();
-  
-      // Don't search if empty string
-      if (searchString.trim() === '') {
-        return;
-      }
-  
-      // Don't search if there are no song results
-      if (songResults.length === 0) {
-        return;
-      }
-  
-      // Google the first song result when search button is clicked
-      const query = songResults[0];
-      window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-    };
+   const handleResults = (event) => {
+    // make API call to fetch results
+    fetch("http://127.0.0.1:8000/Music?song_id=5")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+      });
+   }
+
+    
   
     return (
   
@@ -55,7 +51,7 @@ function Searchbar_Component(props){
           />
   
           {/* Search button */}
-          <button className="search-button" onClick={handleSearch}>
+          <button className="search-button" onClick={handleResults}>
             <FontAwesomeIcon icon={solid('magnifying-glass')} />
           </button>
   
@@ -68,10 +64,8 @@ function Searchbar_Component(props){
               <div
                 key={songName}
                 className="individual-items"
-                // Google element that's clicked
-                onClick={() =>
-                  (window.location.href = `https://www.google.com/search?q=${encodeURIComponent(songName)}`)}>
-                {songName}
+                // Call REST API when button is clicked
+                onClick={handleResults} style={{ cursor: "pointer" }}>
               </div>
             ))}
           </div>
