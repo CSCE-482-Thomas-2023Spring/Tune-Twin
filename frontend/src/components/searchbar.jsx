@@ -40,11 +40,11 @@ function Searchbar_Component(props){
   
     return (
   
-      <div class="search-bar drop-shadow"> {/* Search bar component */}
-        <div class="wrapper"> {/* Encapsulates search bar component */}
+      <div className="search-bar drop-shadow"> {/* Search bar component */}
+        <div className="wrapper"> {/* Encapsulates search bar component */}
   
           {/* Search query */}
-          <input class="search-txt"
+          <input className="search-txt"
             value={searchString}
             onChange={(e) => setSearchString(e.target.value)}
             placeholder="Type to Search"
