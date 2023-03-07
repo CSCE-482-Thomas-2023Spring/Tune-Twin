@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import NavBar from '../components/navbar.js';
+import { NavBar, ProfileDetails, FeatureList, BlackList } from '../components/index.js';
 
 class ProfilePage extends Component {
     render() {
         return (
             <div>
                 <NavBar />
-                <p>Profile</p>
+                <ProfileDetails />
+                <FeatureList />
+                <BlackList />
             </div>
         );
     }

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import NavBar from '../components/navbar.js';
-import SearchFilters from '../components/search-filters.js';
-import Description from '../components/description.js';
-import Searchbar_Component from '../components/searchbar.jsx';
+import { NavBar, Description, Searchbar_Component, SearchFilters } from '../components/index.js';
 
 class MainPage extends Component {
     state = {

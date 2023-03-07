@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NavBar from '../components/navbar.js';
+import { NavBar } from '../components/index.js';
 
 class SignUpPage extends Component {
     render() {
