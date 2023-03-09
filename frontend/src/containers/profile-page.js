@@ -6,9 +6,12 @@ class ProfilePage extends Component {
         return (
             <div>
                 <NavBar />
-                <ProfileDetails />
-                <FeatureList />
-                <BlackList />
+                <div className="profile-body">
+                    <h2>Profile</h2>
+                    <ProfileDetails />
+                    <FeatureList />
+                    <BlackList />
+                </div>
             </div>
         );
     }

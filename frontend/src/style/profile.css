@@ -1,0 +1,21 @@
+/* 
+    Colors:
+    #3BBA9C
+    #2E3047
+    #43455C
+    #3C3F58
+    #707793
+*/
+
+.profile-body {
+    background-color: #E2E4ED;
+    margin: 1rem auto;
+    padding: 1rem;
+    width: 75%;
+    font-size: 1.25rem;
+    border-radius: 1rem;
+}
+
+.profile-body > h2 {
+    text-align: center;
+}
