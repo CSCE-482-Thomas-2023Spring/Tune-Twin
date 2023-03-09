@@ -5,7 +5,6 @@ class SignUpPage extends Component {
     render() {
         return (
             <div>
-                <NavBar />
                 <p>Sign up!</p>
             </div>
         );

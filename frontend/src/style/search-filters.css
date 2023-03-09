@@ -26,6 +26,7 @@
     padding: .25rem;
     margin: 1rem;
     box-shadow: 0 0 .25rem #2E3047;
+    align-self: flex-start;
 }
 
 .filters-button:hover {

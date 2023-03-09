@@ -6,12 +6,12 @@
     align-items: stretch;
 }
 
-.search-bar {
+/* .search-bar {
     background: #3C3F58;
     border-radius: 40px;
     width: 500px;
     padding: 20px;
-}
+} */
 
 .recommendation {
     background: #e1e1e1;

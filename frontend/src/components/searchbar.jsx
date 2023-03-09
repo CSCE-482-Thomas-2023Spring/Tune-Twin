@@ -40,8 +40,8 @@ function Searchbar_Component(props){
   
     return (
   
-      <div className="search-bar drop-shadow"> {/* Search bar component */}
-        <div className="wrapper"> {/* Encapsulates search bar component */}
+      <div className="search-bar"> {/* Search bar component */}
+        <div className="wrapper drop-shadow"> {/* Encapsulates search bar component */}
   
           {/* Search query */}
           <input className="search-txt"
