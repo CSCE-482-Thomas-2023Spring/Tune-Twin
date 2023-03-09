@@ -1,8 +1,8 @@
 .search-bar{
-    /* background: #3C3F58;
+    background: #3C3F58;
     height: 40px;
     border-radius: 40px;
-    padding: 10px; */
+    padding: 10px; 
     margin: 20px;
 }
 
@@ -37,10 +37,6 @@
     position: relative;
     display: flex;
     min-width: 100px;
-    background: #3C3F58;
-    height: 40px;
-    border-radius: 40px;
-    padding: 10px;
 }
 
 .search-txt::placeholder {

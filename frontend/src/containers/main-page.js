@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NavBar from '../components/navbar.js';
 import SearchFilters from '../components/search-filters.js';
 import Description from '../components/description.js';
-import Searchbar_Component from '../components/searchbar.jsx';
+import Searchbar from '../components/searchbar.jsx';
 
 class MainPage extends Component {
     state = {
@@ -19,7 +19,7 @@ class MainPage extends Component {
                 <Description />
                 {/* rename search bar */}
                 {/* <div className="row"> */}
-                    <Searchbar_Component />
+                    <Searchbar />
                     <button className="filters-button" onClick={this.filtersPopUp}>Advanced Filters</button>
                 {/* </div> */}
                 {
