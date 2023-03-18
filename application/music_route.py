@@ -104,7 +104,7 @@ def get_top_spotify_tracks():
         # Extract the track details from the response JSON
         tracks = response.json()['items']
         # Get the id of the tracks
-        while len(recommendations) < 20:
+        while len(recommendations) < 10:
             track = random.choice(tracks)
             if track['track']['id'] not in recommendations: 
                 recommendations.append(track['track']['id'])
