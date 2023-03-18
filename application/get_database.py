@@ -14,5 +14,3 @@ def get_database(collection_name):
    # Create the database for our example (we will use the same database throughout the tutorial
    return client['TwinTune'][collection_name]
 
-for document in get_database('users').find():
-    print(document)
