@@ -36,7 +36,7 @@ def signup():
         return jsonify({'message': 'User creation failed!'})
     
 
-@app.route('/user', methods=['GET'])
+@app.route('/GetDetails', methods=['GET'])
 def get_user_info():
     global client
     CONNECTION_STRING = "mongodb+srv://r779:Toadapple1@tunetwin.qa1jxnx.mongodb.net/?retryWrites=true&w=majority"
@@ -65,4 +65,42 @@ def get_user_info():
         return jsonify(user_info), 200
     else:
         return jsonify({'error': 'User not found'}), 404
+    
+@app.route('/UpdateDetails', methods=['PUT'])
+def update_user_info():
+    global client
+    CONNECTION_STRING = "mongodb+srv://r779:Toadapple1@tunetwin.qa1jxnx.mongodb.net/?retryWrites=true&w=majority"
+    client = MongoClient(CONNECTION_STRING)
+    user_collection = client.TwinTune.users
+
+    # Get the username and new email address from the request body
+    username = request.json.get('username')
+    new_email = request.json.get('new_email')
+
+    # Find the user in the database and update their email address
+    result = user_collection.update_one({'email': username}, {'$set': {'email': new_email}})
+
+    if result.modified_count == 1:
+        # If the update was successful, return a success message and the updated user information
+        updated_user = user_collection.find_one({'email': new_email})
+        user_info = {
+            'name': updated_user['name'],
+            'email': updated_user['email'],
+            'blacklist_artists': [],
+            'blacklist_songs': [],
+            'feature_lists': []
+        }
+        id = updated_user['blacklist_id']
+        objInstance = ObjectId(id)
+        blacklist = client.TwinTune.black_list.find_one({"_id": objInstance})
+        user_info['blacklist_artists'].append(blacklist['artist_list'])
+        user_info['blacklist_songs'].append(blacklist['song_list'])
+        for id in updated_user["featurelist_id"]:
+            objInstance = ObjectId(id)
+            feature_list = client.TwinTune.feature_list.find_one({"_id": objInstance})
+            user_info['feature_lists'].append({feature_list['list_name'] : feature_list['list_of_features']})
+        return jsonify({'message': 'User information updated', 'user_info': user_info}), 200
+    else:
+        # If the update failed (e.g. because the user wasn't found), return an error message
+        return jsonify({'error': 'User not found or update failed'}), 404
     
