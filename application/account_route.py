@@ -7,14 +7,13 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client['mydatabase']
 def get_database(collection_name):
    
-   collection_name = 'users'
    # Provide the mongodb atlas url to connect python to mongodb using pymongo
    CONNECTION_STRING = "mongodb+srv://r779:Toadapple1@tunetwin.qa1jxnx.mongodb.net/?retryWrites=true&w=majority"
    # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
    client = MongoClient(CONNECTION_STRING)
  
    # Create the database for our example (we will use the same database throughout the tutorial
-   return client.TuneTwin.users
+   return client.TuneTwin[collection_name]
 @app.route("/Account", methods=['POST'])
 def signup():
     # get the user data from the request
@@ -44,7 +43,8 @@ def get_user_info():
     client = MongoClient(CONNECTION_STRING)
     
     user = client.TwinTune.users.find_one({"email": request.args.get('username')})
-    print(user)
+
+    print(request.args.get('username'))
     if user:
         user_info = {
             'name': user['name'],
@@ -71,36 +71,62 @@ def update_user_info():
     global client
     CONNECTION_STRING = "mongodb+srv://r779:Toadapple1@tunetwin.qa1jxnx.mongodb.net/?retryWrites=true&w=majority"
     client = MongoClient(CONNECTION_STRING)
-    user_collection = client.TwinTune.users
+    db = client['TwinTune']
+    user_collection = db['users']
+    blacklist_collection = db['black_list']
+    featurelist_collection = db['feature_list']
+    user_email = request.json.get('email')
+    user = user_collection.find_one({"email": user_email})
 
-    # Get the username and new email address from the request body
-    username = request.json.get('username')
-    new_email = request.json.get('new_email')
-
-    # Find the user in the database and update their email address
-    result = user_collection.update_one({'email': username}, {'$set': {'email': new_email}})
-
-    if result.modified_count == 1:
-        # If the update was successful, return a success message and the updated user information
-        updated_user = user_collection.find_one({'email': new_email})
-        user_info = {
-            'name': updated_user['name'],
-            'email': updated_user['email'],
-            'blacklist_artists': [],
-            'blacklist_songs': [],
-            'feature_lists': []
-        }
-        id = updated_user['blacklist_id']
-        objInstance = ObjectId(id)
-        blacklist = client.TwinTune.black_list.find_one({"_id": objInstance})
-        user_info['blacklist_artists'].append(blacklist['artist_list'])
-        user_info['blacklist_songs'].append(blacklist['song_list'])
-        for id in updated_user["featurelist_id"]:
-            objInstance = ObjectId(id)
-            feature_list = client.TwinTune.feature_list.find_one({"_id": objInstance})
-            user_info['feature_lists'].append({feature_list['list_name'] : feature_list['list_of_features']})
-        return jsonify({'message': 'User information updated', 'user_info': user_info}), 200
-    else:
-        # If the update failed (e.g. because the user wasn't found), return an error message
-        return jsonify({'error': 'User not found or update failed'}), 404
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
     
+    # Update name, email and password
+    name = request.json.get('name')
+    email = request.json.get('new_email')
+    password = request.json.get('password')
+    if name:
+        user_collection.update_one({"email": user_email}, {"$set": {"name": name}})
+    if email:
+        user_collection.update_one({"email": user_email}, {"$set": {"new_email": email}})
+    if password:
+        user_collection.update_one({"email": user_email}, {"$set": {"password": password}})
+    # Update blacklist
+    blacklist_artists_to_add = request.json.get('blacklist_artists_to_add')
+    blacklist_songs_to_add = request.json.get('blacklist_songs_to_add')
+    blacklist_artists_to_remove = request.json.get('blacklist_artists_to_remove')
+    blacklist_songs_to_remove = request.json.get('blacklist_songs_to_remove')
+    if blacklist_artists_to_add or blacklist_songs_to_add:
+        blacklist_id = user['blacklist_id']
+        objInstance = ObjectId(blacklist_id)
+        blacklist = blacklist_collection.find_one({"_id": objInstance})
+        if blacklist_artists_to_add:
+            blacklist['artist_list'].extend(blacklist_artists_to_add)
+        if blacklist_songs_to_add:
+            blacklist['song_list'].extend(blacklist_songs_to_add)
+        if blacklist_artists_to_remove:
+            for artist in blacklist_artists_to_remove:
+                blacklist['artist_list'].remove(artist)
+        if blacklist_songs_to_remove:
+            for song in blacklist_songs_to_remove:
+                blacklist['song_list'].remove(song)
+        blacklist_collection.update_one({"_id": objInstance}, {"$set": {"artist_list": blacklist['artist_list'], "song_list": blacklist['song_list']}})
+    feature_list_name = request.json.get('feature_list_name')
+    feature_list_to_update = request.json.get('feature_list_to_update')
+    if feature_list_name:
+        feature_list = {
+            "list_name": feature_list_name,
+            "list_of_features": []
+        }
+        feature_list['list_of_features'] = request.json.get('list_of_features')
+        featurelist_collection.insert_one(feature_list)
+        user_collection.update_one({"email": user_email}, {"$push": {"featurelist_id": str(feature_list['_id'])}})
+    elif feature_list_to_update:
+        feature_list_id = feature_list_to_update['_id']
+        objInstance = ObjectId(feature_list_id)
+        feature_list = featurelist_collection.find_one({"_id": objInstance})
+        feature_list['list_name'] = feature_list_to_update['list_name']
+        feature_list['list_of_features'] = feature_list_to_update['list_of_features']
+        featurelist_collection.update_one({"_id": objInstance}, {"$set": {"list_name": feature_list['list_name'], "list_of_features": feature_list['list_of_features']}})
+    
+    return jsonify({'message': 'User updated successfully'}), 200
