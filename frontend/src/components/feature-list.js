@@ -16,7 +16,10 @@ class FeatureList extends Component {
 
     fetchFeatureLists = () => {
         console.log("Fetched");
-        this.setState({ featureLists: { "Big&Bubbly": "loudness:loud, tempo:high" } });
+        this.setState({ featureLists: { 
+            "Big&Bubbly": "loudness:loud, tempo:high",
+            "Dance Master": "loudness: loud, tempo:high"
+        } });
     }
 
     render() {

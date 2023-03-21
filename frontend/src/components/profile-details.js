@@ -11,8 +11,18 @@ class ProfileDetails extends Component {
         };
     }
 
+    componentDidMount = () => {
+        console.log("Mounted");
+        this.fetchDetails();
+    }
+
     fetchDetails = () => {
         console.log("Fetched")
+        this.setState({
+            email: "dunglerb@gmail.com",
+            password: "password123",
+            name: "Dungler Binston"
+        });
     }
 
     render() {
