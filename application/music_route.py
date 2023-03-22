@@ -10,11 +10,13 @@ import configparser
 
 @app.route("/Music", methods=['GET'])
 def get_song_recommendations():
+    track = request.json.get('song')
+    features = request.json.get('features')
     track = "1Qrg8KqiBpW07V7PNxwwwL"
     # Get features of input track
     input_features = get_features(track)
     # Get song recommendations
-    recommendations = get_recommendations(track)
+    recommendations = get_recommendations(track, features)
     return json.dumps(analyze_feature_dist(input_features, recommendations))
 
 def get_token():
@@ -112,7 +114,7 @@ def get_top_spotify_tracks():
         print(f'Error retrieving playlist tracks. Status code: {response.status_code}')
     return recommendations
 
-def get_recommendations(track):
+def get_recommendations(track, features):
     recommendations = get_top_spotify_tracks()
     return recommendations
 
