@@ -74,11 +74,15 @@ class ProfileDetails extends Component {
     }
 
     fetchDetails = () => {
-        console.log("Fetched")
-        this.setState({
-            email: "dunglerb@gmail.com",
-            password: "password123",
-            name: "Dungler Binston"
+        let username = "dexter@email.net";
+        fetch(`http://localhost:8000/GetDetails?username=${username}`)
+        .then((response) => response.json())
+        .then((parsed) => {
+            this.setState({
+                email: parsed.email,
+                password: parsed.password,
+                name: parsed.name
+            });
         });
     }
 
