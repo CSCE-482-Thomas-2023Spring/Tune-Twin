@@ -6,7 +6,7 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 
 
-function Searchbar_Component(props){
+function Searchbar(props){
 
     const [searchString, setSearchString] = useState(""); /**<  Using the useState hook to change the search string as setSearchString updates it*/
     const [songResults, setSongResults] = useState([]); /**<  Using the useState hook to change the search results (as an array)*/
@@ -77,4 +77,4 @@ function Searchbar_Component(props){
 
 };
 
-export default Searchbar_Component;
+export default Searchbar;

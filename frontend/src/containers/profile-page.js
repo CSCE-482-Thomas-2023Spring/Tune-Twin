@@ -5,7 +5,6 @@ class ProfilePage extends Component {
     render() {
         return (
             <div>
-                <NavBar />
                 <div className="profile-body">
                     <h2>Profile</h2>
                     <ProfileDetails />

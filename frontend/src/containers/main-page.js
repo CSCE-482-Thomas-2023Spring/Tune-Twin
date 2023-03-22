@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavBar, Description, Searchbar_Component, SearchFilters } from '../components/index.js';
+import { Description, Searchbar, SearchFilters } from '../components/index.js';
 
 class MainPage extends Component {
     state = {
@@ -7,23 +7,24 @@ class MainPage extends Component {
     };
 
     filtersPopUp = () => {
-        this.setState({filtersPresent: !this.state.filtersPresent});
+        this.setState({ filtersPresent: !this.state.filtersPresent });
     }
 
     render() {
         return (
-            <div>
-                <NavBar />
+            <div className="page-wrapper">
                 <Description />
-                <br></br>
-                <Searchbar_Component />
-                <button className="filters-button" onClick={this.filtersPopUp}>Advanced Filters</button>
+                {/* rename search bar */}
+                {/* <div className="row"> */}
+                    <Searchbar />
+                    <button className="filters-button" onClick={this.filtersPopUp}>Advanced Filters</button>
+                {/* </div> */}
                 {
-                    this.state.filtersPresent ? <SearchFilters /> : <div></div>
+                    this.state.filtersPresent && <SearchFilters />
                 }
             </div>
         );
     }
 }
-  
+
 export default MainPage;

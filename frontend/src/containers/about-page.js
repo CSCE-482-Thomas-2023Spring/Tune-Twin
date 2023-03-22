@@ -6,7 +6,6 @@ class AboutPage extends Component {
     render() {
         return (
             <div>
-                <NavBar />
                 <div class="container">
                     <div class="section-1">
                         <div class="content">

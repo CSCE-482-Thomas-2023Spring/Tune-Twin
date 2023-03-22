@@ -83,6 +83,7 @@ paths:
                     description: A measure of the positiveness of the input track
       security:
         - basicAuth: []
+        
 securityDefinitions:
   basicAuth:
     type: basic
