@@ -30,9 +30,9 @@ class BlackList extends Component {
             <div>
                 <h3>Black List</h3>
                 {
-                    this.state.genres.length == 0 && 
-                    this.state.songs.length == 0 &&
-                    this.state.artists.length == 0 &&
+                    this.state.genres.length === 0 && 
+                    this.state.songs.length === 0 &&
+                    this.state.artists.length === 0 &&
                     <div>There is nothing on your black list!</div>
                 }
                 {
