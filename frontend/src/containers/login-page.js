@@ -16,7 +16,7 @@ class LoginPage extends Component {
         }
         else {
             return (
-                <Login />
+                <Login updateFunc={this.props.updateFunc}/>
             );
         }
     }

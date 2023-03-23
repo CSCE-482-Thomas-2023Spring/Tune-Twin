@@ -18,6 +18,7 @@ class Login extends Component {
             let parsed = await response.json();
             console.log(parsed);
             this.setState({loggedIn: true});
+            this.props.updateFunc(parsed.userId)
         } else {
             console.log("Account not found");
         }

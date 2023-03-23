@@ -12,13 +12,13 @@ export default function App() {
 
   return (
     <Router>
-      <NavBar />
+      <NavBar userId={userId} updateFunc={setUserId}/>
       <Routes>
         <Route path="/" element={<MainPage />}/>
         <Route path="/about" element={<AboutPage />}/>
-        <Route path="/login" element={<LoginPage userId={userId}/>}/>
+        <Route path="/login" element={<LoginPage userId={userId} updateFunc={setUserId}/>}/>
         <Route path="/signup" element={<SignUpPage />}/>
-        <Route path="/profile" element={<ProfilePage />}/>
+        <Route path="/profile" element={<ProfilePage userId={userId} updateFunc={setUserId}/>}/>
       </Routes>
     </Router>
   );

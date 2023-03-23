@@ -50,6 +50,7 @@ def get_user_info():
             'name': user['name'],
             'email': user['email'],
             'password': user['password'], #Added this for testing, can remove if needed -dexter
+            'userId': str(ObjectId(user['_id'])), #Also adding this for the frontend
             'blacklist_artists': [],
             'blacklist_songs': [],
             'feature_lists': []
