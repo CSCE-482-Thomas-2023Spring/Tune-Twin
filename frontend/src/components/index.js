@@ -5,6 +5,7 @@ import SearchFilters from './search-filters.js';
 import ProfileDetails from './profile-details.js';
 import FeatureList from './feature-list.js';
 import BlackList from './black-list.js';
+import Login from './login.js';
 
 export {
     NavBar,
@@ -13,5 +14,6 @@ export {
     SearchFilters,
     ProfileDetails,
     FeatureList,
-    BlackList
+    BlackList,
+    Login
 };
