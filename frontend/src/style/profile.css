@@ -34,11 +34,50 @@
 }
 
 .profile-info > button {
+    font-size: 1.1rem;
     padding: .25rem;
+    background-color: #2E3047;
+    color: #f5f5f5;
+    border-radius: .25rem;
+    box-shadow: 0 0 .25rem #707793;
 }
 
 .profile-info > input {
     width: 50%;
+}
+
+.black-list-element {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f5f5f5;
+    padding: .5rem;
+    border: .1rem #2E3047 solid;
+    border-radius: .5rem;
+    box-shadow: 0 0 .25rem #2E3047;
+    margin: .5rem 0;
+}
+
+.ble-button {
+    font-size: 1.15rem;
+    background-color: #CB6E63;
+    color: #f5f5f5;
+    padding: .25rem;
+    border-radius: .3rem;
+    box-shadow: 0 0 .25rem #707793;
+}
+
+.logout-button-wrapper {
+    align-items: center;
+    text-align: center;
+}
+
+.logout-button {
+    width: 20%;
+    font-size: 1.5rem;
+    background-color: #2E3047;
+    color: #f5f5f5;
+    border-radius: .4rem;
+    box-shadow: 0 0 .4rem #707793;
 }
 
 /* 

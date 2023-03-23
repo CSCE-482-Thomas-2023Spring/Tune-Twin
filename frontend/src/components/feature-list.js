@@ -10,12 +10,10 @@ class FeatureList extends Component {
     }
 
     componentDidMount = () => {
-        console.log("Mounted");
         this.fetchFeatureLists();
     }
 
     fetchFeatureLists = () => {
-        console.log("Fetched");
         this.setState({ featureLists: { 
             "Big&Bubbly": "loudness:loud, tempo:high",
             "Dance Master": "loudness: loud, tempo:high"
@@ -25,12 +23,12 @@ class FeatureList extends Component {
     render() {
         return (
             <div>
-                <h3>Saved Filters</h3>
                 {
                     Object.keys(this.state.featureLists).length > 0 ? 
                     Object.keys(this.state.featureLists).map((key) => <div key={key}>{key}: {this.state.featureLists[key]}</div>) :
                     <div>No features lists!</div>
                 }
+                <button onClick={this.props.toggle}>Collapse Saved Filters</button>
             </div>
         );
     }

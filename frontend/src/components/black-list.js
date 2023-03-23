@@ -1,6 +1,26 @@
 import React, { Component } from 'react';
 import "../style/profile.css";
 
+class BlackListElement extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            image: "",
+            content: this.props.content
+        };
+    }
+
+    render() {
+        return (
+            <div className="black-list-element">
+                <div>Picture</div>
+                <div>{this.state.content}</div>
+                <button className="ble-button">Remove</button>
+            </div>
+        )
+    }
+}
+
 class BlackList extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +48,6 @@ class BlackList extends Component {
     render() {
         return (
             <div>
-                <h3>Black List</h3>
                 {
                     this.state.genres.length === 0 && 
                     this.state.songs.length === 0 &&
@@ -37,16 +56,17 @@ class BlackList extends Component {
                 }
                 {
                     this.state.genres.length > 0 &&
-                    this.state.genres.map((elem, i) => <div key={i}>Genre: {elem}</div>)
+                    this.state.genres.map((elem, i) => <BlackListElement key={i} content={"Genre: " + elem}/>)
                 }
                 {
                     this.state.songs.length > 0 &&
-                    this.state.songs.map((elem, i) => <div key={i}>Song: {elem}</div>)
+                    this.state.songs.map((elem, i) => <BlackListElement key={i} content={"Song: " + elem}/>)
                 }
                 {
                     this.state.artists.length > 0 &&
-                    this.state.artists.map((elem, i) => <div key={i}>Artist: {elem}</div>)
+                    this.state.artists.map((elem, i) => <BlackListElement key={i} content={"Artist: " + elem}/>)
                 }
+                <button onClick={this.props.toggle}>Collapse Black List</button>
             </div>
         );
     }
