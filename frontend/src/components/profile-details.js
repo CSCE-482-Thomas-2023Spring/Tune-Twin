@@ -70,20 +70,15 @@ class ProfileDetails extends Component {
 
     componentDidMount = () => {
         console.log("Mounted");
-        this.fetchDetails();
+        this.parseDetails();
     }
 
-    fetchDetails = () => {
-        let username = "dexter@email.net";
-        fetch(`http://localhost:8000/GetDetails?username=${username}`)
-        .then((response) => response.json())
-        .then((parsed) => {
+    parseDetails = () => {
             this.setState({
-                email: parsed.email,
-                password: parsed.password,
-                name: parsed.name
+                name: this.props.profileData.name,
+                email: this.props.profileData.email,
+                password: this.props.profileData.password
             });
-        });
     }
 
     render() {

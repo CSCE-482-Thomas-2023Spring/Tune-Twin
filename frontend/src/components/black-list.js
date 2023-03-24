@@ -32,16 +32,14 @@ class BlackList extends Component {
     }
 
     componentDidMount = () => {
-        console.log("Black list mounted");
-        this.fetchBlackList();
+        this.parseBlackList();
     }
 
-    fetchBlackList = () => {
-        console.log("Black List Fetched");
+    parseBlackList = () => {
         this.setState({
-            genres: ["Country", "Indie", "Rock"],
-            songs: ["Closer - The Chainsmokers"],
-            artists: ["Queen"]
+            genres: this.props.profileData.blacklist_genres,
+            songs: this.props.profileData.blacklist_songs,
+            artists: this.props.profileData.blacklist_artists
         });
     }
 

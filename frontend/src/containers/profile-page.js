@@ -7,8 +7,23 @@ class ProfilePage extends Component {
         super(props);
         this.state = {
             expandFL: false,
-            expandBL: false
+            expandBL: false,
+            profileData: {}
         };
+    }
+
+    fetchDetails = async () => {
+        const response = await fetch(`http://localhost:8000/GetDetails?username=${this.props.userId}`);
+        if(response.status === 200) {
+            let parsed = await response.json();
+            this.setState({profileData: parsed});
+        } else {
+            console.log("Account not found");
+        }
+    }
+
+    componentDidMount = () => {
+        this.fetchDetails();
     }
 
     toggleFeatureList = () => {
@@ -26,25 +41,28 @@ class ProfilePage extends Component {
                 this.props.userId === "-1" &&
                 <Navigate to="/" />
             }
+            {
+                Object.keys(this.state.profileData).length > 0 &&
                 <div className="profile-body">
                     <h2>Profile</h2>
-                    <ProfileDetails />
+                    <ProfileDetails profileData={this.state.profileData}/>
                     <h3>Saved Filters</h3>
                     {
                         this.state.expandFL ?
-                        <FeatureList toggle={this.toggleFeatureList} /> :
+                        <FeatureList toggle={this.toggleFeatureList} profileData={this.state.profileData}/> :
                         <button onClick={this.toggleFeatureList}>Expand Saved Filters</button>
                     }
                     <h3>Black List</h3>
                     {
                         this.state.expandBL ?
-                        <BlackList toggle={this.toggleBlackList}/> :
+                        <BlackList toggle={this.toggleBlackList} profileData={this.state.profileData}/> :
                         <button onClick={this.toggleBlackList}>Expand Black List</button>
                     }
                     <div className="logout-button-wrapper">
                         <button className="logout-button" onClick={() => this.props.updateFunc("-1")}>Log out</button>
                     </div>
                 </div>
+            }
             </div>
         );
     }
