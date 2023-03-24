@@ -50,16 +50,17 @@ def get_user_info():
             'name': user['name'],
             'email': user['email'],
             'password': user['password'], #Added this for testing, can remove if needed -dexter
-            'userId': str(ObjectId(user['_id'])), #Also adding this for the frontend
             'blacklist_artists': [],
             'blacklist_songs': [],
+            'blacklist_genres': [],
             'feature_lists': []
         }
         id = user['blacklist_id']
         objInstance = ObjectId(id)
         blacklist = client.TwinTune.black_list.find_one({"_id": objInstance})
-        user_info['blacklist_artists'].append(blacklist['artist_list'])
-        user_info['blacklist_songs'].append(blacklist['song_list'])
+        user_info['blacklist_artists'] = blacklist['artist_list']
+        user_info['blacklist_songs'] = blacklist['song_list']
+        user_info['blacklist_genres'] = blacklist['genre']
         for id in user["featurelist_id"]:
             objInstance = ObjectId(id)
             feature_list = client.TwinTune.feature_list.find_one({"_id": objInstance})
