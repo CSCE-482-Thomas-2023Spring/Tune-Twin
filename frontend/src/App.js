@@ -5,6 +5,7 @@ import LoginPage from "./containers/login-page.js";
 import SignUpPage from "./containers/sign-up-page.js";
 import ProfilePage from "./containers/profile-page.js";
 import NavBar from './components/navbar.js';
+import RecPage from './containers/recommendation-page.js';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />}/>
         <Route path="/signup" element={<SignUpPage />}/>
         <Route path="/profile" element={<ProfilePage />}/>
+        <Route path="/reccs" element={<RecPage />}/>
       </Routes>
     </Router>
   );
