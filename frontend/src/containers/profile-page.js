@@ -49,7 +49,7 @@ class ProfilePage extends Component {
                     <h3>Saved Filters</h3>
                     {
                         this.state.expandFL ?
-                        <FeatureList toggle={this.toggleFeatureList} profileData={this.state.profileData}/> :
+                        <FeatureList toggle={this.toggleFeatureList} fList={this.state.profileData.feature_lists}/> :
                         <button onClick={this.toggleFeatureList}>Expand Saved Filters</button>
                     }
                     <h3>Black List</h3>
