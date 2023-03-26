@@ -11,11 +11,12 @@ html {
     padding: 0;
     margin: 0;
     padding: 0.2rem 0.2rem 0.2rem 0.2rem;
-    /* add top padding */
+    z-index: 0;
     width: 50rem;
 }
 
 .ItemContainer {
+    position: relative;
     display: flex;
     background-color: white;
     transition: transform 0.1s ease-in-out;
@@ -24,7 +25,6 @@ html {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
     align-items: flex-end;
-    /* add this property */
 }
 
 .ItemContainer:first-of-type {
@@ -82,4 +82,5 @@ html {
     white-space: nowrap;
     text-overflow: ellipsis;
     position: relative;
+    z-index: 1;
 }
