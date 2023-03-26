@@ -8,6 +8,7 @@ CORS(app)
 
 import music_route
 import account_route
+import profile_details_route
 SWAGGER_URL = '/swagger'
 API_URL = '/static/swagger.yaml'
 SWAGGER_BLUEPRINT = get_swaggerui_blueprint(
@@ -20,4 +21,4 @@ app.register_blueprint(SWAGGER_BLUEPRINT, url_prefix = SWAGGER_URL)
 
 
 if __name__ == "__main__":
-    app.run(port=8000, debug=True)
+    app.run(port=8000, debug=True, threaded=True)
