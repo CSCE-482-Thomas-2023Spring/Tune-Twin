@@ -8,15 +8,20 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 function Searchbar(props) {
 
   const [searchString, setSearchString] = useState(""); /**<  Using the useState hook to change the search string as setSearchString updates it*/
+  const [usePropsSearchString, setUsePropsSearchString] = useState(true);
   const [songResults, setSongResults] = useState([]); /**<  Using the useState hook to change the search results (as an array)*/
-
 
   /**
    * Using a hook to fetch song results as searchString changes.
   */
   useEffect(() => {
-    async function fetchAutocompleteSuggestions() {
-      if (searchString.length > 0) {
+    if (usePropsSearchString && searchString === "" && props.searchString) {
+      setSearchString(props.searchString);
+      setUsePropsSearchString(false);
+    } else if (searchString === props.searchString) {
+      return;
+    } else if (searchString.length > 0) { // Only fetch autocomplete suggestions if searchString is not empty
+      async function fetchAutocompleteSuggestions() {
         const response = await fetch(`http://127.0.0.1:8000/Autocomplete?query=${searchString}`);
         if (response.ok) {
           const data = await response.json();
@@ -34,42 +39,32 @@ function Searchbar(props) {
         } else {
           console.error('Error fetching autocomplete suggestions:', response.status);
         }
-      } else {
-        setSongResults([]);
       }
+      fetchAutocompleteSuggestions();
     }
-    fetchAutocompleteSuggestions();
-  }, [searchString]);
+  }, [searchString, props.searchString, usePropsSearchString]);
 
-    /**
-     * Search function
-    */
-    const handleSearch = (event) => {
-  
-      // Behavior override
-      event.preventDefault();
-  
-      // Don't search if empty string
-      if (searchString.trim() === '') {
-        return;
-      }
-  
-      // Don't search if there are no song results
-      if (songResults.length === 0) {
-        return;
-      }
-  
-      // Google the first song result when search button is clicked
-      const query = songResults[0].song;
-      window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-    };
+  /**
+   * Search function
+  */
+  const handleSearch = (event) => {
+    event.preventDefault();
+    if (searchString.trim() === '') {
+      return;
+    }
+    if (songResults.length === 0) {
+      return;
+    }
+    const query = songResults[0].song;
+    const searchTerm = encodeURIComponent(query);
+    window.location.href = `/reccs?searchTerm=${searchTerm}`;
+  };
 
   return (
 
     <div className="search-bar drop-shadow"> {/* Search bar component */}
       <div className="wrapper"> {/* Encapsulates search bar component */}
 
-        {/* Search query */}
         <input className="search-txt"
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
@@ -84,24 +79,24 @@ function Searchbar(props) {
       </div>
 
       {/* Recommendation element */}
-      {songResults.length > 0 && (
+      {songResults.length > 0 && searchString.length > 0 && (
         <div className="recc-item">
-      {songResults.map((song, index) => (
-        <div
-          key={`${song.song}-${index}`}
-          className="individual-items"
-          onClick={() => {
-            setSearchString(song.song);
-            window.location.href = "/reccs";
-          }}
-          style={{ cursor: "pointer" }}
-        >
-          <div>({song.year}) {song.song} - {song.artist}</div>
+          {songResults.map((song, index) => (
+            <div
+              key={`${song.song}-${index}`}
+              className="individual-items"
+              onClick={() => {
+                const searchTerm = encodeURIComponent(song.song);
+                window.location.href = `/reccs?searchTerm=${searchTerm}`;
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              <div>({song.year}) {song.song} - {song.artist}</div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
       )}
-</div>
+    </div>
   );
 
 };

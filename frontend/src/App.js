@@ -5,7 +5,7 @@ import LoginPage from "./containers/login-page.js";
 import SignUpPage from "./containers/sign-up-page.js";
 import ProfilePage from "./containers/profile-page.js";
 import NavBar from './components/navbar.js';
-import RecPage from './containers/recommendation-page.js';
+import RecPage from './containers/recc-page.js';
 
 export default function App() {
   return (
