@@ -29,9 +29,9 @@ def get_user_info():
         id = user.get("blacklist_id")
         if id != None:
             objInstance = ObjectId(id)
-            blacklist = client.TuneTwin.black_list.find_one({"_id": objInstance})
-            user_info["blacklist_artists"].append(blacklist["artists"])
-            user_info["blacklist_songs"].append(blacklist["song_list"])
+            blacklist = client.TuneTwin.blacklist.find_one({"_id": objInstance})
+            user_info["blacklist_artists"].append(blacklist.get("artists"))
+            user_info["blacklist_songs"].append(blacklist.get("song_list"))
 
         # For each feature list that the user has, add the name and list of features to the user_info dictionary
         for id in user["featurelist_id"]:
