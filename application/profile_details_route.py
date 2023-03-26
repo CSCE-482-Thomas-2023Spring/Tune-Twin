@@ -14,14 +14,17 @@ client = MongoClient(CONNECTION_STRING)
 def get_user_info():
     global client
     # Find the user with the given email
-    user = client.TuneTwin.users.find_one({"email": request.json.get("email")})
+    user = client.TuneTwin.users.find_one({"email": request.args.get("email")})
     if user:
         # Create a dictionary containing the user's information
         user_info = {
-            "name": user.get("name"),
+            "first_name": user.get("first_name"),
+            "last_name": user.get("last_name"),
             "email": user.get("email"),
+            "password": user.get("password"),
             "blacklist_artists": [],
             "blacklist_songs": [],
+            "blacklist_genres": [],
             "feature_lists": [],
         }
 
@@ -29,9 +32,11 @@ def get_user_info():
         id = user.get("blacklist_id")
         if id != None:
             objInstance = ObjectId(id)
-            blacklist = client.TuneTwin.black_list.find_one({"_id": objInstance})
-            user_info["blacklist_artists"].append(blacklist["artists"])
-            user_info["blacklist_songs"].append(blacklist["song_list"])
+            blacklist = client.TuneTwin.blacklist.find_one({"_id": objInstance})
+            print(str(blacklist))
+            user_info["blacklist_artists"] = blacklist["artists"]
+            user_info["blacklist_songs"] = blacklist["song_list"]
+            user_info["blacklist_genres"] = blacklist["genre"]
 
         # For each feature list that the user has, add the name and list of features to the user_info dictionary
         for id in user["featurelist_id"]:

@@ -53,51 +53,12 @@ def create_account():
         return jsonify({"message": "User creation failed!"})
 
 
-<<<<<<< HEAD
-    print(request.args.get('username'))
-    if user:
-        user_info = {
-            'name': user['name'],
-            'email': user['email'],
-            'password': user['password'], #Added this for testing, can remove if needed -dexter
-            'blacklist_artists': [],
-            'blacklist_songs': [],
-            'blacklist_genres': [],
-            'feature_lists': []
-        }
-        id = user['blacklist_id']
-        objInstance = ObjectId(id)
-        blacklist = client.TwinTune.black_list.find_one({"_id": objInstance})
-        user_info['blacklist_artists'] = blacklist['artist_list']
-        user_info['blacklist_songs'] = blacklist['song_list']
-        user_info['blacklist_genres'] = blacklist['genre']
-        for id in user["featurelist_id"]:
-            objInstance = ObjectId(id)
-            feature_list = client.TwinTune.feature_list.find_one({"_id": objInstance})
-            user_info['feature_lists'].append({feature_list['list_name'] : feature_list['list_of_features']})
-        return jsonify(user_info), 200
-    else:
-        return jsonify({'error': 'User not found'}), 404
-    
-@app.route('/UpdateDetails', methods=['PUT'])
-def update_user_info():
-    global client
-    CONNECTION_STRING = "mongodb+srv://r779:Toadapple1@tunetwin.qa1jxnx.mongodb.net/?retryWrites=true&w=majority"
-    client = MongoClient(CONNECTION_STRING)
-    db = client['TwinTune']
-    user_collection = db['users']
-    blacklist_collection = db['black_list']
-    featurelist_collection = db['feature_list']
-    user_email = request.json.get('email')
-    user = user_collection.find_one({"email": user_email})
-=======
 # Login endpoint
 @app.route('/Account/Login', methods=['POST'])
 def login():
     # Check if the request contains the necessary data
     if not request.is_json or 'email' not in request.json or 'password' not in request.json:
         return jsonify({'error': 'Invalid request'}), 400
->>>>>>> origin/main
 
     # Check if the username and password are correct
     email = request.json.get('email')
