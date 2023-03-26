@@ -18,6 +18,7 @@ def get_song_recommendations():
     input_features = get_features(track)
     # Get song recommendations
     recommendations = get_recommendations(track, features)
+    print(recommendations)
     return json.dumps(analyze_feature_dist(input_features, recommendations))
 
 
