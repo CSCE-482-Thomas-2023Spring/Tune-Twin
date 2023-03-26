@@ -27,19 +27,19 @@ class ProfileInfo extends Component {
             if(this.props.name === this.state.name) {
                 console.log("No change detected");
             } else {
-                console.log(this.state.name);
+                this.props.updateFunc(this.state.name);
             }
         } else if(this.props.email) {
             if(this.props.email === this.state.email) {
                 console.log("No change detected");
             } else {
-                console.log(this.state.email);
+                this.props.updateFunc(this.state.email);
             }
         } else {
             if(this.props.password === this.state.password) {
                 console.log("No change detected");
             } else {
-                console.log(this.state.password);
+                this.props.updateFunc(this.state.password);
             }
         }
     }
@@ -81,21 +81,84 @@ class ProfileDetails extends Component {
             });
     }
 
+    updateName = async (newName) => {
+        const request = {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: this.props.profileData.email,
+                name: newName
+            })
+        }
+        const response = await fetch(`http://localhost:8000/UpdateDetails`, request);
+        if(response.status === 200) {
+            let parsed = await response.json();
+            this.setState({ name: newName });
+        } else {
+            console.log("Account name update FAILED, ERROR " + response.status);
+        }
+    }
+
+    updateEmail = async (newEmail) => {
+        const request = {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: this.props.profileData.email,
+                new_email: newEmail
+            })
+        }
+        const response = await fetch(`http://localhost:8000/UpdateDetails`, request);
+        if(response.status === 200) {
+            let parsed = await response.json();
+            this.setState({ email: newEmail });
+        } else {
+            console.log("Account email update FAILED, ERROR " + response.status);
+        }
+    }
+
+    updatePassword = async (newPassword) => {
+        const request = {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: this.props.profileData.email,
+                password: newPassword
+            })
+        }
+        const response = await fetch(`http://localhost:8000/UpdateDetails`, request);
+        if(response.status === 200) {
+            let parsed = await response.json();
+            this.setState({ password: newPassword });
+        } else {
+            console.log("Account password update FAILED, ERROR " + response.status);
+        }
+    }
+
     render() {
         return (
             <div>
                 <h3>Profile Details</h3>
                 {
                     this.state.name === "Loading..." ? <div>Loading...</div> :
-                    <ProfileInfo name={this.state.name} />
+                    <ProfileInfo name={this.state.name} updateFunc={this.updateName}/>
                 }
                 {
                     this.state.email === "Loading..." ? <div>Loading...</div> :
-                    <ProfileInfo email={this.state.email} />
+                    <ProfileInfo email={this.state.email} updateFunc={this.updateEmail}/>
                 }
                 {
                     this.state.email === "Loading..." ? <div>Loading...</div> :
-                    <ProfileInfo password={this.state.password} />
+                    <ProfileInfo password={this.state.password} updateFunc={this.updatePassword}/>
                 }
             </div>
         );
