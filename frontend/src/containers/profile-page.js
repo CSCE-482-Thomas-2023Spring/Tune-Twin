@@ -13,7 +13,7 @@ class ProfilePage extends Component {
     }
 
     fetchDetails = async () => {
-        const response = await fetch(`http://localhost:8000/GetDetails?username=${this.props.userId}`);
+        const response = await fetch(`http://localhost:8000/Profile/GetDetails?email=${this.props.userId}`);
         if(response.status === 200) {
             let parsed = await response.json();
             this.setState({profileData: parsed});
@@ -45,7 +45,7 @@ class ProfilePage extends Component {
                 Object.keys(this.state.profileData).length > 0 &&
                 <div className="profile-body">
                     <h2>Profile</h2>
-                    <ProfileDetails profileData={this.state.profileData}/>
+                    <ProfileDetails profileData={this.state.profileData} updateId={this.props.updateFunc}/>
                     <h3>Saved Filters</h3>
                     {
                         this.state.expandFL ?

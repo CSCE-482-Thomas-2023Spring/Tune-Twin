@@ -7,14 +7,17 @@ class ProfileInfo extends Component {
         this.state = {
             email: props.email,
             password: props.password,
-            name: props.name
+            firstName: props.firstName,
+            lastName: props.lastName
         };
     }
 
     updateValue = (event) => {
         let value = event.target.value;
-        if(this.props.name) {
-            this.setState({name: value});
+        if(this.props.firstName) {
+            this.setState({firstName: value});
+        } else if(this.props.lastName) {
+            this.setState({lastName: value})
         } else if(this.props.email) {
             this.setState({email: value});
         } else {
@@ -23,11 +26,17 @@ class ProfileInfo extends Component {
     }
 
     editInfo = () => {
-        if(this.props.name) {
-            if(this.props.name === this.state.name) {
+        if(this.props.firstName) {
+            if(this.props.firstName === this.state.firstName) {
                 console.log("No change detected");
             } else {
-                this.props.updateFunc(this.state.name);
+                this.props.updateFunc(this.state.firstName);
+            }
+        } else if(this.props.lastName) {
+            if(this.props.lastName === this.state.lastName) {
+                console.log("No change detected");
+            } else {
+                this.props.updateFunc(this.state.lastName);
             }
         } else if(this.props.email) {
             if(this.props.email === this.state.email) {
@@ -45,8 +54,8 @@ class ProfileInfo extends Component {
     }
 
     render() {
-        let title = this.props.name ? "Name" : this.props.email ? "Email" : "Password";
-        let value = this.props.name ? this.props.name : this.props.email ? this.props.email : this.props.password;
+        let title = this.props.firstName ? "First Name" : this.props.lastName ? "Last Name" : this.props.email ? "Email" : "Password";
+        let value = this.props.firstName ? this.props.firstName : this.props.lastName ? this.props.lastName : this.props.email ? this.props.email : this.props.password;
 
         return(
             <div className="profile-info">
@@ -64,24 +73,26 @@ class ProfileDetails extends Component {
         this.state = {
             email: "Loading...",
             password: "Loading...",
-            name: "Loading..."
+            firstName: "Loading...",
+            lastName: "Loading...",
+            updated: false
         };
     }
 
     componentDidMount = () => {
-        console.log("Mounted");
         this.parseDetails();
     }
 
     parseDetails = () => {
             this.setState({
-                name: this.props.profileData.name,
+                firstName: this.props.profileData.first_name,
+                lastName: this.props.profileData.last_name,
                 email: this.props.profileData.email,
                 password: this.props.profileData.password
             });
     }
 
-    updateName = async (newName) => {
+    updateFirstName = async (newName) => {
         const request = {
             method: "PUT",
             mode: "cors",
@@ -89,16 +100,37 @@ class ProfileDetails extends Component {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email: this.props.profileData.email,
-                name: newName
+                email: this.state.email,
+                first_name: newName
             })
         }
-        const response = await fetch(`http://localhost:8000/UpdateDetails`, request);
+        const response = await fetch(`http://localhost:8000/Profile/UpdateDetails`, request);
         if(response.status === 200) {
             let parsed = await response.json();
-            this.setState({ name: newName });
+            this.setState({ firstName: newName, updated: true });
         } else {
-            console.log("Account name update FAILED, ERROR " + response.status);
+            console.log("Account first name update FAILED, ERROR " + response.status);
+        }
+    }
+
+    updateLastName = async (newName) => {
+        const request = {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: this.state.email,
+                last_name: newName
+            })
+        }
+        const response = await fetch(`http://localhost:8000/Profile/UpdateDetails`, request);
+        if(response.status === 200) {
+            let parsed = await response.json();
+            this.setState({ lastName: newName, updated: true });
+        } else {
+            console.log("Account last name update FAILED, ERROR " + response.status);
         }
     }
 
@@ -110,14 +142,15 @@ class ProfileDetails extends Component {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email: this.props.profileData.email,
+                email: this.state.email,
                 new_email: newEmail
             })
         }
-        const response = await fetch(`http://localhost:8000/UpdateDetails`, request);
+        const response = await fetch(`http://localhost:8000/Profile/UpdateDetails`, request);
         if(response.status === 200) {
             let parsed = await response.json();
-            this.setState({ email: newEmail });
+            this.setState({ email: newEmail, updated: true });
+            this.props.updateId(newEmail);
         } else {
             console.log("Account email update FAILED, ERROR " + response.status);
         }
@@ -131,14 +164,14 @@ class ProfileDetails extends Component {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email: this.props.profileData.email,
+                email: this.state.email,
                 password: newPassword
             })
         }
-        const response = await fetch(`http://localhost:8000/UpdateDetails`, request);
+        const response = await fetch(`http://localhost:8000/Profile/UpdateDetails`, request);
         if(response.status === 200) {
             let parsed = await response.json();
-            this.setState({ password: newPassword });
+            this.setState({ password: newPassword, updated: true });
         } else {
             console.log("Account password update FAILED, ERROR " + response.status);
         }
@@ -149,8 +182,12 @@ class ProfileDetails extends Component {
             <div>
                 <h3>Profile Details</h3>
                 {
-                    this.state.name === "Loading..." ? <div>Loading...</div> :
-                    <ProfileInfo name={this.state.name} updateFunc={this.updateName}/>
+                    this.state.firstName === "Loading..." ? <div>Loading...</div> :
+                    <ProfileInfo firstName={this.state.firstName} updateFunc={this.updateFirstName}/>
+                }
+                {
+                    this.state.lastName === "Loading..." ? <div>Loading...</div> :
+                    <ProfileInfo lastName={this.state.lastName} updateFunc={this.updateLastName}/>
                 }
                 {
                     this.state.email === "Loading..." ? <div>Loading...</div> :
@@ -159,6 +196,10 @@ class ProfileDetails extends Component {
                 {
                     this.state.email === "Loading..." ? <div>Loading...</div> :
                     <ProfileInfo password={this.state.password} updateFunc={this.updatePassword}/>
+                }
+                {
+                    this.state.updated &&
+                    <div className="info-updated">Profile information updated successfully</div>
                 }
             </div>
         );

@@ -127,6 +127,12 @@
     box-shadow: 0 0 .4rem #707793;
 }
 
+.info-updated {
+    font-size: 1.5rem;
+    color: #3BBA9C;
+    text-align: center;
+}
+
 /* 
     Login Page
 */

@@ -13,7 +13,7 @@ class Login extends Component {
     }
 
     fetchDetails = async () => {
-        const response = await fetch(`http://localhost:8000/GetDetails?username=${this.state.email}`)
+        const response = await fetch(`http://localhost:8000/Profile/GetDetails?email=${this.state.email}`);
         if(response.status === 200) {
             let parsed = await response.json();
             console.log(parsed);
