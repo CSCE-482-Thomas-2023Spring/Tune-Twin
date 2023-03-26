@@ -29,6 +29,7 @@ function Searchbar(props) {
           const merged_list = items.map(item => {
             return {
               song: item["name"],
+              trackID: item["id"],
               artist: item["artists"][0]["name"],
               link: item["external_urls"],
               album: item["album"]["images"][1],
@@ -56,8 +57,10 @@ function Searchbar(props) {
       return;
     }
     const query = songResults[0].song;
+    const trackID = songResults[0].trackID;
     const searchTerm = encodeURIComponent(query);
-    window.location.href = `/reccs?searchTerm=${searchTerm}`;
+    const trackIdParam = encodeURIComponent(trackID);
+    window.location.href = `/reccs?searchTerm=${searchTerm}&trackId=${trackIdParam}`;
   };
 
   return (
@@ -87,7 +90,9 @@ function Searchbar(props) {
               className="individual-items"
               onClick={() => {
                 const searchTerm = encodeURIComponent(song.song);
-                window.location.href = `/reccs?searchTerm=${searchTerm}`;
+                const trackID = song.trackID;
+                const trackIdParam = encodeURIComponent(trackID);
+                window.location.href = `/reccs?searchTerm=${searchTerm}&trackId=${trackIdParam}`;
               }}
               style={{ cursor: "pointer" }}
             >

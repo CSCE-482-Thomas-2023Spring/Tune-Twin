@@ -15,6 +15,10 @@ class RecPage extends Component {
         const searchTerm = searchParams.get("searchTerm");
         const decodedSearchTerm = decodeURIComponent(searchTerm);
         this.setState({ searchString: decodedSearchTerm });
+
+        const trackId = searchParams.get("trackId");
+        const decodedTrackId = decodeURIComponent(trackId);
+        this.setState({ spotifyId: decodedTrackId });
     }
 
     filtersPopUp = () => {
@@ -28,7 +32,7 @@ class RecPage extends Component {
                     <Searchbar searchString={this.state.searchString} />
                 </div>
                 <div className="row">
-                    <ReccList />
+                    <ReccList spotifyId={this.state.spotifyId} />
                 </div>
             </div>
         );
