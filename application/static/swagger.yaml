@@ -1,89 +1,293 @@
 swagger: "2.0"
 info:
   version: "1.0.0"
-  title: "Get Song Recommendations API"
-basePath: "/"
+  title: TuneTwin API
+  description: API for TuneTwin music app
+host: localhost:5000
+basePath: /
 schemes:
-  - "http"
+  - http
 consumes:
-  - "application/json"
+  - application/json
 produces:
-  - "application/json"
+  - application/json
+
 paths:
-  /Music:
+  /Profile/GetDetails:
     get:
-      description: "Returns song recommendations based on an input song"
-      produces:
-        - "application/json"
+      summary: Retrieves a user's information
+      description: Retrieves the name, email, blacklist, and feature lists for a user
       parameters:
-        - name: song_id
+        - name: email
           in: query
-          description: "The unique Spotify identifier of a song to base song recommendations on"
+          description: Email address of the user to retrieve information for
           required: true
           type: string
       responses:
         200:
-          description: OK
+          description: Returns the user's information as a JSON object
           schema:
             type: object
             properties:
-              recommendations:
+              name:
+                type: string
+              email:
+                type: string
+              blacklist_artists:
+                type: array
+                items:
+                  type: string
+              blacklist_songs:
+                type: array
+                items:
+                  type: string
+              feature_lists:
                 type: array
                 items:
                   type: object
                   properties:
-                    name:
+                    list_name:
                       type: string
-                      description: The name of the recommended song
-                    artist:
-                      type: string
-                      description: The name of the recommended song's artist
-                    id:
-                      type: string
-                      description: The Spotify ID of the recommended song
-              input_features:
+                    list_of_features:
+                      type: array
+                      items:
+                        type: string
+        404:
+          description: Returns an error message if the user is not found
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+  /Profile/UpdateDetails:
+    put:
+      summary: Updates a user's information
+      description: Updates a user's name, email, password, and blacklist
+      parameters:
+        - name: email
+          in: query
+          description: Email address of the user to update information for
+          required: true
+          type: string
+        - name: first_name
+          in: body
+          description: User's new first name
+          type: string
+        - name: last_name
+          in: body
+          description: User's new last name
+          type: string
+        - name: new_email
+          in: body
+          description: User's new email address
+          type: string
+        - name: password
+          in: body
+          description: User's new password
+          type: string
+        - name: blacklist_artists_to_add
+          in: body
+          description: List of Spotify artist IDs to add to the user's blacklist
+          type: array
+          items:
+            type: string
+        - name: blacklist_songs_to_add
+          in: body
+          description: List of Spotify song IDs to add to the user's blacklist
+          type: array
+          items:
+            type: string
+        - name: blacklist_artists_to_remove
+          in: body
+          description: List of Spotify artist IDs to remove from the user's blacklist
+          type: array
+          items:
+            type: string
+        - name: blacklist_songs_to_remove
+          in: body
+          description: List of Spotify song IDs to remove from the user's blacklist
+          type: array
+          items:
+            type: string
+      responses:
+        200:
+          description: Returns a success message
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        404:
+          description: Returns an error message if the user is not found
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+  # Login endpoint
+  /Account/Login:
+    post:
+      summary: "Logs a user into the TuneTwin application"
+      description: "Logs a user into the TuneTwin application by checking the supplied email and password against the database. If successful, sets a cookie containing the user's email."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "user credentials"
+          in: "body"
+          description: "User email and password"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              email:
+                type: "string"
+              password:
+                type: "string"
+      responses:
+        200:
+          description: "User logged in successfully"
+        400:
+          description: "Invalid request"
+        401:
+          description: "Incorrect username or password"
+
+  # Logout endpoint
+  /Account/Logout:
+    delete:
+      summary: "Logs a user out of the TuneTwin application"
+      description: "Logs a user out of the TuneTwin application by clearing the user's cookie."
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "User logged out successfully"
+
+    # Create account endpoint
+    /Account/CreateAccount:
+      post:
+        summary: "Creates a new user account"
+        description: "Creates a new user account by inserting the supplied user data into the database. Also creates a new blacklist for the user."
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        parameters:
+          - name: "user data"
+            in: "body"
+            description: "User email, password, first name, and last name"
+            required: true
+            schema:
+              type: "object"
+              properties:
+                email:
+                  type: "string"
+                password:
+                  type: "string"
+                first name:
+                  type: "string"
+                last name:
+                  type: "string"
+        responses:
+          200:
+            description: "User created successfully"
+          400:
+            description: "Invalid request"
+          500:
+            description: "User creation failed"
+  /Music:
+    get:
+      summary: Get song recommendations based on input song features
+      description: Returns a list of recommended songs based on the features of an input song
+      parameters:
+        - name: song
+          in: body
+          description: The ID of the input song
+          required: true
+          schema:
+            type: object
+            properties:
+              song:
+                type: string
+                example: "1Qrg8KqiBpW07V7PNxwwwL"
+              features:
                 type: object
-                description: The audio features of the input track
                 properties:
-                  acousticness:
+                  Acousticness:
                     type: number
-                    format: float
-                    description: A confidence measure of whether the input track is acoustic
-                  danceability:
+                    example: 0.6
+                  Danceability:
                     type: number
-                    format: float
-                    description: How suitable the input track is for dancing
-                  energy:
+                    example: 0.8
+                  Energy:
                     type: number
-                    format: float
-                    description: A measure of intensity and activity in the input track
-                  instrumentalness:
+                    example: 0.7
+                  Key:
                     type: number
-                    format: float
-                    description: A confidence measure of whether the input track contains no vocals
-                  liveness:
+                    example: 5
+                  Liveness:
                     type: number
-                    format: float
-                    description: A confidence measure of whether the input track was performed live
-                  loudness:
+                    example: 0.2
+                  Loudness:
                     type: number
-                    format: float
-                    description: The overall loudness of the input track in decibels
-                  speechiness:
+                    example: -5.5
+                  Tempo:
                     type: number
-                    format: float
-                    description: A measure of how much spoken word there is in the input track
-                  tempo:
+                    example: 120
+      responses:
+        '200':
+          description: Returns a list of recommended songs
+          schema:
+            type: object
+            properties:
+              album name:
+                type: string
+              album image:
+                type: string
+              track name:
+                type: string
+              sample:
+                type: string
+              genres:
+                type: array
+                items:
+                  type: string
+              feature similarity:
+                type: object
+                properties:
+                  Acousticness:
                     type: number
-                    format: float
-                    description: The overall estimated tempo of the input track in beats per minute (BPM)
-                  valence:
+                    example: 0.6
+                  Danceability:
                     type: number
-                    format: float
-                    description: A measure of the positiveness of the input track
-      security:
-        - basicAuth: []
-        
-securityDefinitions:
-  basicAuth:
-    type: basic
+                    example: 0.8
+                  Energy:
+                    type: number
+                    example: 0.7
+                  Key:
+                    type: number
+                    example: 5
+                  Liveness:
+                    type: number
+                    example: 0.2
+                  Loudness:
+                    type: number
+                    example: -5.5
+                  Tempo:
+                    type: number
+                    example: 120
+            example:
+              - album name: "Thriller"
+                album image: "https://i.scdn.co/image/ab67616d0000b2732ff2a0178e16f91aaad65f4d"
+                track name: "Billie Jean"
+                sample: "https://p.scdn.co/mp3-preview/7b64e94efc2b0d0a8b48d24f0f12cda7f3c73f34?cid=61523c0b9d294c318f8eb0a4347a22b9"
+                genres: ["pop"]
+                feature similarity:
+                  Acousticness: 0.6
+                  Danceability: 0.8
+                  Energy: 0.7
+                  Key: 5
+                  Liveness: 0.2
+                  Loudness: -5.5
+                  Tempo: 120
