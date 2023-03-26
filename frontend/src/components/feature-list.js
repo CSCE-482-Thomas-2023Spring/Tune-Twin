@@ -34,8 +34,8 @@ class FeatureListElement extends Component {
                                 this.state.content.map((elem, i) => <li key={i}><div>{elem}</div></li>)
                             }
                         </ul>
-                        <div className="fle-ub-wrapper">
-                        <button className="fle-update-button">Update Filter Set</button>
+                        <div className="button-wrapper">
+                            <button className="fle-update-button">Update Filter Set</button>
                         </div>
                     </div>
                 }
@@ -64,13 +64,15 @@ class FeatureList extends Component {
     render() {
         return (
             <div>
+                <div className="button-wrapper">
+                    <button className="expand-button" onClick={this.props.toggle}>Collapse Saved Filters</button>
+                </div>
                 {
                     Object.keys(this.state.featureLists).length > 0 ? 
                     this.state.featureLists.map((elem, i) => 
                         Object.keys(elem).map((key) => <FeatureListElement key={i} title={key} content={elem[key]}/>)) :
                     <div>No features lists!</div>
                 }
-                <button onClick={this.props.toggle}>Collapse Saved Filters</button>
             </div>
         );
     }

@@ -46,6 +46,9 @@ class BlackList extends Component {
     render() {
         return (
             <div>
+                <div className="button-wrapper">
+                <button className="expand-button" onClick={this.props.toggle}>Collapse Blacklist</button>
+                </div>
                 {
                     this.state.genres.length === 0 && 
                     this.state.songs.length === 0 &&
@@ -64,7 +67,6 @@ class BlackList extends Component {
                     this.state.artists.length > 0 &&
                     this.state.artists.map((elem, i) => <BlackListElement key={i} content={"Artist: " + elem}/>)
                 }
-                <button onClick={this.props.toggle}>Collapse Black List</button>
             </div>
         );
     }

@@ -50,15 +50,19 @@ class ProfilePage extends Component {
                     {
                         this.state.expandFL ?
                         <FeatureList toggle={this.toggleFeatureList} fList={this.state.profileData.feature_lists}/> :
-                        <button onClick={this.toggleFeatureList}>Expand Saved Filters</button>
+                        <div className="button-wrapper">
+                            <button className="expand-button" onClick={this.toggleFeatureList}>Expand Saved Filters</button>
+                        </div>
                     }
-                    <h3>Black List</h3>
+                    <h3>Blacklist</h3>
                     {
                         this.state.expandBL ?
                         <BlackList toggle={this.toggleBlackList} profileData={this.state.profileData}/> :
-                        <button onClick={this.toggleBlackList}>Expand Black List</button>
+                        <div className="button-wrapper">
+                        <button className="expand-button" onClick={this.toggleBlackList}>Expand Blacklist</button>
+                        </div>
                     }
-                    <div className="logout-button-wrapper">
+                    <div className="button-wrapper">
                         <button className="logout-button" onClick={() => this.props.updateFunc("-1")}>Log out</button>
                     </div>
                 </div>
