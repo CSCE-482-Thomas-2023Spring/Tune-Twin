@@ -17,10 +17,9 @@ export default function App() {
         <Route path="/" element={<MainPage />}/>
         <Route path="/about" element={<AboutPage />}/>
         <Route path="/login" element={<LoginPage userId={userId} updateFunc={setUserId}/>}/>
-        <Route path="/signup" element={<SignUpPage />}/>
+        <Route path="/signup" element={<SignUpPage userId={userId} updateFunc={setUserId}/>}/>
         <Route path="/profile" element={<ProfilePage userId={userId} updateFunc={setUserId}/>}/>
       </Routes>
-      <div>{userId}</div>
     </Router>
   );
 }

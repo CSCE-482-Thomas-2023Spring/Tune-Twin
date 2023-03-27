@@ -6,6 +6,7 @@ import ProfileDetails from './profile-details.js';
 import FeatureList from './feature-list.js';
 import BlackList from './black-list.js';
 import Login from './login.js';
+import Signup from './signup.js';
 
 export {
     NavBar,
@@ -15,5 +16,6 @@ export {
     ProfileDetails,
     FeatureList,
     BlackList,
-    Login
+    Login,
+    Signup
 };
