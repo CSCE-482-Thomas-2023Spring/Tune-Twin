@@ -3,7 +3,7 @@ info:
   version: "1.0.0"
   title: TuneTwin API
   description: API for TuneTwin music app
-host: localhost:5000
+host: localhost:8000
 basePath: /
 schemes:
   - http
@@ -19,7 +19,7 @@ paths:
       description: Retrieves the name, email, blacklist, and feature lists for a user
       parameters:
         - name: email
-          in: query
+          in: "body"
           description: Email address of the user to retrieve information for
           required: true
           type: string

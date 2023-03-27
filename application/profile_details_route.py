@@ -33,7 +33,6 @@ def get_user_info():
         if id != None:
             objInstance = ObjectId(id)
             blacklist = client.TuneTwin.blacklist.find_one({"_id": objInstance})
-            print(str(blacklist))
             user_info["blacklist_artists"] = blacklist["artists"]
             user_info["blacklist_songs"] = blacklist["song_list"]
             user_info["blacklist_genres"] = blacklist["genre"]

@@ -6,6 +6,7 @@ import LoginPage from "./containers/login-page.js";
 import SignUpPage from "./containers/sign-up-page.js";
 import ProfilePage from "./containers/profile-page.js";
 import { NavBar } from './components/index.js';
+import RecPage from './containers/recc-page.js';
 
 export default function App() {
   const [userId, setUserId] = useState("-1");
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage userId={userId} updateFunc={setUserId}/>}/>
         <Route path="/signup" element={<SignUpPage userId={userId} updateFunc={setUserId}/>}/>
         <Route path="/profile" element={<ProfilePage userId={userId} updateFunc={setUserId}/>}/>
+        <Route path="/reccs" element={<RecPage />}/>
       </Routes>
     </Router>
   );
