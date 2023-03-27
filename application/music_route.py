@@ -12,9 +12,8 @@ from spotify_helper_functions import get_token
 
 @app.route("/Music", methods=['GET'])
 def get_song_recommendations():
-    track = request.json.get('song')
-    features = request.json.get('features')
-    track = "1Qrg8KqiBpW07V7PNxwwwL"
+    track = request.args.get('query')
+    features = request.args.get('features')
     # Get features of input track
     input_features = get_features(track)
     # Get song recommendations
