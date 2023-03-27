@@ -7,6 +7,7 @@ from collections import defaultdict
 import random
 import time
 import configparser
+import logging
 from spotify_helper_functions import get_token
 
 @app.route("/Music", methods=['GET'])
@@ -36,7 +37,8 @@ def get_data(track):
     return {
         'album name': track_data.get("album").get("name"),
         'album image': track_data.get("album").get("images")[0].get("url"), 
-        'track name': track_data.get('name'), 
+        'track name': track_data.get('name'),
+        'artist name': track_data.get('artists')[0].get('name'),
         'sample': track_data.get('preview_url'), 
         'genres': track_data.get("album").get("genres")
     }
@@ -89,3 +91,25 @@ def analyze_feature_dist(input_track_features, recommendations):
         recommendation_data.append(song_details)
         recommendation_data.append(song_feature_info)
     return recommendation_data
+
+@app.route('/Autocomplete', methods=['GET'])
+def autocomplete():
+    query = request.args.get('query')
+    if query:
+        # Set up the Spotify API endpoint and parameters
+        endpoint = 'https://api.spotify.com/v1/search'
+        params = {
+            'q': query,
+            'type': 'track',
+            'limit': 5
+        }
+        headers = {'Authorization': 'Bearer ' + get_token()}
+        # Call the Spotify API
+        response = requests.get(endpoint, params=params, headers=headers)
+        if response.status_code == 200:
+            # Extract the track names from the response JSON
+            data = response.json()
+            return data
+        else:
+            print(f'Error retrieving autocomplete suggestions. Status code: {response.status_code}')
+    return []

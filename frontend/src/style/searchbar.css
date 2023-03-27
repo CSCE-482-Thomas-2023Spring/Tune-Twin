@@ -4,6 +4,8 @@
     border-radius: 40px;
     padding: 10px; 
     margin: 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .search-button{
@@ -48,10 +50,11 @@
   width: 30rem;
 }
 
-.recc-item{
+.recc-item {
     background:#e1e1e1;
     border: none;
     position: absolute;
+    z-index: 1;
 }
 
 .drop-shadow{
