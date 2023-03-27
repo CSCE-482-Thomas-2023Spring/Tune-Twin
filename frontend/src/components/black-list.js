@@ -5,18 +5,65 @@ class BlackListElement extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            image: "",
-            content: this.props.content
+            image: this.props.content[2],
+            content: this.props.content,
+            removed: false
         };
     }
 
+    removeFromBlacklist = async () => {
+        const request = {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        }
+        if(this.props.type === "genre") {
+            request.body = JSON.stringify({
+                email: this.props.email,
+                blacklist_genres_to_remove: [this.props.content]
+            });
+        } else if(this.props.type === "song") {
+            request.body = JSON.stringify({
+                email: this.props.email,
+                blacklist_songs_to_remove: [this.props.content[0]]
+            });
+        } else {
+            request.body = JSON.stringify({
+                email: this.props.email,
+                blacklist_artists_to_remove: [this.props.content[0]]
+            });
+        }
+        const response = await fetch(`http://localhost:8000/Profile/UpdateDetails`, request);
+        if(response.status === 200) {
+            this.setState({ removed: true });
+        } else {
+            console.log("blacklist removal FAILED, ERROR " + response.status);
+        }
+    }
+
     render() {
+        if(!this.state.removed) {
+            return (
+                <div>
+                {
+                    this.props.type === "genre" ?
+                    <div className="black-list-element">
+                        <div>Genre: {this.state.content}</div>
+                        <button className="ble-button" onClick={this.removeFromBlacklist}>Remove</button>
+                    </div> :
+                    <div className="black-list-element">
+                        <img className="ble-image" src={this.state.image} />
+                        <div>{this.state.content[1]}</div>
+                        <button className="ble-button" onClick={this.removeFromBlacklist}>Remove</button>
+                    </div>
+                }
+                </div>
+            )
+        }
         return (
-            <div className="black-list-element">
-                <div>Picture</div>
-                <div>{this.state.content}</div>
-                <button className="ble-button">Remove</button>
-            </div>
+              <div></div>  
         )
     }
 }
@@ -57,15 +104,15 @@ class BlackList extends Component {
                 }
                 {
                     this.state.genres.length > 0 &&
-                    this.state.genres.map((elem, i) => <BlackListElement key={i} content={"Genre: " + elem}/>)
+                    this.state.genres.map((elem, i) => <BlackListElement key={i} type="genre" content={elem} email={this.props.profileData.email}/>)
                 }
                 {
                     this.state.songs.length > 0 &&
-                    this.state.songs.map((elem, i) => <BlackListElement key={i} content={"Song: " + elem}/>)
+                    this.state.songs.map((elem, i) => <BlackListElement key={i} type="song" content={elem} email={this.props.profileData.email}/>)
                 }
                 {
                     this.state.artists.length > 0 &&
-                    this.state.artists.map((elem, i) => <BlackListElement key={i} content={"Artist: " + elem}/>)
+                    this.state.artists.map((elem, i) => <BlackListElement key={i} type="artist" content={elem} email={this.props.profileData.email}/>)
                 }
             </div>
         );
