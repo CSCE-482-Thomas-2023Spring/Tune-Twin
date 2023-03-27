@@ -18,7 +18,8 @@ def get_user_info():
     if user:
         # Create a dictionary containing the user's information
         user_info = {
-            "name": user.get("name"),
+            "first_name": user.get("first_name"),
+            "last_name": user.get("last_name"),
             "email": user.get("email"),
             "blacklist_artists": [],
             "blacklist_songs": [],
