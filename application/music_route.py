@@ -37,6 +37,7 @@ def get_data(track):
         'album name': track_data.get("album").get("name"),
         'album image': track_data.get("album").get("images")[0].get("url"), 
         'track name': track_data.get('name'),
+        'track id': track_data.get('id'),
         'artist name': track_data.get('artists')[0].get('name'),
         'sample': track_data.get('preview_url'), 
         'genres': track_data.get("album").get("genres")
