@@ -1,1 +1,4 @@
 application/spotify.cfg
+application/__pycache__
+application/__pycache__/account_route.cpython-310.pyc
+application/__pycache__/music_route.cpython-310.pyc

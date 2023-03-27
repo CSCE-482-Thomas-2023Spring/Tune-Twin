@@ -8,58 +8,20 @@ import random
 import time
 import configparser
 import logging
+from spotify_helper_functions import get_token
 
 @app.route("/Music", methods=['GET'])
 def get_song_recommendations():
+    track = request.json.get('song')
+    features = request.json.get('features')
     track = "1Qrg8KqiBpW07V7PNxwwwL"
     # Get features of input track
     input_features = get_features(track)
     # Get song recommendations
-    recommendations = get_recommendations(track)
+    recommendations = get_recommendations(track, features)
+    print(recommendations)
     return json.dumps(analyze_feature_dist(input_features, recommendations))
 
-def get_token():
-    config = configparser.ConfigParser()
-    config.read('spotify.cfg')
-    CLIENT_ID = config.get('Spotify', 'CLIENT_ID')
-    CLIENT_SECRET = config.get('Spotify', 'CLIENT_SECRET')
-    auth_url = 'https://accounts.spotify.com/api/token'
-    # Define the parameters to send to the Spotify API endpoint to obtain an OAuth access token
-    auth_data = {
-        'grant_type': 'client_credentials',
-        'client_id': CLIENT_ID,
-        'client_secret': CLIENT_SECRET,
-    }
-    # Load the cached token from file if it exists and is still valid
-    try:
-        with open('spotify_token.json', 'r') as f:
-            cached_token = json.load(f)
-            if cached_token['expires_at'] > time.time():
-                access_token = cached_token['access_token']
-                return access_token
-            else:
-                raise ValueError('Cached token has expired')
-    except (FileNotFoundError, ValueError):
-        cached_token = None
-
-    # if the cached_token is not valid, get a new one using a post request
-    if cached_token is None:
-        # Send a POST request to the Spotify API endpoint to obtain an OAuth access token
-        response = requests.post(auth_url, data=auth_data)
-        # If the response status code is 200, then the OAuth access token was successfully retrieved
-        if response.status_code == 200:
-            # Extract the OAuth access token from the response JSON
-            response_data = response.json()
-            access_token = response_data['access_token']
-            expires_in = response_data['expires_in']
-            expires_at = time.time() + expires_in
-            # Save the token to file for future use
-            with open('spotify_token.json', 'w') as f:
-                json.dump({'access_token': access_token, 'expires_at': expires_at}, f)
-            return access_token
-        else:
-            # If the response status code is not 200, then there was an error retrieving the OAuth access token
-            print(f'Error retrieving OAuth access token. Status code: {response.status_code} ')
 
 def get_features(track):
     header = {'Authorization': "Bearer " + get_token()}
@@ -114,7 +76,7 @@ def get_top_spotify_tracks():
         print(f'Error retrieving playlist tracks. Status code: {response.status_code}')
     return recommendations
 
-def get_recommendations(track):
+def get_recommendations(track, features):
     recommendations = get_top_spotify_tracks()
     return recommendations
 
