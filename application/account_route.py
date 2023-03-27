@@ -15,8 +15,8 @@ def create_blacklist(email):
     result = client.TuneTwin.blacklist.insert_one({
             "email": email,
             "genre": [],
-            "song_list": [[]],
-            "artists": [[]]
+            "song_list": [],
+            "artists": []
         })
 
     new_id = str(result.inserted_id)
