@@ -9,6 +9,7 @@ CORS(app)
 import music_route
 import account_route
 import profile_details_route
+
 SWAGGER_URL = '/swagger'
 API_URL = '/static/swagger.yaml'
 SWAGGER_BLUEPRINT = get_swaggerui_blueprint(
