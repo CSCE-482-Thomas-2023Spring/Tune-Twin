@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import '../style/recc-list.css';
+import AudioPlayer from './audioplayer.jsx';
 
 function ReccList(props) {
 
   const [recommendations, setRecommendations] = useState([]);
   const [isShown, setIsShown] = useState(true);
+  const [currentAudioPlayer, setCurrentAudioPlayer] = useState(null);
 
   useEffect(() => {
 
@@ -35,15 +37,38 @@ function ReccList(props) {
     }
   }, [props.spotifyId]);
 
+  const handleAudioPlay = (key) => {
+    if (currentAudioPlayer === key) {
+      const audio = document.getElementById(key);
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    } else {
+      const prevAudioPlayer = document.getElementById(currentAudioPlayer);
+      if (prevAudioPlayer) {
+        prevAudioPlayer.pause();
+        const prevAudioButton = document.getElementById(`${currentAudioPlayer}-button`);
+        if (prevAudioButton) prevAudioButton.innerHTML = "Play";
+      }
+      const audio = document.getElementById(key);
+      audio.play();
+      setCurrentAudioPlayer(key);
+    }
+  }
+
   return (
     <div>
       <div className="AutoComplete">
         {recommendations.map((element) => (
-          <a key={element.key} target="_blank" href={`https://open.spotify.com/track/${element.key}`} className="ItemContainer" style={{ textDecoration: "none" }}>
-            <img
-              className="ImageContainer"
-              src={element.album_image}
-              alt="album"
+          // React Router
+          <div className = "ItemContainer" key={element.key}>
+            <AudioPlayer
+              audioSrc={element.sample}
+              imageSrc={element.album_image}
+              id={element.key}
+              handlePlay={() => handleAudioPlay(element.key)}
             />
             <div className="SongInfo">
               <h2 className="song-title">{element.track_name}</h2>
@@ -58,7 +83,7 @@ function ReccList(props) {
               />
               <h3 className="artist-name">{element.artist_name}</h3>
             </div>
-          </a>
+          </div>
         ))}
       </div>
     </div>
