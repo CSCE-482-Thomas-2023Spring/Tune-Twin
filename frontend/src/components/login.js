@@ -20,6 +20,7 @@ class Login extends Component {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: 'include',
             body: JSON.stringify({
                 email: this.state.email,
                 password: this.state.password
@@ -29,6 +30,7 @@ class Login extends Component {
         if(response.status === 200) {
             let parsed = await response.json();
             console.log(parsed);
+            console.log(document.cookie);
             this.setState({loggedIn: true});
             this.props.updateFunc(this.state.email);
         } else {
