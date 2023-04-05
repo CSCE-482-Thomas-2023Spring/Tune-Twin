@@ -10,6 +10,9 @@ import configparser
 import logging
 from spotify_helper_functions import get_token
 
+
+
+
 @app.route("/Music", methods=['GET'])
 def get_song_recommendations():
     track = request.args.get('query')
@@ -40,7 +43,8 @@ def get_data(track):
         'track id': track_data.get('id'),
         'artist name': track_data.get('artists')[0].get('name'),
         'sample': track_data.get('preview_url'), 
-        'genres': track_data.get("album").get("genres")
+        'genres': track_data.get("album").get("genres"), 
+        'track_token': track
     }
 
 def gaussian(x, y, sigma = 1):
@@ -68,7 +72,7 @@ def get_top_spotify_tracks():
         # Extract the track details from the response JSON
         tracks = response.json()['items']
         # Get the id of the tracks
-        while len(recommendations) < 20:
+        while len(recommendations) < 10:
             track = random.choice(tracks)
             if track['track']['id'] not in recommendations: 
                 recommendations.append(track['track']['id'])

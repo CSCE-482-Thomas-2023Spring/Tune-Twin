@@ -4,11 +4,12 @@ import requests
 from flask_cors import CORS
 from pymongo import MongoClient
 app = Flask(__name__)
-CORS(app)
+CORS(app, support_credentials=True)
 
 import music_route
 import account_route
 import profile_details_route
+
 SWAGGER_URL = '/swagger'
 API_URL = '/static/swagger.yaml'
 SWAGGER_BLUEPRINT = get_swaggerui_blueprint(

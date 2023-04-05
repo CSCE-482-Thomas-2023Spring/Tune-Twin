@@ -3,6 +3,7 @@ import datetime
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from __main__ import app
+from flask_cors import cross_origin
 
 client = MongoClient("mongodb://localhost:27017/")
 db = client["mydatabase"]
@@ -55,6 +56,7 @@ def create_account():
 
 # Login endpoint
 @app.route('/Account/Login', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def login():
     # Check if the request contains the necessary data
     if not request.is_json or 'email' not in request.json or 'password' not in request.json:
@@ -67,15 +69,16 @@ def login():
     if user and user.get('password') == password:
         # Set the user cookie
         resp = make_response(jsonify({'message': 'Logged in successfully'}), 200)
-        resp.set_cookie('user', email, expires=datetime.datetime.now() + datetime.timedelta(hours=24))
-        return resp
+        resp.set_cookie('user', email, expires=datetime.datetime.now() + datetime.timedelta(hours=24), secure=True)
+        return resp, 200
 
     # If the credentials are incorrect, return an error
     return jsonify({'error': 'Incorrect username or password'}), 401
 
 # Logout endpoint
 @app.route('/Account/Logout', methods=['DELETE'])
+@cross_origin(supports_credentials=True)
 def logout():
     resp = make_response(jsonify({'message': 'Logged out successfully'}), 200)
-    resp.set_cookie('user', '', expires=0)
-    return resp
+    resp.set_cookie('user', '', expires=0, secure=True)
+    return resp, 200
