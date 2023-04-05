@@ -41,6 +41,11 @@ html {
     margin: 0.3rem;
 }
 
+
+.ItemContainer button {
+    margin: 0;
+  }
+
 .ItemContainer:hover {
     background-color: #3BBA9C;
     cursor: pointer;
@@ -50,9 +55,21 @@ html {
 
 .ImageContainer {
     background-color: none;
-    object-fit: cover;
     width: 5rem;
     height: 5rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+.ImageContainer img {
+    max-width: 100%;
+    /* make sure image does not exceed container size */
+    max-height: 100%;
+    object-fit: cover;
+    /* scale image and fit within container */
 }
 
 .SongInfo {
