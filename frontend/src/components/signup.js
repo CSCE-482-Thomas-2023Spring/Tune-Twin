@@ -48,14 +48,14 @@ class Signup extends Component {
                     this.state.loggedIn &&
                     <Navigate to="/" />
                 }
-                <h2>Account Sign-up</h2>
+                <h2>Account Signup</h2>
                 <div className="login-card">
                     <h3>Email: </h3>
-                    <input value={this.state.email} onChange={(evt) => this.setState({email: evt.target.value})}></input>
+                    <input className="email-input" value={this.state.email} onChange={(evt) => this.setState({email: evt.target.value})}></input>
                 </div>
                 <div className="login-card">
                     <h3>Password: </h3>
-                    <input value={this.state.password} onChange={(evt) => this.setState({password: evt.target.value})}></input>
+                    <input className="password-input" value={this.state.password} onChange={(evt) => this.setState({password: evt.target.value})}></input>
                 </div>
                 <div className="login-card">
                     <h3>First Name: </h3>
@@ -69,7 +69,7 @@ class Signup extends Component {
                     this.state.error &&
                     <div className="login-error">Account signup failed. One or more of the account fields are invalid!</div>
                 }
-                <button className="login-button" onClick={this.accountSignup}>Sign-up</button><br></br>
+                <button className="login-button" onClick={this.accountSignup}>Sign up</button><br></br>
                 <Link to="/login">I already have a TuneTwin account!</Link>
             </div>
         );

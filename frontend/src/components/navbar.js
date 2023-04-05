@@ -41,7 +41,7 @@ class NavBar extends Component {
                             <Link className="Nav-Button" to="/">Search</Link>
                         </li>
                         <li>
-                            <Link className="Nav-Button" to="/about">About</Link>
+                            <Link className="Nav-Button" to="/about">Help</Link>
                         </li>
                         <li>
                             <Link className="Nav-Button" to="/login">Login</Link>
@@ -63,7 +63,7 @@ class NavBar extends Component {
                             <Link className="Nav-Button" to="/">Search</Link>
                         </li>
                         <li>
-                            <Link className="Nav-Button" to="/about">About</Link>
+                            <Link className="Nav-Button" to="/about">Help</Link>
                         </li>
                         <li>
                             <Link className="Nav-Button" to="/profile">Profile</Link>
