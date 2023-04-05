@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../style/recc-list.css';
+import { Link } from 'react-router-dom';
 import AudioPlayer from './audioplayer.jsx';
 
 function ReccList(props) {
@@ -62,27 +63,28 @@ function ReccList(props) {
     <div>
       <div className="AutoComplete">
         {recommendations.map((element) => (
-          // React Router
-          <div className = "ItemContainer" key={element.key}>
+          <div className="ItemContainer" key={element.key}>
             <AudioPlayer
               audioSrc={element.sample}
               imageSrc={element.album_image}
               id={element.key}
               handlePlay={() => handleAudioPlay(element.key)}
             />
-            <div className="SongInfo">
-              <h2 className="song-title">{element.track_name}</h2>
-              <hr
-                style={{
-                  background: "black",
-                  color: "black",
-                  border: "none",
-                  height: ".05rem",
-                  width: "200px"
-                }}
-              />
-              <h3 className="artist-name">{element.artist_name}</h3>
-            </div>
+            <Link to={`https://open.spotify.com/track/${element.key}`} target="_blank" style={{ textDecoration: 'none' }}>
+              <div className="SongInfo">
+                <h2 className="song-title">{element.track_name}</h2>
+                <hr
+                  style={{
+                    background: "black",
+                    color: "black",
+                    border: "none",
+                    height: ".05rem",
+                    width: "200px"
+                  }}
+                />
+                <h3 className="artist-name">{element.artist_name}</h3>
+              </div>
+            </Link>
           </div>
         ))}
       </div>

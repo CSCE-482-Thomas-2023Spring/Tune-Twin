@@ -66,10 +66,8 @@ html {
 
 .ImageContainer img {
     max-width: 100%;
-    /* make sure image does not exceed container size */
     max-height: 100%;
     object-fit: cover;
-    /* scale image and fit within container */
 }
 
 .SongInfo {
