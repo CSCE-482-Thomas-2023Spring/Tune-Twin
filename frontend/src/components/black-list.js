@@ -38,6 +38,7 @@ class BlackListElement extends Component {
         const response = await fetch(`http://localhost:8000/Profile/UpdateDetails`, request);
         if(response.status === 200) {
             this.setState({ removed: true });
+            this.props.removal();
         } else {
             console.log("blacklist removal FAILED, ERROR " + response.status);
         }
@@ -74,7 +75,8 @@ class BlackList extends Component {
         this.state = {
             genres: [],
             songs: [],
-            artists: []
+            artists: [],
+            bleElementRemoved: false
         };
     }
 
@@ -88,6 +90,10 @@ class BlackList extends Component {
             songs: this.props.profileData.blacklist_songs,
             artists: this.props.profileData.blacklist_artists
         });
+    }
+
+    elementRemoved = () => {
+        this.setState({ bleElementRemoved: true });
     }
 
     render() {
@@ -104,15 +110,19 @@ class BlackList extends Component {
                 }
                 {
                     this.state.genres.length > 0 &&
-                    this.state.genres.map((elem, i) => <BlackListElement key={i} type="genre" content={elem} email={this.props.profileData.email}/>)
+                    this.state.genres.map((elem, i) => <BlackListElement key={i} type="genre" content={elem} email={this.props.profileData.email} removal={this.elementRemoved}/>)
                 }
                 {
                     this.state.songs.length > 0 &&
-                    this.state.songs.map((elem, i) => <BlackListElement key={i} type="song" content={elem} email={this.props.profileData.email}/>)
+                    this.state.songs.map((elem, i) => <BlackListElement key={i} type="song" content={elem} email={this.props.profileData.email} removal={this.elementRemoved}/>)
                 }
                 {
                     this.state.artists.length > 0 &&
-                    this.state.artists.map((elem, i) => <BlackListElement key={i} type="artist" content={elem} email={this.props.profileData.email}/>)
+                    this.state.artists.map((elem, i) => <BlackListElement key={i} type="artist" content={elem} email={this.props.profileData.email} removal={this.elementRemoved}/>)
+                }
+                {
+                    this.state.bleElementRemoved &&
+                    <div className="info-updated">Your blacklist has been updated.</div>
                 }
             </div>
         );
