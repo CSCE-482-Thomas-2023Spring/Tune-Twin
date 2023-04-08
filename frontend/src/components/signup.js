@@ -51,11 +51,11 @@ class Signup extends Component {
                 <h2>Account Signup</h2>
                 <div className="login-card">
                     <h3>Email: </h3>
-                    <input className="email-input" value={this.state.email} onChange={(evt) => this.setState({email: evt.target.value})}></input>
+                    <input value={this.state.email} onChange={(evt) => this.setState({email: evt.target.value})}></input>
                 </div>
                 <div className="login-card">
                     <h3>Password: </h3>
-                    <input className="password-input" value={this.state.password} onChange={(evt) => this.setState({password: evt.target.value})}></input>
+                    <input value={this.state.password} onChange={(evt) => this.setState({password: evt.target.value})}></input>
                 </div>
                 <div className="login-card">
                     <h3>First Name: </h3>

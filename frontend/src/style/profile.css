@@ -40,10 +40,15 @@
     color: #f5f5f5;
     border-radius: .25rem;
     box-shadow: 0 0 .25rem #707793;
+    cursor: pointer;
 }
 
 .profile-info > input {
     width: 50%;
+}
+
+.profile-info > h4 {
+    width: 17%;
 }
 
 .button-wrapper {
@@ -72,6 +77,7 @@
     color: #f5f5f5;
     border-radius: .25rem;
     box-shadow: 0 0 .25rem #707793;
+    cursor: pointer;
 }
 
 .fle-content {
@@ -106,6 +112,7 @@
     padding: .25rem;
     border-radius: .3rem;
     box-shadow: 0 0 .25rem #707793;
+    cursor: pointer;
 }
 
 .ble-image {
@@ -119,6 +126,7 @@
     color: #f5f5f5;
     border-radius: .4rem;
     box-shadow: 0 0 .4rem #707793;
+    cursor: pointer;
 }
 
 .logout-button {
@@ -129,6 +137,7 @@
     color: #f5f5f5;
     border-radius: .4rem;
     box-shadow: 0 0 .4rem #707793;
+    cursor: pointer;
 }
 
 .info-updated {
@@ -163,20 +172,19 @@
     width: 50%;
 }
 
-.email-input {
-    margin-left: 3rem;
+.login-card > h3 {
+    width: 25%;
 }
 
-.password-input {
-    margin-left: .75rem;
-}
 
 .login-button {
+    color: #f5f5f5;
+    background-color: #2E3047;
     font-size: 1.25rem;
-    padding: .6rem;
+    padding: .6rem 2rem;
     margin-bottom: 1rem;
     border-radius: .7rem;
-    box-shadow: 0 0 .25rem #2E3047;
+    box-shadow: 0 0 .5rem #707793;
     cursor: pointer;
 }
 
