@@ -20,7 +20,7 @@ export default function App() {
       setUserId(value);
       console.log(value);
     }
-  });
+  }, []);
 
   return (
     <Router>

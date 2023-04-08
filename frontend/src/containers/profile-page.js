@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ProfileDetails, FeatureList, BlackList } from '../components/index.js';
 import { Navigate } from 'react-router-dom';
+import '../style/navbar.css';
 
 class ProfilePage extends Component {
     constructor(props) {
@@ -59,9 +60,9 @@ class ProfilePage extends Component {
 
     render() {
         return (
-            <div>
+            <div className="page-bg">
             {
-                this.state.loggedOut &&
+                (this.state.loggedOut || this.props.userId === "-1") &&
                 <Navigate to="/" />
             }
             {

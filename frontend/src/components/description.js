@@ -15,7 +15,7 @@ class Description extends Component {
                     search. For more information (such as the additional features 
                     you can access with a Tune Twin account paired with your 
                     personal Spotify account), please visit 
-                    the <a className="about-link" href="/about">About page!</a>
+                    the <a className="about-link" href="/about">Help page!</a>
                 </div>
             </div>
         );

@@ -10,7 +10,8 @@
 .description-card {
     font-size: 1.25rem;
     border: 2px #2E3047 solid;
-    margin: 2rem;
+    margin: 2rem 0;
+    width: 60%;
     padding: 1rem;
     background-color: #E2E4ED;
     color: #2E3047;
@@ -20,4 +21,17 @@
 
 .about-link {
     color: #3BBA9C;
+}
+
+@media screen and (max-width: 1200px) {
+    .description-card {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .description-card {
+        width: 80%;
+        font-size: 1rem;
+    }
 }
