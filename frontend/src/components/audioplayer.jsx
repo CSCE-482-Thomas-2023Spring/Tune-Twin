@@ -42,7 +42,7 @@ function AudioPlayer({ audioSrc, imageSrc, id, handlePlay }) {
     <div className="ImageContainer">
       <audio id={id} src={audioSrc} ref={audioRef} onEnded={handleEnded} />
       <img src={imageSrc} alt="album" />
-      {audioSrc && (
+      {audioSrc ? (
         <button className="play-pause" onClick={() => handlePlay(id)}>
           {isPlaying ? (
             <FontAwesomeIcon icon={faPause} />
@@ -50,6 +50,8 @@ function AudioPlayer({ audioSrc, imageSrc, id, handlePlay }) {
             <FontAwesomeIcon icon={faPlay} />
           )}
         </button>
+      ) : (
+        <div style={{ position: "absolute", backgroundColor: "rgba(0, 0, 0, 0.2)", color: "rgba(255, 255, 255, 0.8)", textAlign: "center", userSelect: "none"}}>No Preview</div>
       )}
     </div>
   );
