@@ -9,7 +9,7 @@ CORS(app, support_credentials=True)
 import music_route
 import account_route
 import profile_details_route
-
+import spotify_connect
 SWAGGER_URL = '/swagger'
 API_URL = '/static/swagger.yaml'
 SWAGGER_BLUEPRINT = get_swaggerui_blueprint(
