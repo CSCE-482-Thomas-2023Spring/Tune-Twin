@@ -55,11 +55,11 @@ def get_nearest_neighbors(track_id, k, use_cache=True):
         with open("dataframe.pickle", "rb") as f:
             track_df = pickle.load(f)
     else:
-        track_list = pd.read_csv("songdatamerge.csv")
-        if track_id not in track_list.values:
-            track_df = pd.concat([track_list, pd.DataFrame(get_track_features(track_id))], ignore_index=True)
-        else:
-            track_df = track_list
+        track_df = pd.read_csv("songdatamerge.csv")
+        # if track_id not in track_list.values:
+        #     track_df = pd.concat([track_list, pd.DataFrame(get_track_features(track_id))])
+        # else:
+        #     track_df = track_list
         scaler = MinMaxScaler()
 
         targetFeatures = [
