@@ -52,6 +52,9 @@ def get_user_info():
         # If the user is not found, return an error message as a JSON object with a status code of 404
         return jsonify({"error": "User not found"}), 404
 
+def get_blacklist_details(user_email):
+    blacklist_details = client.TuneTwin.blacklist.find_one({"email": user_email})
+    return blacklist_details
 
 @app.route("/Profile/UpdateDetails", methods=["PUT"])
 def update_user_info():
