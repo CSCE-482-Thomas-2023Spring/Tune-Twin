@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from "./containers/main-page.js";
 import AboutPage from "./containers/about-page.js";
@@ -10,6 +10,17 @@ import RecPage from './containers/recc-page.js';
 
 export default function App() {
   const [userId, setUserId] = useState("-1");
+
+  useEffect(() => {
+    const index = document.cookie.search("user=");
+    if(index !== -1) {
+      let value = document.cookie.substring(index + 6);
+      const otherQuoteIndex = value.search("\"");
+      value = value.substring(0, otherQuoteIndex);
+      setUserId(value);
+      console.log(value);
+    }
+  }, []);
 
   return (
     <Router>

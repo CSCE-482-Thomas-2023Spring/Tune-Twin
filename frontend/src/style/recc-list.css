@@ -20,7 +20,6 @@ html {
     display: flex;
     background-color: white;
     transition: transform 0.1s ease-in-out;
-    display: flex;
     padding: 0rem;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
@@ -41,18 +40,32 @@ html {
     margin: 0.3rem;
 }
 
-.ItemContainer:hover {
+
+.ItemContainer button {
+    margin: 0;
+  }
+
+  .ItemContainer:hover {
     background-color: #3BBA9C;
-    cursor: pointer;
     transform: scale(1.05);
-    overflow: hidden;
+    z-index: 1;
 }
 
 .ImageContainer {
     background-color: none;
-    object-fit: cover;
     width: 5rem;
     height: 5rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+.ImageContainer img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
 }
 
 .SongInfo {
@@ -62,7 +75,6 @@ html {
     font-weight: 400;
     flex-direction: column;
     justify-content: center;
-    /* Add this property */
     text-align: left;
 }
 
@@ -75,7 +87,8 @@ html {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
+    width: 40rem; /* Or any other fixed value that works for you */
+  }
 
 .artist-name {
     font-size: 1rem;
@@ -83,4 +96,28 @@ html {
     text-overflow: ellipsis;
     position: relative;
     z-index: 1;
+}
+
+.loader {
+    font-size: 1.5rem;
+    color: #2E3047;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Tooltip {
+    position: absolute;
+    font-size: 80%;
+    margin: 0;
+    left: 100%;
+    top: 50%;
+    transform: translate(0, -50%);
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px;
 }

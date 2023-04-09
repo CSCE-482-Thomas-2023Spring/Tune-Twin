@@ -1,53 +1,52 @@
 import '../style/searchbar.css';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
-
-
 function Searchbar(props) {
 
-  const [searchString, setSearchString] = useState(""); /**<  Using the useState hook to change the search string as setSearchString updates it*/
+  const [searchString, setSearchString] = useState("");
   const [usePropsSearchString, setUsePropsSearchString] = useState(true);
-  const [songResults, setSongResults] = useState([]); /**<  Using the useState hook to change the search results (as an array)*/
+  const [songResults, setSongResults] = useState([]);
+  const timeoutRef = useRef(null);
 
-  /**
-   * Using a hook to fetch song results as searchString changes.
-  */
   useEffect(() => {
     if (usePropsSearchString && searchString === "" && props.searchString) {
       setSearchString(props.searchString);
       setUsePropsSearchString(false);
     } else if (searchString === props.searchString) {
       return;
-    } else if (searchString.length > 0) { // Only fetch autocomplete suggestions if searchString is not empty
-      async function fetchAutocompleteSuggestions() {
-        const response = await fetch(`http://127.0.0.1:8000/Autocomplete?query=${searchString}`);
-        if (response.ok) {
-          const data = await response.json();
-          const items = data["tracks"]["items"];
-          const merged_list = items.map(item => {
-            return {
-              song: item["name"],
-              trackID: item["id"],
-              artist: item["artists"][0]["name"],
-              link: item["external_urls"],
-              album: item["album"]["images"][1],
-              year: item["album"]["release_date"].split("-")[0]
-            };
-          });
-          setSongResults(merged_list);
-        } else {
-          console.error('Error fetching autocomplete suggestions:', response.status);
-        }
+    } else if (searchString.length > 0) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
       }
-      fetchAutocompleteSuggestions();
+      timeoutRef.current = setTimeout(async () => {
+        try {
+          const response = await fetch(`http://127.0.0.1:8000/Autocomplete?query=${searchString}`);
+          if (response.ok) {
+            const data = await response.json();
+            const items = data["tracks"]["items"];
+            const merged_list = items.map(item => {
+              return {
+                song: item["name"],
+                trackID: item["id"],
+                artist: item["artists"][0]["name"],
+                link: item["external_urls"],
+                album: item["album"]["images"][1],
+                year: item["album"]["release_date"].split("-")[0]
+              };
+            });
+            setSongResults(merged_list);
+          } else {
+            console.error('Error fetching autocomplete suggestions:', response.status);
+          }
+        } catch (error) {
+          console.error('Error fetching autocomplete suggestions:', error);
+        }
+      }, 500); // Setting 500ms delay
     }
   }, [searchString, props.searchString, usePropsSearchString]);
 
-  /**
-   * Search function
-  */
   const handleSearch = (event) => {
     event.preventDefault();
     if (searchString.trim() === '') {
@@ -64,26 +63,19 @@ function Searchbar(props) {
   };
 
   return (
-
-    <div className="search-bar drop-shadow"> {/* Search bar component */}
-      <div className="wrapper"> {/* Encapsulates search bar component */}
-
+    <div className="search-bar drop-shadow">
+      <div className="wrapper">
         <input className="search-txt"
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
           placeholder="Type to Search"
         />
-
-        {/* Search button */}
         <button className="search-button" onClick={handleSearch}>
           <FontAwesomeIcon icon={solid('magnifying-glass')} />
         </button>
-
       </div>
-
-      {/* Recommendation element */}
       {songResults.length > 0 && searchString.length > 0 && (
-        <div className="recc-item">
+        <div className="recc-item" style={{ userSelect: "none" }}>
           {songResults.map((song, index) => (
             <div
               key={`${song.song}-${index}`}

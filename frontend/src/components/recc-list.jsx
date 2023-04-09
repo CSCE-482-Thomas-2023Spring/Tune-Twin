@@ -1,64 +1,175 @@
 import React, { useState, useEffect } from 'react';
 import '../style/recc-list.css';
+import { Link } from 'react-router-dom';
+import AudioPlayer from './audioplayer.jsx';
+import ProgressBar from './progress-bar'
 
 function ReccList(props) {
-
   const [recommendations, setRecommendations] = useState([]);
   const [isShown, setIsShown] = useState(true);
+  const [currentAudioPlayer, setCurrentAudioPlayer] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [dots, setDots] = useState("");
+  const [hoveredElement, setHoveredElement] = useState(null);
 
   useEffect(() => {
-
     if (props.spotifyId !== "" && isShown) {
       async function fetchRecommendations() {
+        setIsLoading(true);
         const response = await fetch(`http://127.0.0.1:8000/Music?query=${props.spotifyId}`);
         const data = await response.json();
-        const merged_list = data.map((item, index) => {
+        const merged_list = data.reduce((acc, item, index) => {
           if (index % 2 === 0) {
-            return {
-              key: item["track id"],
+            acc.push({
+              id: item["track id"],
               album_name: item["album name"],
               album_image: item["album image"],
               track_name: item["track name"],
               artist_name: item["artist name"],
               sample: item["sample"],
               genres: item["genres"]
-            };
+            });
           } else {
-            return null;
+            const songData = acc[acc.length - 1];
+            songData.danceability = item.danceability;
+            songData.energy = item.energy;
+            songData.key = item.key;
+            songData.loudness = item.loudness;
+            songData.liveness = item.liveness;
+            songData.tempo = item.tempo;
           }
-        }).filter(item => item !== null);
+          return acc;
+        }, []);
 
         setIsShown(false);
+        setIsLoading(false);
+        console.log(merged_list);
         setRecommendations(merged_list);
       }
       fetchRecommendations();
     }
   }, [props.spotifyId]);
 
+  const handleAudioPlay = (key) => {
+    if (currentAudioPlayer === key) {
+      const audio = document.getElementById(key);
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    } else {
+      const prevAudioPlayer = document.getElementById(currentAudioPlayer);
+      if (prevAudioPlayer) {
+        prevAudioPlayer.pause();
+        const prevAudioButton = document.getElementById(`${currentAudioPlayer}-button`);
+        if (prevAudioButton) prevAudioButton.innerHTML = "Play";
+      }
+      const audio = document.getElementById(key);
+      audio.play();
+      setCurrentAudioPlayer(key);
+    }
+  }
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDots((prevDots) => {
+        if (prevDots.length >= 3) {
+          return "";
+        } else {
+          return prevDots + ".";
+        }
+      });
+    }, 500);
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <div>
+      {isLoading ? <div className="loader">Loading{dots}</div> : null}
       <div className="AutoComplete">
         {recommendations.map((element) => (
-          <a key={element.key} target="_blank" href={`https://open.spotify.com/track/${element.key}`} className="ItemContainer" style={{ textDecoration: "none" }}>
-            <img
-              className="ImageContainer"
-              src={element.album_image}
-              alt="album"
+          <div
+            key={element.id}
+            onMouseEnter={() => setHoveredElement(element)}
+            onMouseLeave={() => setHoveredElement(null)}
+            className="ItemContainer"
+          >
+            <AudioPlayer
+              audioSrc={element.sample}
+              imageSrc={element.album_image}
+              id={element.id}
+              handlePlay={() => handleAudioPlay(element.id)}
             />
-            <div className="SongInfo">
-              <h2 className="song-title">{element.track_name}</h2>
-              <hr
-                style={{
-                  background: "black",
-                  color: "black",
-                  border: "none",
-                  height: ".05rem",
-                  width: "200px"
-                }}
-              />
-              <h3 className="artist-name">{element.artist_name}</h3>
-            </div>
-          </a>
+            <Link
+              to={`https://open.spotify.com/track/${element.id}`}
+              target="_blank"
+              style={{ textDecoration: 'none' }}
+            >
+              <div className="SongInfo">
+                <h2 className="song-title">{element.track_name}</h2>
+                <hr
+                  style={{
+                    background: "black",
+                    color: "black",
+                    border: "none",
+                    height: ".05rem",
+                    width: "200px"
+                  }}
+                />
+                <h3 className="artist-name">{element.artist_name}</h3>
+              </div>
+            </Link>
+            {hoveredElement && hoveredElement.id === element.id && (
+              <div className="Tooltip">
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ alignSelf: "center" }}>Danceability:</span>
+                  <ProgressBar
+                    bgcolor="#3BBA9C"
+                    progress={element.danceability * 100}
+                    height={20}
+                    style={{ alignSelf: "center" }}
+                  />
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ alignSelf: "center" }}>Energy:</span>
+                  <ProgressBar
+                    bgcolor="#3BBA9C"
+                    progress={element.energy * 100}
+                    height={20}
+                    style={{ alignSelf: "center" }}
+                  />
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ alignSelf: "center" }}>Key:</span>
+                  <ProgressBar
+                    bgcolor="#3BBA9C"
+                    progress={Math.round(element.key * 100)}
+                    height={20}
+                    style={{ alignSelf: "center" }}
+                  />
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ alignSelf: "center" }}>Liveness:</span>
+                  <ProgressBar
+                    bgcolor="#3BBA9C"
+                    progress={element.liveness * 100}
+                    height={20}
+                    style={{ alignSelf: "center" }}
+                  />
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span style={{ alignSelf: "center" }}>Tempo:</span>
+                  <ProgressBar
+                    bgcolor="#3BBA9C"
+                    progress={Math.round(element.key * 100)}
+                    height={20}
+                    style={{ alignSelf: "center" }}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         ))}
       </div>
     </div>

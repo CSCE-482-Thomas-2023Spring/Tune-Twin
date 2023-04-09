@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ProfileDetails, FeatureList, BlackList } from '../components/index.js';
 import { Navigate } from 'react-router-dom';
+import '../style/navbar.css';
 
 class ProfilePage extends Component {
     constructor(props) {
@@ -8,7 +9,8 @@ class ProfilePage extends Component {
         this.state = {
             expandFL: false,
             expandBL: false,
-            profileData: {}
+            profileData: {},
+            loggedOut: false
         };
     }
 
@@ -34,11 +36,33 @@ class ProfilePage extends Component {
         this.setState({ expandBL: !this.state.expandBL });
     }
 
+    logout = async () => {
+        this.props.updateFunc("-1");
+        const request = {
+            method: "DELETE",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: 'include'
+        }
+        const response = await fetch(`http://localhost:8000/Account/Logout`, request);
+        if(response.status === 200) {
+            let parsed = await response.json();
+            console.log(parsed);
+            console.log(document.cookie);
+            this.props.updateFunc("-1");
+            this.setState({loggedOut: true});
+        } else {
+            console.log("Logout failed.");
+        }
+    }
+
     render() {
         return (
-            <div>
+            <div className="page-bg">
             {
-                this.props.userId === "-1" &&
+                (this.state.loggedOut || this.props.userId === "-1") &&
                 <Navigate to="/" />
             }
             {
@@ -63,7 +87,7 @@ class ProfilePage extends Component {
                         </div>
                     }
                     <div className="button-wrapper">
-                        <button className="logout-button" onClick={() => this.props.updateFunc("-1")}>Log out</button>
+                        <button className="logout-button" onClick={this.logout}>Log out</button>
                     </div>
                 </div>
             }
