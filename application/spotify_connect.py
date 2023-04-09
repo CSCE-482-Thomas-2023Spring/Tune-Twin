@@ -20,23 +20,25 @@ def create_oauth():
         client_id = CLIENT_ID,
         client_secret = CLIENT_SECRET,
         redirect_uri=url_for('callback', _external = True),
-        scope='user-read-email playlist-modify-public playlist-modify-private'
+        scope='user-read-email playlist-modify-public playlist-modify-private user-library-modify'
     )
 
 @app.route('/callback', methods=['GET'])
 def callback():
-    user_email = request.args.get("email")
-    user = client.TuneTwin.users.find_one({"email": user_email})
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-    
+    # user_email = request.args.get("email")
+    # user = client.TuneTwin.users.find_one({"email": user_email})
+    # if not user:
+    #     return jsonify({"error": "User not found"}), 404
+    user_email = 'twintune4@gmail.com'
     code = request.args.get('code')
     sp_oauth = create_oauth()
     token_info = sp_oauth.get_access_token(code)
     access_token = token_info['access_token']
     client.TuneTwin.users.update_one({"email": user_email}, {"$set": {"spotify_token": access_token}})
+    print("TOKEN:::" , access_token)
     # This final Redirect will go back to our homepage after the spotify login
-    return redirect(url_for('exportSongs'))
+    #return redirect(url_for('exportSongs'))
+    return redirect('/')
 
 @app.route('/loginToSpotify')
 def loginSpotify():
@@ -44,13 +46,17 @@ def loginSpotify():
     auth_url = sp_oauth.get_authorize_url()
     return redirect(auth_url)
 
+@app.route('/')
+def homepagewhere():
+    return "wheres the link to our homepage?"
+
 @app.route('/exportSongs', methods=['POST'])
 def export_to_spotify():
-    user_email = request.form.get('email')
+    user_email = request.args.get('email')
     user = client.TuneTwin.users.find_one({"email": user_email})
     if not user:
         return jsonify({"error": "User not found"}), 404
-    access_token = user['spotify_token']
+    access_token = user.get('spotify_token')
     sp = spotipy.Spotify(auth=access_token)
 
     # Get the tracks to be exported from the request
