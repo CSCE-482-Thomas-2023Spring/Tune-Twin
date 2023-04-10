@@ -7,11 +7,16 @@ import { setFilter, clearFilters } from '../redux/actions/filterActions';
 
 class RecPage extends Component {
     state = {
-        filtersPresent: false
+        filtersPresent: false,
+        filterButtonText: "Advanced Filters"
     };
 
     filtersPopUp = () => {
-        this.setState({ filtersPresent: !this.state.filtersPresent });
+        const newButtonText = this.state.filterButtonText === "Advanced Filters" ? "Collapse Filters" : "Advanced Filters";
+        this.setState({
+            filtersPresent: !this.state.filtersPresent,
+            filterButtonText: newButtonText
+        });
     }
 
     componentDidMount() {
@@ -28,13 +33,11 @@ class RecPage extends Component {
     render() {
         return (
             <div className="page-wrapper">
-                <div className="row">
+                <div className="search-card">
+                    <h2>Song Search</h2>
                     <Searchbar searchString={this.state.searchString} />
-                </div>
-                <div className="row">
-                    <button className="filters-button" onClick={this.filtersPopUp}>Advanced Filters</button>
-                </div>
-                {
+                    <button className="filters-button" onClick={this.filtersPopUp}>{this.state.filterButtonText}</button>
+                    {
                     this.state.filtersPresent && (
                         <SearchFilters
                             filters={this.props.filters}
@@ -43,6 +46,7 @@ class RecPage extends Component {
                         />
                     )
                 }
+                </div>
                 <div className="row">
                 <ReccList spotifyId={this.state.spotifyId} userId={this.props.userId} filters={this.props.filters}/>
                 </div>
