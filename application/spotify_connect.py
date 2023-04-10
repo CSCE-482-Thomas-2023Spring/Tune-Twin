@@ -26,11 +26,12 @@ def create_oauth():
 
 @app.route('/callback', methods=['GET'])
 def callback():
-    user_email = "twintune4@gmail.com"
-    #user_email = request.args.get("email")
-    #user = client.TuneTwin.users.find_one({"email": user_email})
-    #if not user:
-         #return jsonify({"error": "User not found"}), 404
+
+    user_email = 'twintune4@gmail.com'
+    # user_email = request.args.get("email")
+    user = client.TuneTwin.users.find_one({"email": user_email})
+    # if not user:
+    #     return jsonify({"error": "User not found"}), 404
     code = request.args.get('code')
     sp_oauth = create_oauth()
     token_info = sp_oauth.get_access_token(code)

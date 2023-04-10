@@ -13,15 +13,30 @@ from profile_details_route import get_blacklist_details
 from knn import get_nearest_neighbors
 from knn import get_track_features
 from itertools import chain
+from keras.models import load_model
+import tensorflow as tf
+import pandas as pd
+from autoencoder import Autoencoder
+import os
 
 
 @app.route("/Music", methods=["GET"])
 def get_song_recommendations():
     track = request.args.get("query")
     user_email = request.args.get("user_email")
-    features = request.args.get("features")
-    # Get features of input track
-    # input_features = get_features(track)
+    features = {
+        "danceability": request.args.get("danceability"),
+        "energy": request.args.get("energy"),
+        "key": request.args.get("key"),
+        "loudness": request.args.get("loudness"),
+        "mode": request.args.get("mode"),
+        "speechiness": request.args.get("speechiness"),
+        "acousticness": request.args.get("acousticness"),
+        "instrumentalness": request.args.get("instrumentalness"),
+        "liveness": request.args.get("liveness"),
+        "valence": request.args.get("valence"),
+        "tempo": request.args.get("tempo"),
+    }
     # Get song recommendations
     recommendations = get_recommendations(track, features)
     # Filter by blacklist
@@ -32,7 +47,6 @@ def get_song_recommendations():
     target_features = [
         "danceability",
         "energy",
-        "key",
         "loudness",
         "mode",
         "speechiness",
@@ -41,15 +55,17 @@ def get_song_recommendations():
         "liveness",
         "valence",
         "tempo",
+        "key",
     ]
 
     input_features = get_track_features(track)
     # print(input_features, type(input_features), type(filtered_recommendations[0]))
     for recommendation in filtered_recommendations:
-        for feature in target_features:
+        for index, feature in enumerate(target_features):
             recommendation[feature] = gaussian(
                 recommendation.get(feature), input_features.get(feature)
             )
+    print(filtered_recommendations)
     normalized_recomendations = [x.to_dict() for x in filtered_recommendations]
     return json.dumps(
         list(
@@ -120,9 +136,28 @@ def gaussian(x, y, sigma=1):
     return math.exp(exponent)
 
 
-def get_recommendations(track, features):
-    # find nearest neighbors based on track
-    recommendations = get_nearest_neighbors(track, k=15)
+def get_recommendations(track, user_features):
+    # get the features of the track
+    track_features = get_track_features(track)
+    # update the feature weights based on the user_features
+    for feature in user_features:
+        if user_features[feature] != None:
+            track_features[feature] = track_features[feature] * user_features[feature]
+    # normalize the numerical feature values of the track
+    target_vals = tf.keras.utils.normalize(list(track_features.values())[6:])
+    # pass features into machine learning model
+    model = Autoencoder()
+    model.built = True
+    model.load_weights("model_weights/.index")
+    preds = model.encoder(target_vals).numpy()
+    # pred = model.predict(np.asarray(train_input_sequences, dtype='int'))
+    # find nearest neighbors based on track_features
+    combined_values = {}
+    for index,value in enumerate(preds[0]):
+        combined_values[str(index)] = value
+    for feature in track_features:
+        combined_values[feature] = track_features[feature]
+    recommendations = get_nearest_neighbors(combined_values, k=15)
     return recommendations
 
 
