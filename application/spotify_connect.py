@@ -60,7 +60,7 @@ def export_to_spotify():
     sp = spotipy.Spotify(auth=access_token)
 
     # Get the tracks to be exported from the request
-    track_uris = request.form.getlist('track_uris[]')
+    track_uris = request.args.get("track_id")
 
     # Create a new playlist for the user
     playlist_name = "Exported from TuneTwin"
