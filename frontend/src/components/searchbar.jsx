@@ -1,5 +1,6 @@
 import '../style/searchbar.css';
 import { useEffect, useState, useRef } from "react";
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
@@ -59,7 +60,7 @@ function Searchbar(props) {
     const trackID = songResults[0].trackID;
     const searchTerm = encodeURIComponent(query);
     const trackIdParam = encodeURIComponent(trackID);
-    window.location.href = `/reccs?searchTerm=${searchTerm}&trackId=${trackIdParam}`;
+    <Link to={`/reccs?searchTerm=${searchTerm}&trackId=${trackIdParam}`} />
   };
 
   return (
@@ -77,19 +78,12 @@ function Searchbar(props) {
       {songResults.length > 0 && searchString.length > 0 && (
         <div className="recc-item" style={{ userSelect: "none" }}>
           {songResults.map((song, index) => (
-            <div
+            <Link
               key={`${song.song}-${index}`}
-              className="individual-items"
-              onClick={() => {
-                const searchTerm = encodeURIComponent(song.song);
-                const trackID = song.trackID;
-                const trackIdParam = encodeURIComponent(trackID);
-                window.location.href = `/reccs?searchTerm=${searchTerm}&trackId=${trackIdParam}`;
-              }}
-              style={{ cursor: "pointer" }}
+              to={`/reccs?searchTerm=${encodeURIComponent(song.song)}&trackId=${encodeURIComponent(song.trackID)}`}
             >
-              <div>({song.year}) {song.song} - {song.artist}</div>
-            </div>
+              <div className="individual-items">({song.year}) {song.song} - {song.artist}</div>
+            </Link>
           ))}
         </div>
       )}
