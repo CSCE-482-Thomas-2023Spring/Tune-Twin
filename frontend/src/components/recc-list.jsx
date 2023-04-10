@@ -6,6 +6,7 @@ import AudioPlayer from './audioplayer.jsx';
 import ProgressBar from './progress-bar'
 
 function ReccList(props) {
+  // Initializing state variables with useState hook
   const [recommendations, setRecommendations] = useState([]);
   const [currentAudioPlayer, setCurrentAudioPlayer] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +15,7 @@ function ReccList(props) {
 
   const location = useLocation();
 
+  // Defining an effect hook that triggers when the search spotify id changes
   useEffect(() => {
 
     // Fetch url
@@ -59,8 +61,11 @@ function ReccList(props) {
     fetchRecommendations();
   }, [props.spotifyId, location]);
 
+  // Defining a function to handle audio playback
   const handleAudioPlay = (key) => {
+    // If the current audio player is the same as the clicked element
     if (currentAudioPlayer === key) {
+      // Pause or play the audio depending on its current state
       const audio = document.getElementById(key);
       if (audio.paused) {
         audio.play();
@@ -68,12 +73,17 @@ function ReccList(props) {
         audio.pause();
       }
     } else {
+
+      // If a different audio player is currently playing
+      // Pause the previous audio player and update its corresponding button text
       const prevAudioPlayer = document.getElementById(currentAudioPlayer);
       if (prevAudioPlayer) {
         prevAudioPlayer.pause();
         const prevAudioButton = document.getElementById(`${currentAudioPlayer}-button`);
         if (prevAudioButton) prevAudioButton.innerHTML = "Play";
       }
+
+      // Play the clicked audio player and update the current audio player state
       const audio = document.getElementById(key);
       audio.play();
       setCurrentAudioPlayer(key);
@@ -81,6 +91,8 @@ function ReccList(props) {
   }
 
   useEffect(() => {
+
+    // Set an interval to update the dots state variable every 500 milliseconds
     const intervalId = setInterval(() => {
       setDots((prevDots) => {
         if (prevDots.length >= 3) {
@@ -90,15 +102,50 @@ function ReccList(props) {
         }
       });
     }, 500);
+
+    // Return a cleanup function to clear the interval
     return () => clearInterval(intervalId);
   }, []);
 
+  // Defining a function to remove an item from the recommendations state
   const handleRemoveItem = (id) => {
     const updatedRecommendations = recommendations.filter((item) => item.id !== id);
     setRecommendations(updatedRecommendations);
   };
 
+  // Defining a function to add an item to the user's blacklist
+  const addToBlacklist = async (type, content) => {
+
+    const request = {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }
+
+    if (type === "song") {
+      request.body = JSON.stringify({
+        email: props.userId,
+        blacklist_songs_to_add: content
+      });
+    } else {
+      request.body = JSON.stringify({
+        email: props.userId,
+        blacklist_artists_to_add: content
+      });
+    }
+
+    const response = await fetch(`http://localhost:8000/Profile/UpdateDetails`, request);
+
+    if (response.status != 200) {
+      console.log("blacklist add FAILED, ERROR " + response.status);
+    }
+  }
+
+  // Defining a function to render the recommendations list
   function renderRecommendations(recommendations) {
+    // Map each recommendation to a div element containing its information
     return recommendations.map((element) => (
       <div
         key={element.id}
@@ -141,7 +188,7 @@ function ReccList(props) {
             style={{ height: '2rem' }}
             onClick={(e) => {
               e.stopPropagation();
-              window.location.href = "https://www.google.com";
+              addToBlacklist("song", [element.id]);
             }}
           >
             Block Song
@@ -150,7 +197,7 @@ function ReccList(props) {
             className="block-button"
             onClick={(e) => {
               e.stopPropagation();
-              window.location.href = "https://www.google.com";
+              addToBlacklist("artist", [element.artist_id]);
             }}
           >
             Block Artist
@@ -175,7 +222,7 @@ function ReccList(props) {
               <span style={{ alignSelf: "center" }}>Danceability:</span>
               <ProgressBar
                 bgcolor="#3BBA9C"
-                progress={element.danceability * 100}
+                progress={Math.round(element.danceability * 100)}
                 height={20}
                 style={{ alignSelf: "center" }}
               />
@@ -184,7 +231,7 @@ function ReccList(props) {
               <span style={{ alignSelf: "center" }}>Energy:</span>
               <ProgressBar
                 bgcolor="#3BBA9C"
-                progress={element.energy * 100}
+                progress={Math.round(element.energy * 100)}
                 height={20}
                 style={{ alignSelf: "center" }}
               />
@@ -193,7 +240,7 @@ function ReccList(props) {
               <span style={{ alignSelf: "center" }}>Key:</span>
               <ProgressBar
                 bgcolor="#3BBA9C"
-                progress={Math.round(element.songKey * 100)} // Use the renamed song property
+                progress={Math.round(element.songKey * 100)}
                 height={20}
                 style={{ alignSelf: "center" }}
               />
@@ -202,7 +249,7 @@ function ReccList(props) {
               <span style={{ alignSelf: "center" }}>Liveness:</span>
               <ProgressBar
                 bgcolor="#3BBA9C"
-                progress={element.liveness * 100}
+                progress={Math.round(element.energy * 100)}
                 height={20}
                 style={{ alignSelf: "center" }}
               />
