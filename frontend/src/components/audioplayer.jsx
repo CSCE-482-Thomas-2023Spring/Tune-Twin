@@ -43,7 +43,7 @@ function AudioPlayer({ audioSrc, imageSrc, id, handlePlay }) {
       <audio id={id} src={audioSrc} ref={audioRef} onEnded={handleEnded} />
       <img src={imageSrc} alt="album" />
       {audioSrc ? (
-        <button className="play-pause" onClick={() => handlePlay(id)}>
+        <button className="play-pause" onClick={() => handlePlay(id)} style={{ margin: 0 }}>
           {isPlaying ? (
             <FontAwesomeIcon icon={faPause} />
           ) : (

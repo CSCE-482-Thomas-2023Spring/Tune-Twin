@@ -1,123 +1,227 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;700&display=swap");
 
 html {
-    overflow-y: scroll;
-    overflow-x: scroll;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
 .AutoComplete {
-    background-color: none;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    padding: 0.2rem 0.2rem 0.2rem 0.2rem;
-    z-index: 0;
-    width: 50rem;
+  width: 50rem;
+  height: 100%;
+  padding: 0.2rem;
+  margin: 0;
+  background-color: transparent;
+  z-index: 0;
 }
 
 .ItemContainer {
-    position: relative;
-    display: flex;
-    background-color: white;
-    transition: transform 0.1s ease-in-out;
-    padding: 0rem;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    align-items: flex-end;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  background-color: white;
+  position: relative;
+  transition: transform 0.1s ease-in-out;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 .ItemContainer:first-of-type {
-    border-top-left-radius: 0.1rem;
-    border-top-right-radius: 0.1rem;
+  border-top-left-radius: 0.1rem;
+  border-top-right-radius: 0.1rem;
 }
 
 .ItemContainer:last-of-type {
-    border-bottom-left-radius: 0.1rem;
-    border-bottom-right-radius: 0.1rem;
+  border-bottom-left-radius: 0.1rem;
+  border-bottom-right-radius: 0.1rem;
 }
 
 .ItemContainer * {
-    margin: 0.3rem;
+  margin: 0.3rem;
 }
 
-
-.ItemContainer button {
-    margin: 0;
-  }
-
-  .ItemContainer:hover {
-    background-color: #3BBA9C;
-    transform: scale(1.05);
-    z-index: 1;
+.ItemContainer:hover {
+  background-color: #3BBA9C;
+  transform: scale(1.02);
+  z-index: 1;
 }
 
 .ImageContainer {
-    background-color: none;
-    width: 5rem;
-    height: 5rem;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+  background-color: transparent;
+  overflow: hidden;
+}
 
 .ImageContainer img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
+  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .SongInfo {
-    align-self: flex-end;
-    overflow: hidden;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 400;
-    flex-direction: column;
-    justify-content: center;
-    text-align: left;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  align-self: flex-end;
+  overflow: hidden;
 }
 
 .SongInfo hr {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 .song-title {
-    font-size: 1.5rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: 40rem; /* Or any other fixed value that works for you */
-  }
+  width: 33rem;
+  font-size: 1.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
 .artist-name {
-    font-size: 1rem;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    position: relative;
-    z-index: 1;
+  position: relative;
+  z-index: 1;
+  font-size: 1rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .loader {
-    font-size: 1.5rem;
-    color: #2E3047;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 600;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2E3047;
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .Tooltip {
+  position: absolute;
+  margin: 0;
+  left: 100%;
+  top: 50%;
+  transform: translate(0, -50%);
+  font-size: 80%;
+  background-color: #333;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.block-button,
+.x-button,
+.plus-button {
+  position: relative;
+  margin: 0.5rem 0;
+  padding: 5px 5px;
+  border: 2px solid black;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 60%;
+  font-weight: bold;
+  color: #FFFFFF;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.block-button {
+    background-color: #c11d64;
+    font-size: 60%;
+    font-weight: bold;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    outline: none;
+    padding: 5px 5px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    margin: 0.5rem 0;
+    border: 2px solid black;
+}
+
+.block-button:hover,
+.block-button:focus {
+    background-color: #F082AC;
+}
+
+.x-button {
+    background-color: #c81d1d;
+    font-size: 60%;
+    font-weight: bold;
+    border-radius: 50%;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    outline: none;
+    padding: 5px 5px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    margin: 0.5rem 0;
+    border: 2px solid black;
+}
+
+.x-button:hover,
+.x-button:focus {
+    background-color: #F082AC;
+}
+
+.plus-button {
+    background-color: #1ea10c;
+    font-size: 150%;
+    padding: 0;
+    font-weight: bold;
+    border-radius: 50%;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    outline: none;
+    width: 3rem;
+    height: 3rem;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    margin: 0.5rem 0;
+    border: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button:hover::before {
+    content: "This is some text!";
     position: absolute;
-    font-size: 80%;
-    margin: 0;
-    left: 100%;
-    top: 50%;
-    transform: translate(0, -50%);
+    top: 100%;
+    left: 0;
     background-color: #333;
     color: #fff;
-    border-radius: 5px;
     padding: 5px;
+    border-radius: 5px;
+  }
+
+.plus-button:hover,
+.plus-button:focus {
+    background-color: #28ca66;
 }

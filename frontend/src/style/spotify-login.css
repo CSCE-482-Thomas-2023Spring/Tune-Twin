@@ -1,0 +1,81 @@
+.spotify-connected {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: .5rem;
+}
+
+.connected {
+    margin-left: 1rem;
+    font-size: 1.45rem;
+    color: #3BBA9C;
+}
+
+.spotify-login-body {
+    display: flex;
+    margin: 1rem auto;
+    width: 25%;
+}
+
+.connect-button {
+    margin-left: 1rem;
+    text-decoration: none;
+    border: none;
+    font-size: 1.15rem;
+    background-color: #3BBA9C;
+    color: #f5f5f5;
+    border-radius: .4rem;
+    box-shadow: 0 0 .4rem #707793;
+    cursor: pointer;
+    padding: .5rem;
+}
+
+.spotify-login-input-body {
+    margin: 1rem 0;
+}
+
+.spotify-acc-input {
+    display: flex;
+    margin: 1rem 0;
+    justify-content: space-around;
+}
+
+.spotify-acc-input-element {
+    width: 40%;
+}
+
+.spotify-button-wrapper {
+    text-align: center;
+}
+
+.spotify-acc-login-button {
+    margin-left: 1rem;
+    text-decoration: none;
+    border: none;
+    font-size: 1.15rem;
+    background-color: #3BBA9C;
+    color: #f5f5f5;
+    border-radius: .4rem;
+    box-shadow: 0 0 .4rem #707793;
+    cursor: pointer;
+    padding: .5rem;
+}
+
+.spotify-login-cancel {
+    margin-left: 1rem;
+    text-decoration: none;
+    border: none;
+    font-size: 1.15rem;
+    background-color: #CB6E63;
+    color: #f5f5f5;
+    border-radius: .4rem;
+    box-shadow: 0 0 .4rem #707793;
+    cursor: pointer;
+    padding: .5rem;
+}
+
+.spotify-login-error {
+    font-size: 1.25rem;
+    color: #CB6E63;
+    margin-bottom: 1rem;
+}
