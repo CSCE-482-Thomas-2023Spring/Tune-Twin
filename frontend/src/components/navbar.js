@@ -21,7 +21,7 @@ class NavBar extends Component {
             credentials: 'include'
         }
         const response = await fetch(`http://localhost:8000/Account/Logout`, request);
-        if(response.status === 200) {
+        if (response.status === 200) {
             this.props.updateFunc("-1");
             this.setState({ userId: "-1" });
         } else {
@@ -30,7 +30,7 @@ class NavBar extends Component {
     }
 
     render() {
-        if(this.props.userId === "-1") {
+        if (this.props.userId === "-1") {
             return (
                 <nav className="Nav-Bar">
                     <h1>
@@ -75,8 +75,8 @@ class NavBar extends Component {
                 </nav>
             );
         }
-        
+
     }
 }
-  
+
 export default NavBar;

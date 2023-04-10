@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #2d3047;
+      }
+
+      .cls-3 {
+        fill: #2fb89a;
+      }
+
+      .cls-4 {
+        fill: none;
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: 31px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_3" data-name="Layer 3">
+    <path class="cls-2" d="m179.03,171.48l-89-52.49,12.96,209.01h.01c5.98,93.94,87.47,168.91,188.6,172.7V133.13c-42.33,1.59-81.21,15.65-112.57,38.35Z"/>
+    <path class="cls-3" d="m420.72,171.48l89-52.49-12.96,209.01h-.01c-5.98,93.94-87.47,168.91-188.6,172.7V133.13c42.33,1.59,81.21,15.65,112.57,38.35Z"/>
+  </g>
+  <g id="Eyes">
+    <rect class="cls-1" x="343.01" y="291.01" width="106.94" height="35.92"/>
+    <rect class="cls-1" x="148.89" y="291.01" width="106.94" height="35.92"/>
+    <line class="cls-4" x1="395.99" y1="320.44" x2="395.99" y2="379.8"/>
+    <line class="cls-4" x1="202.35" y1="320.44" x2="202.35" y2="379.8"/>
+  </g>
+</svg>

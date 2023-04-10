@@ -109,6 +109,7 @@ def format_data(track, feature_info):
             "track name": track_data.get("name"),
             "track id": track_data.get("id"),
             "artist name": track_data.get("artists")[0].get("name"),
+            "artist id": track_data.get("artists")[0].get("id"),
             "sample": track_data.get("preview_url"),
             "genres": track_data.get("album").get("genres"),
             "track_token": track,
