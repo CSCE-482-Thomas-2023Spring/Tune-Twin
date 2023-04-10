@@ -26,7 +26,12 @@ def get_user_info():
             "blacklist_songs": [],
             "blacklist_genres": [],
             "feature_lists": [],
+            "spotify_linked": False
         }
+
+        spotifyToken = user.get("spotify_token")
+        if spotifyToken != None:
+            user_info["spotify_linked"] = True
 
         # If the user has a blacklist, add the artists and songs to the user_info dictionary
         id = user.get("blacklist_id")
