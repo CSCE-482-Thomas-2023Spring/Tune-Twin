@@ -7,6 +7,7 @@ import FeatureList from './feature-list.js';
 import BlackList from './black-list.js';
 import Login from './login.js';
 import Signup from './signup.js';
+import SpotifyLogin from './spotify-login.js';
 
 export {
     NavBar,
@@ -17,5 +18,6 @@ export {
     FeatureList,
     BlackList,
     Login,
-    Signup
+    Signup,
+    SpotifyLogin
 };

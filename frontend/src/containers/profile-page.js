@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ProfileDetails, FeatureList, BlackList } from '../components/index.js';
+import { ProfileDetails, FeatureList, BlackList, SpotifyLogin } from '../components/index.js';
 import { Navigate } from 'react-router-dom';
 import '../style/navbar.css';
 
@@ -69,6 +69,7 @@ class ProfilePage extends Component {
                 Object.keys(this.state.profileData).length > 0 &&
                 <div className="profile-body">
                     <h2>Profile</h2>
+                    <SpotifyLogin accLinked={this.state.profileData.spotify_linked}/>
                     <ProfileDetails profileData={this.state.profileData} updateId={this.props.updateFunc}/>
                     <h3>Saved Filters</h3>
                     {
