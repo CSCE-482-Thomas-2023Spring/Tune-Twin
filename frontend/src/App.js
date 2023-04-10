@@ -12,6 +12,7 @@ import RecPage from './containers/recc-page.js';
 
 export default function App() {
   const [userId, setUserId] = useState("-1");
+  const [spotifyId, setSpotifyId] = useState("-1");
 
   useEffect(() => {
     const index = document.cookie.search("user=");
