@@ -106,8 +106,7 @@ def get_nearest_neighbors(track, k, use_cache=False):
         ]
         scaler = MinMaxScaler()
         # All feature data for a track will be between columns 6 - end of the dataframe (this includes things like acousticness, danceability, etc)
-        track_df_scaled = pd.DataFrame(
-            scaler.fit_transform(track_df[
+        track_df_scaled = pd.DataFrame(track_df[
                 [
                     "0",
                     "1",
@@ -127,7 +126,7 @@ def get_nearest_neighbors(track, k, use_cache=False):
                     "15"
                 ]
             ]
-        ))
+        )
         track_df_scaled = np.nan_to_num(track_df_scaled, nan=0)
         # Build k-d tree
         tree = KDTree(track_df_scaled)
@@ -141,16 +140,16 @@ def get_nearest_neighbors(track, k, use_cache=False):
     # for feature in target_features:
     #     simplified_features.append(track_features[feature])
     # point = np.array([list(simplified_features.values())])
-    print(track)
     point = []
     for i in range(0, 16):
         point.append(track[str(i)])
-    print([point])
     # print(len(track_df[0]))
+    print(point)
     _, indices = tree.query([point], k)
     nearest_neighbors = []
     for i in indices[0]:
         nearest_neighbors.append(track_df.iloc[i])
+    print(nearest_neighbors[0])
     # returns a list of data frame series object
     return nearest_neighbors
 

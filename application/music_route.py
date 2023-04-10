@@ -65,7 +65,6 @@ def get_song_recommendations():
             recommendation[feature] = gaussian(
                 recommendation.get(feature), input_features.get(feature)
             )
-    print(filtered_recommendations)
     normalized_recomendations = [x.to_dict() for x in filtered_recommendations]
     return json.dumps(
         list(
@@ -103,7 +102,6 @@ def format_data(track, feature_info):
     URL = f"https://api.spotify.com/v1/tracks/{track}"
     data = requests.get(url=URL, headers=header).json()
     track_data = defaultdict(str, data)
-    print(track_data)
     return [
         {
             "album name": track_data.get("album").get("name"),
