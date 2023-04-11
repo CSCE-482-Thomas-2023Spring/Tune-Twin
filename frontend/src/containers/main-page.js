@@ -5,32 +5,36 @@ import { setFilter, clearFilters } from '../redux/actions/filterActions';
 
 class MainPage extends Component {
     state = {
-        filtersPresent: false
+        filtersPresent: false,
+        filterButton: "Advanced Filters"
     };
 
     filtersPopUp = () => {
-        this.setState({ filtersPresent: !this.state.filtersPresent });
+        const newButtonText = this.state.filterButton === "Advanced Filters" ? "Collapse Filters" : "Advanced Filters";
+        this.setState({
+            filtersPresent: !this.state.filtersPresent,
+            filterButton: newButtonText
+        });
     }
 
     render() {
         return (
             <div className="page-wrapper">
                 <Description />
-                <div className="col">
+                <div className="search-card">
+                    <h2>Song Search</h2>
                     <Searchbar />
+                    <button className="filters-button" onClick={this.filtersPopUp}>{this.state.filterButton}</button>
+                    {
+                        this.state.filtersPresent && (
+                            <SearchFilters
+                                filters={this.props.filters}
+                                setFilter={this.props.setFilter}
+                                clearFilters={this.props.clearFilters}
+                            />
+                        )
+                    }
                 </div>
-                <div className="col">
-                    <button className="filters-button" onClick={this.filtersPopUp}>Advanced Filters</button>
-                </div>
-                {
-                    this.state.filtersPresent && (
-                        <SearchFilters
-                            filters={this.props.filters}
-                            setFilter={this.props.setFilter}
-                            clearFilters={this.props.clearFilters}
-                        />
-                    )
-                }
             </div>
         );
     }

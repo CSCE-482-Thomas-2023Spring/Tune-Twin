@@ -69,7 +69,7 @@ function Searchbar(props) {
         <input className="search-txt"
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
-          placeholder="Type to Search"
+          placeholder="Type Song to Search"
         />
         <button className="search-button" onClick={handleSearch}>
           <FontAwesomeIcon icon={solid('magnifying-glass')} />

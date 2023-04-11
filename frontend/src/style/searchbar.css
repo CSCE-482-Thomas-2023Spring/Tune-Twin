@@ -5,16 +5,14 @@ a {
 
 .search-bar{
     background: #3C3F58;
-    height: 40px;
     border-radius: 40px;
     padding: 10px; 
-    margin: 20px;
-    position: relative;
+    margin: .5rem auto;
     z-index: 2;
 }
 
 .search-button{
-    color: #ffffff;
+    color: #f5f5f5;
     float: right;
     width: 40px;
     height: 40px;
@@ -33,7 +31,7 @@ a {
     outline: none;
     float: left;
     padding: 0;
-    color: #707793;
+    color: #f5f5f5;
     font-size: 16px;
     transition: 0.4s;
     line-height: 40px;
@@ -47,7 +45,7 @@ a {
 }
 
 .search-txt::placeholder {
-    color: #585c6d;
+    color: #f5f5f5;
 }
 
 .recc-item,
@@ -71,7 +69,8 @@ filter: drop-shadow(0.10em 0.10em 0.1em rgba(0, 0, 0, 0.5));
 .individual-items{
     cursor: pointer;
     padding: 5px;
-    color: #707793;
+    background-color: #707793;
+    color: #f5f5f5;
     border: none;
     outline: none;
     user-select: none;
@@ -82,4 +81,42 @@ filter: drop-shadow(0.10em 0.10em 0.1em rgba(0, 0, 0, 0.5));
     border: none;
     outline: none;
 }
-  
+
+.search-card {
+    font-size: 1.25rem;
+    border: 2px #2E3047 solid;
+    margin: 1rem 0;
+    width: 30%;
+    padding: 1rem;
+    background-color: #E2E4ED;
+    color: #2E3047;
+    box-shadow: 0 0 1rem #43455C, 0 0 .1rem #3BBA9C inset;
+    border-radius: .5rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.search-card > .search-bar {
+    align-items: center;
+}
+
+.search-card > h2 {
+    text-align: left;
+}
+
+.about-link {
+    color: #3BBA9C;
+}
+
+@media screen and (max-width: 1200px) {
+    .search-card {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .search-card {
+        width: 80%;
+        font-size: 1rem;
+    }
+}
