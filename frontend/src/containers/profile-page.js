@@ -69,16 +69,16 @@ class ProfilePage extends Component {
                 Object.keys(this.state.profileData).length > 0 &&
                 <div className="profile-body">
                     <h2>Profile</h2>
-                    <SpotifyLogin accLinked={this.state.profileData.spotify_linked}/>
+                    {/* <SpotifyLogin accLinked={this.state.profileData.spotify_linked}/> */}
                     <ProfileDetails profileData={this.state.profileData} updateId={this.props.updateFunc}/>
-                    <h3>Saved Filters</h3>
+                    {/* <h3>Saved Filters</h3>
                     {
                         this.state.expandFL ?
                         <FeatureList toggle={this.toggleFeatureList} fList={this.state.profileData.feature_lists}/> :
                         <div className="button-wrapper">
                             <button className="expand-button" onClick={this.toggleFeatureList}>Expand Saved Filters</button>
                         </div>
-                    }
+                    } */}
                     <h3>Blacklist</h3>
                     {
                         this.state.expandBL ?

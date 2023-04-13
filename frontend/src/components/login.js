@@ -59,7 +59,7 @@ class Login extends Component {
                     <div className="login-error">Login failed. An account could not be found with these login credentials.</div>
                 }
                 <button className="login-button" onClick={this.accountLogin}>Login</button><br></br>
-                <Link to="/signup">I don't have an account!</Link>
+                <Link className="login-to-signup" to="/signup">I don't have an account!</Link>
             </div>
         );
     }

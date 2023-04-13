@@ -194,6 +194,11 @@
     margin-bottom: 1rem;
 }
 
+.login-to-signup {
+    color: #3BBA9C;
+    text-decoration: underline;
+}
+
 @media screen and (max-width: 1200px) {
     .login-body {
         width: 60%;

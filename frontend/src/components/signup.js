@@ -70,7 +70,7 @@ class Signup extends Component {
                     <div className="login-error">Account signup failed. One or more of the account fields are invalid!</div>
                 }
                 <button className="login-button" onClick={this.accountSignup}>Sign up</button><br></br>
-                <Link to="/login">I already have a TuneTwin account!</Link>
+                <Link className="login-to-signup" to="/login">I already have a TuneTwin account!</Link>
             </div>
         );
     }

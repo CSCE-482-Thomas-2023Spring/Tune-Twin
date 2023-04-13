@@ -36,6 +36,7 @@ a {
     transition: 0.4s;
     line-height: 40px;
     width: 28rem;
+	z-index: 3;
 }
 
 .wrapper {
@@ -57,7 +58,7 @@ a {
     background:#e1e1e1;
     border: none;
     position: absolute;
-    z-index: 1;
+    z-index: 3;
 }
 
 .drop-shadow{
@@ -74,6 +75,7 @@ filter: drop-shadow(0.10em 0.10em 0.1em rgba(0, 0, 0, 0.5));
     border: none;
     outline: none;
     user-select: none;
+    z-index: 4;
 }
 
 .individual-items:hover {
