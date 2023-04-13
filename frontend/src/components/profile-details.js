@@ -8,7 +8,8 @@ class ProfileInfo extends Component {
             email: props.email,
             password: props.password,
             firstName: props.firstName,
-            lastName: props.lastName
+            lastName: props.lastName,
+            updating: false
         };
     }
 
@@ -53,17 +54,34 @@ class ProfileInfo extends Component {
         }
     }
 
+    changeUpdating = () => {
+        this.setState({ updating: !this.state.updating });
+    }
+
     render() {
         let title = this.props.firstName ? "First Name" : this.props.lastName ? "Last Name" : this.props.email ? "Email" : "Password";
         let value = this.props.firstName ? this.props.firstName : this.props.lastName ? this.props.lastName : this.props.email ? this.props.email : this.props.password;
 
-        return(
-            <div className="profile-info">
-                <h4>{title}: </h4>
-                <input defaultValue={value} onChange={evt => this.updateValue(evt)}></input>
-                <button onClick={this.editInfo}>Edit</button>
-            </div>
-        );
+        if(this.state.updating) {
+            return (
+                <div className="profile-info">
+                    <h4>{title}: </h4>
+                    <input defaultValue={value} onChange={evt => this.updateValue(evt)}></input>
+                    <div>
+                        <button className="edit-profile-info-button" onClick={this.editInfo}>Submit Edits</button>
+                        <button className="edit-profile-info-cancel" onClick={this.changeUpdating}>Cancel</button>
+                    </div>
+                </div>
+            );
+        } else {
+            return(
+                <div className="profile-info">
+                    <h4>{title}: </h4>
+                    <p>{value}</p>
+                    <button className="profile-info-button" onClick={this.changeUpdating}>Edit</button>
+                </div>
+            );
+        }
     }
 };
 
