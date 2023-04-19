@@ -51,15 +51,14 @@ def get_token():
             # If the response status code is not 200, then there was an error retrieving the OAuth access token
             print(f'Error retrieving OAuth access token. Status code: {response.status_code} ')
 
-def get_artist_data(artist_ids):
+def get_artist_data(artist_id):
     results = []
-    for artist_id in artist_ids:
-        # get the picture and name of artist
-        header = {'Authorization': "Bearer " + get_token()}
-        URL = f'https://api.spotify.com/v1/artists/{artist_id}'
-        artist = requests.get(url = URL, headers=header).json()
-        # get package the artist id, name, and first image
-        results.append([artist_id, artist.get("name"), artist.get("images")[0].get("url")])
+    header = {'Authorization': "Bearer " + get_token()}
+    print(artist_id)
+    URL = f'https://api.spotify.com/v1/artists/{artist_id}'
+    artist = requests.get(url = URL, headers=header).json()
+    # get package the artist id, name, and first image
+    results.append([artist_id, artist.get("name"), artist.get("images")[0].get("url")])
     return results
 
 def get_song_data(tracks):

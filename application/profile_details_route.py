@@ -91,6 +91,7 @@ def update_user_info():
         user_collection.update_one({"email": user_email}, {"$set": {"last_name": last_name}})
     # Update the user's blacklist if any additions or removals are provided in the request JSON
     blacklist_artists_to_add = request.json.get("blacklist_artists_to_add") # This must contain artist ids
+    print(blacklist_artists_to_add)
     blacklist_songs_to_add = request.json.get("blacklist_songs_to_add") # This must contain song ids
     blacklist_artists_to_remove = request.json.get("blacklist_artists_to_remove") # This must contain artist ids
     blacklist_songs_to_remove = request.json.get("blacklist_songs_to_remove") # This must contain song ids

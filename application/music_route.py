@@ -19,7 +19,6 @@ from itertools import chain
 def get_song_recommendations():
     track = request.args.get("query")
     user_email = request.args.get("user_email")
-    print("EMAILLLLL: ", user_email, "TRACK: ", track)
     features = request.args.get("features")
     # Get features of input track
     # input_features = get_features(track)
@@ -62,7 +61,7 @@ def get_song_recommendations():
 
 
 def filter_recommendations(recommendations, user_email):
-    if user_email == None:
+    if user_email == "-1":
         return recommendations
     # query for blacklist
     user_blacklist = get_blacklist_details(user_email)
@@ -96,7 +95,6 @@ def format_data(track, feature_info):
     URL = f"https://api.spotify.com/v1/tracks/{track}"
     data = requests.get(url=URL, headers=header).json()
     track_data = defaultdict(str, data)
-    print(track_data)
     return [
         {
             "album name": track_data.get("album").get("name"),
@@ -104,6 +102,7 @@ def format_data(track, feature_info):
             "track name": track_data.get("name"),
             "track id": track_data.get("id"),
             "artist name": track_data.get("artists")[0].get("name"),
+            "artist_id" : str(track_data.get("artists")[0].get("id")),
             "sample": track_data.get("preview_url"),
             "genres": track_data.get("album").get("genres"),
             "track_token": track,
@@ -132,7 +131,7 @@ def gaussian(x, y, sigma=1):
 def get_recommendations(track, features):
     # find nearest neighbors based on track
     print(track)
-    recommendations = get_nearest_neighbors(track, k=3)
+    recommendations = get_nearest_neighbors(track, k=15)
     return recommendations
 
 
