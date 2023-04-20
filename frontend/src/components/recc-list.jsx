@@ -26,8 +26,41 @@ function ReccList(props) {
     async function fetchRecommendations() {
       console.log(props.filters);
       setIsLoading(true);
+      const request = {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      
 
-      const response = await fetch(`http://127.0.0.1:8000/Music?query=${trackId}`);
+      
+      //const response = await fetch(`http://127.0.0.1:8000/Music/`, request);
+      const url = new URL(`http://127.0.0.1:8000/Music`);
+      url.searchParams.append('query', trackId);
+      url.searchParams.append('user_email', props.userId ? props.userId : "none");
+      url.searchParams.append('acousticness', props.filters.acoustics);
+      url.searchParams.append('danceability', props.filters.danceability);
+      url.searchParams.append('energy', props.filters.energy);
+      url.searchParams.append('key', props.filters.keys);
+      url.searchParams.append('liveness', props.filters.liveness);
+      url.searchParams.append('loudness', props.filters.loudness);
+      url.searchParams.append('mode', props.filters.mode);
+      url.searchParams.append('tempo', props.filters.tempo);
+      url.searchParams.append('valence', props.filters.valence);
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          // process response data
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
+
+      const response = await fetch(url);
       const data = await response.json();
       // Define an async function to fetch recommendations data from a backend API
       const merged_list = data.reduce((acc, item, index) => {
@@ -133,6 +166,7 @@ function ReccList(props) {
       request.body = JSON.stringify({
         email: props.userId,
         blacklist_artists_to_add: content
+        
       });
     }
 
