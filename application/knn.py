@@ -45,7 +45,7 @@ def get_track_features(track_id):
     return features
 
 
-def get_nearest_neighbors(track_id, k, use_cache=False):
+def get_nearest_neighbors(track_id, features, k, use_cache=True):
     cache_file = "kdtree_cache.pkl"
     if use_cache and os.path.isfile(cache_file):
         # Load k-d tree from cache
@@ -82,7 +82,10 @@ def get_nearest_neighbors(track_id, k, use_cache=False):
         with open("dataframe.pickle", "wb") as f:
             pickle.dump(track_df, f)
     # Find nearest neighbors
-    point = np.array([list(get_track_features(track_id).values())[6:]])
+    track_features = get_track_features(track_id)
+    for feature in features:
+        track_features[feature] *= features[feature]
+    point = np.array([list(track_features.values())[6:]])
     _, indices = tree.query(point, k)
     nearest_neighbors = []
     for i in indices[0]:
@@ -90,7 +93,3 @@ def get_nearest_neighbors(track_id, k, use_cache=False):
     # returns a list of data frame series object
     return nearest_neighbors
 
-# input_track_id = "1p80LdxRV74UKvL8gnD7ky"
-# nearest_neighbors = get_nearest_neighbors(input_track_id, k=20)
-# for val in nearest_neighbors:
-#     print(val.get('artist_ids'))

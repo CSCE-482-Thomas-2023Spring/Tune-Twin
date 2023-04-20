@@ -19,15 +19,63 @@ from itertools import chain
 def get_song_recommendations():
     track = request.args.get("query")
     user_email = request.args.get("user_email")
-    features = request.args.get("features")
-    # Get features of input track
-    # input_features = get_features(track)
+
+    # get feature values
+    acousticness_str = request.args.get("acousticness")
+    danceability_str = request.args.get("danceability")
+    energy = request.args.get("energy")
+    liveness = request.args.get("liveness")
+    loudness = request.args.get("loudness")
+    mode = request.args.get("mode")
+    tempo = request.args.get("tempo")
+    valence = request.args.get("valence")
+
+    # Map feature values
+    acousticness_map = {
+        "N/A": 1,
+        "not acoustic": 0,
+        "slightly acoustic": 0.5,
+        "acoustic": 4,
+    }
+    danceability_map = {"N/A": 1, "low": 0.25, "moderate": 1, "high": 4}
+    energy_map = {"N/A": 1, "low": 0.25, "moderate": 1, "high": 4}
+    liveness_map = {"N/A": 1, "live": 2, "not live": 0.5}
+    loudness_map = {"N/A": 1, "quiet": 0.25, "moderate": 1, "loud": 4}
+    mode_map = {"N/A": 1, "minor": 0.25, "major": 4}
+    tempo_map = {"N/A": 1, "slow": 0.25, "moderate": 1, "fast": 4}
+    valence_map = {
+        "N/A": 1,
+        "happy/positive": 4,
+        "neutral": 1,
+        "dark/sad/negative": 0.25,
+    }
+
+    # Get actual values for feature selection
+    acoustic_val = acousticness_map.get(
+        acousticness_str, 1
+    )  # default value is 0 if danceability_str is not a valid key
+    danceability_val = danceability_map.get(danceability_str, 1)
+    energy_val = energy_map.get(energy, 1)
+    liveness_val = liveness_map.get(liveness, 1)
+    loudness_val = loudness_map.get(loudness, 1)
+    mode_val = mode_map.get(mode, 1)
+    tempo_val = tempo_map.get(tempo, 1)
+    valence_val = valence_map.get(valence, 1)
+    features = {
+        "acousticness" : acoustic_val,
+        "danceability" : danceability_val,
+        "energy" : energy_val,
+        "liveness" : liveness_val,
+        "loudness" : loudness_val,
+        "mode" : mode_val, 
+        "tempo" : tempo_val,
+        "valence" : valence_val,
+    }
+
     # Get song recommendations
     recommendations = get_recommendations(track, features)
     # Filter by blacklist
     filtered_recommendations = filter_recommendations(recommendations, user_email)
-    # print('filtered:')
-    # print(filtered_recommendations)
     # # calculate distance between filtered recommendation and given input
     target_features = [
         "danceability",
@@ -65,15 +113,15 @@ def filter_recommendations(recommendations, user_email):
         return recommendations
     # query for blacklist
     user_blacklist = get_blacklist_details(user_email)
-    
+
     # filter songs
     filtered_recommendations = []
     blacklist = []
-    for song in user_blacklist.get('song_list'):
+    for song in user_blacklist.get("song_list"):
         if len(song) > 0:
             blacklist.append(song[0])
     for recommendation in recommendations:
-        if recommendation.get('id') not in blacklist:
+        if recommendation.get("id") not in blacklist:
             filtered_recommendations.append(recommendation)
         # for recommendation in recommendations:
         #     print("SONG: ", song[0], " REC:::", recommendation.get("id"))
@@ -82,10 +130,11 @@ def filter_recommendations(recommendations, user_email):
         #         if song[0] != recommendation.get("id"):
         #             filtered_recommendations.append(recommendation)
     # filter artists
+
     for artist in user_blacklist.get("artists"):
         for recommendation in filtered_recommendations:
-            if len(artist) > 1 and len(recommendation.get("artist_ids")) > 0:
-                if artist[0] == recommendation.get("artist_ids")[0]:
+            if len(artist) > 1 and recommendation.get("artist_ids") != None:
+                if artist[0] == recommendation.get("artist_ids"):
                     filtered_recommendations.remove(recommendation)
     return filtered_recommendations
 
@@ -102,7 +151,7 @@ def format_data(track, feature_info):
             "track name": track_data.get("name"),
             "track id": track_data.get("id"),
             "artist name": track_data.get("artists")[0].get("name"),
-            "artist_id" : str(track_data.get("artists")[0].get("id")),
+            "artist_id": str(track_data.get("artists")[0].get("id")),
             "sample": track_data.get("preview_url"),
             "genres": track_data.get("album").get("genres"),
             "track_token": track,
@@ -128,10 +177,9 @@ def gaussian(x, y, sigma=1):
     return math.exp(exponent)
 
 
-def get_recommendations(track, features):
+def get_recommendations(track_id, features):
     # find nearest neighbors based on track
-    print(track)
-    recommendations = get_nearest_neighbors(track, k=15)
+    recommendations = get_nearest_neighbors(track_id, features, k=15)
     return recommendations
 
 
