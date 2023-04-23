@@ -5,11 +5,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 function Searchbar(props) {
-
   const [searchString, setSearchString] = useState("");
   const [usePropsSearchString, setUsePropsSearchString] = useState(true);
   const [songResults, setSongResults] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
   const timeoutRef = useRef(null);
+  const searchbarRef = useRef(null);
+
+  const handleSelectSong = (songName) => {
+    setSearchString(songName);
+    setShowDropdown(false);
+  };
 
   useEffect(() => {
     if (usePropsSearchString && searchString === "" && props.searchString) {
@@ -38,6 +44,7 @@ function Searchbar(props) {
               };
             });
             setSongResults(merged_list);
+            setShowDropdown(true);
           } else {
             console.error('Error fetching autocomplete suggestions:', response.status);
           }
@@ -47,6 +54,20 @@ function Searchbar(props) {
       }, 500); // Setting 500ms delay
     }
   }, [searchString, props.searchString, usePropsSearchString]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchbarRef.current && !searchbarRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchbarRef]);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -64,31 +85,67 @@ function Searchbar(props) {
   };
 
   return (
-    <div className="search-bar drop-shadow">
+    <div className="search-bar drop-shadow" ref={searchbarRef}>
       <div className="wrapper">
-        <input className="search-txt"
+        <input
+          className="search-txt"
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
+          onClick={() => {
+            if (searchString && songResults.length === 0) {
+              timeoutRef.current = setTimeout(async () => {
+                try {
+                  const response = await fetch(`http://127.0.0.1:8000/Autocomplete?query=${searchString}`);
+                  if (response.ok) {
+                    const data = await response.json();
+                    const items = data["tracks"]["items"];
+                    const merged_list = items.map(item => {
+                      return {
+                        song: item["name"],
+                        trackID: item["id"],
+                        artist: item["artists"][0]["name"],
+                        link: item["external_urls"],
+                        album: item["album"]["images"][1],
+                        year: item["album"]["release_date"].split("-")[0]
+                      };
+                    });
+                    setSongResults(merged_list);
+                    setShowDropdown(true);
+                  } else {
+                    console.error('Error fetching autocomplete suggestions:', response.status);
+                  }
+                } catch (error) {
+                  console.error('Error fetching autocomplete suggestions:', error);
+                }
+              }, 500); // Setting 500ms delay
+            } else {
+              setShowDropdown(true);
+            }
+          }}
           placeholder="Type Song to Search"
         />
         <button className="search-button" onClick={handleSearch}>
           <FontAwesomeIcon icon={solid('magnifying-glass')} />
         </button>
-      </div>
-      {songResults.length > 0 && searchString.length > 0 && (
+        {showDropdown && songResults.length > 0 && searchString.length > 0 && (
         <div className="recc-item" style={{ userSelect: "none" }}>
           {songResults.map((song, index) => (
             <Link
               key={`${song.song}-${index}`}
               to={`/reccs?searchTerm=${encodeURIComponent(song.song)}&trackId=${encodeURIComponent(song.trackID)}`}
+              onClick={() => handleSelectSong(song.song)}
             >
               <div className="individual-items">({song.year}) {song.song} - {song.artist}</div>
             </Link>
           ))}
         </div>
       )}
+      </div>
     </div>
   );
+
+
+
 
 };
 

@@ -11,7 +11,6 @@ html {
   padding: 0.2rem;
   margin: 0;
   background-color: transparent;
-  z-index: 10;
 }
 
 .ItemContainer {
@@ -22,7 +21,6 @@ html {
   transition: transform 0.1s ease-in-out;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
-  z-index: 0;
 }
 
 .ItemContainer:first-of-type {
@@ -42,7 +40,6 @@ html {
 .ItemContainer:hover {
   background-color: #3BBA9C;
   transform: scale(1.02);
-  z-index: 1;
 }
 
 .ImageContainer {
@@ -54,6 +51,7 @@ html {
   height: 5rem;
   background-color: transparent;
   overflow: hidden;
+  z-index: 0;
 }
 
 .ImageContainer img {
@@ -85,8 +83,6 @@ html {
 }
 
 .artist-name {
-  position: relative;
-  z-index: 1;
   font-size: 1rem;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -97,7 +93,6 @@ html {
   font-weight: 600;
   color: #2E3047;
   font-family: "Montserrat", sans-serif;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -126,7 +121,6 @@ html {
 .block-button,
 .x-button,
 .plus-button {
-  position: relative;
   margin: 0.5rem 0;
   padding: 5px 5px;
   border: 2px solid black;
@@ -152,7 +146,6 @@ html {
     cursor: pointer;
     outline: none;
     padding: 5px 5px;
-    position: relative;
     text-align: center;
     text-decoration: none;
     margin: 0.5rem 0;
