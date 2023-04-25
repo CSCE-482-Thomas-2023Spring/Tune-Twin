@@ -14,6 +14,7 @@ html {
 }
 
 .ItemContainer {
+  position: relative;
   display: flex;
   align-items: center;
   padding: 0;
@@ -112,109 +113,34 @@ html {
 }
 
 .button-container {
+  position: absolute;
+  right: 0;
+  margin: 0 1rem 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100%;
+  justify-content: space-evenly;
 }
 
-.block-button,
-.x-button,
-.plus-button {
+.block-button {
   margin: 0.5rem 0;
   padding: 5px 5px;
   border: 2px solid black;
   border-radius: 8px;
-  text-align: center;
-  text-decoration: none;
   font-size: 60%;
   font-weight: bold;
   color: #FFFFFF;
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
-}
-
-.block-button {
-    background-color: #c11d64;
-    font-size: 60%;
-    font-weight: bold;
-    border-radius: 8px;
-    border-style: none;
-    box-sizing: border-box;
-    color: #FFFFFF;
-    cursor: pointer;
-    outline: none;
-    padding: 5px 5px;
-    text-align: center;
-    text-decoration: none;
-    margin: 0.5rem 0;
-    border: 2px solid black;
+  text-align: center;
+  text-decoration: none;
+  background-color: #c11d64;
+  margin: 0;
 }
 
 .block-button:hover,
 .block-button:focus {
-    background-color: #F082AC;
-}
-
-.x-button {
-    background-color: #c81d1d;
-    font-size: 60%;
-    font-weight: bold;
-    border-radius: 50%;
-    border-style: none;
-    box-sizing: border-box;
-    color: #FFFFFF;
-    cursor: pointer;
-    outline: none;
-    padding: 5px 5px;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    margin: 0.5rem 0;
-    border: 2px solid black;
-}
-
-.x-button:hover,
-.x-button:focus {
-    background-color: #F082AC;
-}
-
-.plus-button {
-    background-color: #1ea10c;
-    font-size: 150%;
-    padding: 0;
-    font-weight: bold;
-    border-radius: 50%;
-    border-style: none;
-    box-sizing: border-box;
-    color: #FFFFFF;
-    cursor: pointer;
-    outline: none;
-    width: 3rem;
-    height: 3rem;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    margin: 0.5rem 0;
-    border: 2px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.button:hover::before {
-    content: "This is some text!";
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #333;
-    color: #fff;
-    padding: 5px;
-    border-radius: 5px;
-  }
-
-.plus-button:hover,
-.plus-button:focus {
-    background-color: #28ca66;
+  background-color: #F082AC;
 }

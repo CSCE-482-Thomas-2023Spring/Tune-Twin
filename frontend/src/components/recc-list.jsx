@@ -33,9 +33,7 @@ function ReccList(props) {
           "Content-Type": "application/json",
         },
       };
-      
 
-      
       //const response = await fetch(`http://127.0.0.1:8000/Music/`, request);
       const url = new URL(`http://127.0.0.1:8000/Music`);
       url.searchParams.append('query', trackId);
@@ -58,7 +56,6 @@ function ReccList(props) {
         .catch(error => {
           console.error('Error:', error);
         });
-
 
       const response = await fetch(url);
       const data = await response.json();
@@ -166,10 +163,10 @@ function ReccList(props) {
       request.body = JSON.stringify({
         email: props.userId,
         blacklist_artists_to_add: content
-        
       });
     }
 
+    console.log(`http://localhost:8000/Profile/UpdateDetails`, request);
     const response = await fetch(`http://localhost:8000/Profile/UpdateDetails`, request);
 
     if (response.status != 200) {
@@ -216,40 +213,29 @@ function ReccList(props) {
             </h3>
           </div>
         </Link>
-        <div className="button-container">
-          <button
-            className="block-button"
-            style={{ height: '2rem' }}
-            onClick={(e) => {
-              e.stopPropagation();
-              addToBlacklist("song", [element.id]);
-            }}
-          >
-            Block Song
-          </button>
-          <button
-            className="block-button"
-            onClick={(e) => {
-              e.stopPropagation();
-              addToBlacklist("artist", [element.artist_id]);
-            }}
-          >
-            Block Artist
-          </button>
-        </div>
-        <div className="button-container">
-          <button
-            className="x-button"
-            style={{ width: '2rem', height: '2rem', marginLeft: '0.4rem' }}
-            title="Remove Item"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleRemoveItem(element.id);
-            }}
-          >
-            X
-          </button>
-        </div>
+        {(props.userId === "-1") ? null : (
+          <div className="button-container">
+            <button
+              className="block-button"
+              style={{ height: '2rem'}}
+              onClick={(e) => {
+                e.stopPropagation();
+                addToBlacklist("song", [element.id]);
+              }}
+            >
+              Block Song
+            </button>
+            <button
+              className="block-button"
+              onClick={(e) => {
+                e.stopPropagation();
+                addToBlacklist("artist", [element.artist_id]);
+              }}
+            >
+              Block Artist
+            </button>
+          </div>
+        )}
         {hoveredElement && hoveredElement.id === element.id && (
           <div className="Tooltip">
             <div style={{ display: "flex", justifyContent: "space-between" }}>

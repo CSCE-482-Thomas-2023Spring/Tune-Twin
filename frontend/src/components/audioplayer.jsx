@@ -25,15 +25,6 @@ function AudioPlayer({ audioSrc, imageSrc, id, handlePlay }) {
     };
   }, []);
 
-  const handlePlayPause = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
-
   const handleEnded = () => {
     setIsPlaying(false);
   };
