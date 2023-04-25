@@ -53,12 +53,12 @@ def get_token():
 
 def get_artist_data(artist_id):
     results = []
-    header = {'Authorization': "Bearer " + get_token()}
-    print(artist_id)
-    URL = f'https://api.spotify.com/v1/artists/{artist_id}'
-    artist = requests.get(url = URL, headers=header).json()
-    # get package the artist id, name, and first image
-    results.append([artist_id, artist.get("name"), artist.get("images")[0].get("url")])
+    for artist_id_element in artist_id:
+        header = {'Authorization': "Bearer " + get_token()}
+        URL = f'https://api.spotify.com/v1/artists/{artist_id_element}'
+        artist = requests.get(url = URL, headers=header).json()
+        # get package the artist id, name, and first image
+        results.append([artist_id, artist.get("name"), artist.get("images")[0].get("url")])
     return results
 
 def get_song_data(tracks):
