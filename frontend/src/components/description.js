@@ -12,10 +12,7 @@ class Description extends Component {
                     based on songs they like. All it takes to get started is 
                     searching a song on Spotify that you like! Additionally, 
                     we have a set of filters you can utilize to customize your 
-                    search. For more information (such as the additional features 
-                    you can access with a Tune Twin account paired with your 
-                    personal Spotify account), please visit 
-                    the <a className="about-link" href="/about">Help page!</a>
+                    search.
                 </div>
             </div>
         );

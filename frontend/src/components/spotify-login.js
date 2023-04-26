@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, Navigate } from 'react-router-dom';
 import "../style/spotify-login.css";
 
 class SpotifyLogin extends Component {

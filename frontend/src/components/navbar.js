@@ -40,9 +40,9 @@ class NavBar extends Component {
                         <li>
                             <Link className="Nav-Button" to="/">Search</Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link className="Nav-Button" to="/about">Help</Link>
-                        </li>
+                        </li> */}
                         <li>
                             <Link className="Nav-Button" to="/login">Login</Link>
                         </li>
@@ -62,9 +62,9 @@ class NavBar extends Component {
                         <li>
                             <Link className="Nav-Button" to="/">Search</Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link className="Nav-Button" to="/about">Help</Link>
-                        </li>
+                        </li> */}
                         <li>
                             <Link className="Nav-Button" to="/profile">Profile</Link>
                         </li>

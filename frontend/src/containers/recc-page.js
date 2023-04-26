@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Searchbar from '../components/searchbar.jsx';
-import ReccList from '../components/recc-list.jsx';
+import Searchbar from '../components/searchbar.js';
+import ReccList from '../components/recc-list.js';
 import SearchFilters from '../components/search-filters.js';
 import { connect } from 'react-redux';
 import { setFilter, clearFilters } from '../redux/actions/filterActions';

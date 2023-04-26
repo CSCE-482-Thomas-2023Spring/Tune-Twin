@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../style/recc-list.css';
 import { Link } from 'react-router-dom';
-import AudioPlayer from './audioplayer.jsx';
-import ProgressBar from './progress-bar'
+import AudioPlayer from './audioplayer.js';
+import ProgressBar from './progress-bar.js';
 
 function ReccList(props) {
   // Initializing state variables with useState hook
@@ -103,7 +103,6 @@ function ReccList(props) {
         audio.pause();
       }
     } else {
-
       // If a different audio player is currently playing
       // Pause the previous audio player and update its corresponding button text
       const prevAudioPlayer = document.getElementById(currentAudioPlayer);
@@ -217,7 +216,7 @@ function ReccList(props) {
           <div className="button-container">
             <button
               className="block-button"
-              style={{ height: '2rem'}}
+              style={{ height: '2rem' }}
               onClick={(e) => {
                 e.stopPropagation();
                 addToBlacklist("song", [element.id]);

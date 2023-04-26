@@ -30,21 +30,21 @@ function AudioPlayer({ audioSrc, imageSrc, id, handlePlay }) {
   };
 
   return (
-    <div className="ImageContainer">
-      <audio id={id} src={audioSrc} ref={audioRef} onEnded={handleEnded} />
-      <img src={imageSrc} alt="album" />
-      {audioSrc ? (
-        <button className="play-pause" onClick={() => handlePlay(id)} style={{ margin: 0 }}>
-          {isPlaying ? (
-            <FontAwesomeIcon icon={faPause} />
+    React.createElement("div", { className: "ImageContainer" },
+      React.createElement("audio", { id: id, src: audioSrc, ref: audioRef, onEnded: handleEnded }),
+      React.createElement("img", { src: imageSrc, alt: "album" }),
+      audioSrc ? (
+        React.createElement("button", { className: "play-pause", onClick: () => handlePlay(id), style: { margin: 0 } }, 
+          isPlaying ? (
+            React.createElement(FontAwesomeIcon, { icon: faPause })
           ) : (
-            <FontAwesomeIcon icon={faPlay} />
-          )}
-        </button>
+            React.createElement(FontAwesomeIcon, { icon: faPlay })
+          )
+        )
       ) : (
-        <div style={{ position: "absolute", backgroundColor: "rgba(0, 0, 0, 0.2)", color: "rgba(255, 255, 255, 0.8)", textAlign: "center", userSelect: "none"}}>No Preview</div>
-      )}
-    </div>
+        React.createElement("div", { style: { position: "absolute", backgroundColor: "rgba(0, 0, 0, 0.2)", color: "rgba(255, 255, 255, 0.8)", textAlign: "center", userSelect: "none" } }, "No Preview")
+      )
+    )
   );
 }
 

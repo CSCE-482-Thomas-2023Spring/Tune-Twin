@@ -31,7 +31,7 @@ export default function App() {
         <NavBar userId={userId} updateFunc={setUserId}/>
         <Routes>
           <Route path="/" element={<MainPage />}/>
-          <Route path="/about" element={<AboutPage />}/>
+          {/* <Route path="/about" element={<AboutPage />}/> */}
           <Route path="/login" element={<LoginPage userId={userId} updateFunc={setUserId}/>}/>
           <Route path="/signup" element={<SignUpPage userId={userId} updateFunc={setUserId}/>}/>
           <Route path="/profile" element={<ProfilePage userId={userId} updateFunc={setUserId}/>}/>
