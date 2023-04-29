@@ -86,25 +86,27 @@ class BlackList extends Component {
         return (
             <div>
                 <div className="button-wrapper">
-                <button className="expand-button" onClick={this.props.toggle}>Collapse Blacklist</button>
+                    <button className="expand-button" onClick={this.props.toggle}>Collapse Blacklist</button>
                 </div>
-                {
-                    this.state.songs.length === 0 &&
-                    this.state.artists.length === 0 &&
-                    <div>There is nothing on your black list!</div>
-                }
-                {
-                    this.state.songs.length > 0 &&
-                    this.state.songs.map((elem, i) => <BlackListElement key={i} type="song" content={elem} email={this.props.profileData.email} removal={this.elementRemoved}/>)
-                }
-                {
-                    this.state.artists.length > 0 &&
-                    this.state.artists.map((elem, i) => <BlackListElement key={i} type="artist" content={elem} email={this.props.profileData.email} removal={this.elementRemoved}/>)
-                }
-                {
-                    this.state.bleElementRemoved &&
-                    <div className="info-updated">Your blacklist has been updated.</div>
-                }
+                <div data-testid="blacklist-elements">
+                    {
+                        this.state.songs.length === 0 &&
+                        this.state.artists.length === 0 &&
+                        <div>There is nothing on your black list!</div>
+                    }
+                    {
+                        this.state.songs.length > 0 &&
+                        this.state.songs.map((elem, i) => <BlackListElement key={i} type="song" content={elem} email={this.props.profileData.email} removal={this.elementRemoved}/>)
+                    }
+                    {
+                        this.state.artists.length > 0 &&
+                        this.state.artists.map((elem, i) => <BlackListElement key={i} type="artist" content={elem} email={this.props.profileData.email} removal={this.elementRemoved}/>)
+                    }
+                    {
+                        this.state.bleElementRemoved &&
+                        <div className="info-updated">Your blacklist has been updated.</div>
+                    }
+                </div>
             </div>
         );
     }
