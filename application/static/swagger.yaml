@@ -164,38 +164,38 @@ paths:
         200:
           description: "User logged out successfully"
 
-    # Create account endpoint
-    /Account/CreateAccount:
-      post:
-        summary: "Creates a new user account"
-        description: "Creates a new user account by inserting the supplied user data into the database. Also creates a new blacklist for the user."
-        consumes:
-          - "application/json"
-        produces:
-          - "application/json"
-        parameters:
-          - name: "user data"
-            in: "body"
-            description: "User email, password, first name, and last name"
-            required: true
-            schema:
-              type: "object"
-              properties:
-                email:
-                  type: "string"
-                password:
-                  type: "string"
-                first name:
-                  type: "string"
-                last name:
-                  type: "string"
-        responses:
-          200:
-            description: "User created successfully"
-          400:
-            description: "Invalid request"
-          500:
-            description: "User creation failed"
+  # Create account endpoint
+  /Account/CreateAccount:
+    post:
+      summary: "Creates a new user account"
+      description: "Creates a new user account by inserting the supplied user data into the database. Also creates a new blacklist for the user."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "user data"
+          in: "body"
+          description: "User email, password, first name, and last name"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              email:
+                type: "string"
+              password:
+                type: "string"
+              first name:
+                type: "string"
+              last name:
+                type: "string"
+      responses:
+        200:
+          description: "User created successfully"
+        400:
+          description: "Invalid request"
+        500:
+          description: "User creation failed"
   /Music:
     get:
       summary: Get song recommendations based on input song features
@@ -291,3 +291,84 @@ paths:
                   Liveness: 0.2
                   Loudness: -5.5
                   Tempo: 120
+  /Autocomplete:
+    get:
+      summary: "Autocomplete track names"
+      description: "Returns a list of up to 5 track names that match the given query."
+      produces:
+        - "application/json"
+      parameters:
+        - name: "query"
+          in: "query"
+          description: "The search query to autocomplete."
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "List of up to 5 track names that match the query."
+          schema:
+            type: "object"
+            properties:
+              tracks:
+                type: "object"
+                properties:
+                  items:
+                    type: "array"
+                    items:
+                      type: "object"
+                      properties:
+                        name:
+                          type: "string"
+        400:
+          description: "Invalid request"
+        401:
+          description: "Unauthorized: missing or invalid Spotify access token"
+        500:
+          description: "Internal server error"
+  /callback:
+    get:
+      summary: "Spotify authentication callback"
+      description: "Callback endpoint for Spotify authentication. Retrieves the access token from Spotify and updates the user's Spotify token in the database."
+      produces:
+        - "text/html"
+      parameters:
+        - name: "email"
+          in: "query"
+          description: "Email of the user"
+          required: true
+          type: "string"
+        - name: "code"
+          in: "query"
+          description: "Authentication code from Spotify"
+          required: true
+          type: "string"
+      responses:
+        302:
+          description: "Redirect to homepage after Spotify login"
+        404:
+          description: "User not found in the database"
+  /loginToSpotify:
+  get:
+    summary: "Login to Spotify"
+    description: "Generates a URL that the user can use to log in to their Spotify account."
+    produces:
+      - "application/json"
+    responses:
+      200:
+        description: "Success"
+        schema:
+          type: "object"
+          properties:
+            redirectUrl:
+              type: "string"
+  /:
+    get:
+      summary: "Returns the link to the TuneTwin homepage"
+      description: "Returns a string with the link to the TuneTwin homepage."
+      produces:
+        - "text/plain"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "string"
