@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import '../style/recc-list.css';
 import { Link } from 'react-router-dom';
 import AudioPlayer from './audioplayer.js';
-import ProgressBar from './progress-bar.js';
+import ProgressBar from './progress-bar'
+import { act } from 'react-dom/test-utils';
 
 function ReccList(props) {
   // Initializing state variables with useState hook
@@ -17,76 +18,79 @@ function ReccList(props) {
 
   // Defining an effect hook that triggers when the search spotify id changes
   useEffect(() => {
-
     // Fetch url
     const urlParams = new URLSearchParams(window.location.search);
     const trackId = decodeURIComponent(urlParams.get('trackId'));
 
     // Define an async function to fetch recommendations data from a backend API
     async function fetchRecommendations() {
-      console.log(props.filters);
-      setIsLoading(true);
-      const request = {
-        method: "PUT",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
+      try {
+        setIsLoading(true);
+        const request = {
+          method: "PUT",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
 
-      //const response = await fetch(`http://127.0.0.1:8000/Music/`, request);
-      const url = new URL(`http://127.0.0.1:8000/Music`);
-      url.searchParams.append('query', trackId);
-      url.searchParams.append('user_email', props.userId ? props.userId : "none");
-      url.searchParams.append('acousticness', props.filters.acoustics);
-      url.searchParams.append('danceability', props.filters.danceability);
-      url.searchParams.append('energy', props.filters.energy);
-      url.searchParams.append('key', props.filters.keys);
-      url.searchParams.append('liveness', props.filters.liveness);
-      url.searchParams.append('loudness', props.filters.loudness);
-      url.searchParams.append('mode', props.filters.mode);
-      url.searchParams.append('tempo', props.filters.tempo);
-      url.searchParams.append('valence', props.filters.valence);
+        const url = new URL(`http://127.0.0.1:8000/Music`);
+        url.searchParams.append('query', trackId);
+        url.searchParams.append('user_email', props.userId ? props.userId : "none");
+        url.searchParams.append('acousticness', props.filters.acoustics);
+        url.searchParams.append('danceability', props.filters.danceability);
+        url.searchParams.append('energy', props.filters.energy);
+        url.searchParams.append('key', props.filters.keys);
+        url.searchParams.append('liveness', props.filters.liveness);
+        url.searchParams.append('loudness', props.filters.loudness);
+        url.searchParams.append('mode', props.filters.mode);
+        url.searchParams.append('tempo', props.filters.tempo);
+        url.searchParams.append('valence', props.filters.valence);
 
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          // process response data
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-
-      const response = await fetch(url);
-      const data = await response.json();
-      // Define an async function to fetch recommendations data from a backend API
-      const merged_list = data.reduce((acc, item, index) => {
-        if (index % 2 === 0) {
-          acc.push({
-            id: item["track id"],
-            album_name: item["album name"],
-            album_image: item["album image"],
-            track_name: item["track name"],
-            artist_name: item["artist name"],
-            artist_id: item["artist id"],
-            sample: item["sample"],
-            genres: item["genres"]
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            // process response data
+          })
+          .catch(error => {
+            console.error('Error:', error);
           });
-        } else {
-          const songData = acc[acc.length - 1];
-          songData.danceability = item.danceability;
-          songData.energy = item.energy;
-          songData.songKey = item.key;
-          songData.loudness = item.loudness;
-          songData.liveness = item.liveness;
-          songData.tempo = item.tempo;
-        }
-        return acc;
-      }, []);
 
-      setIsLoading(false);
-      console.log(merged_list);
-      setRecommendations(merged_list);
+        const response = await fetch(url);
+        const data = await response.json();
+        // Define an async function to fetch recommendations data from a backend API
+        const merged_list = data.reduce((acc, item, index) => {
+          if (index % 2 === 0) {
+            acc.push({
+              id: item["track id"],
+              album_name: item["album name"],
+              album_image: item["album image"],
+              track_name: item["track name"],
+              artist_name: item["artist name"],
+              artist_id: item["artist id"],
+              sample: item["sample"],
+              genres: item["genres"]
+            });
+          } else {
+            const songData = acc[acc.length - 1];
+            songData.danceability = item.danceability;
+            songData.energy = item.energy;
+            songData.songKey = item.key;
+            songData.loudness = item.loudness;
+            songData.liveness = item.liveness;
+            songData.tempo = item.tempo;
+          }
+          return acc;
+        }, []);
+        
+        // Only enabled during testing
+        // act(() => {
+          setIsLoading(false);
+          setRecommendations(merged_list);
+        // });
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
     fetchRecommendations();
   }, [props.spotifyId, location]);
@@ -103,6 +107,7 @@ function ReccList(props) {
         audio.pause();
       }
     } else {
+
       // If a different audio player is currently playing
       // Pause the previous audio player and update its corresponding button text
       const prevAudioPlayer = document.getElementById(currentAudioPlayer);
@@ -136,12 +141,6 @@ function ReccList(props) {
     return () => clearInterval(intervalId);
   }, []);
 
-  // Defining a function to remove an item from the recommendations state
-  const handleRemoveItem = (id) => {
-    const updatedRecommendations = recommendations.filter((item) => item.id !== id);
-    setRecommendations(updatedRecommendations);
-  };
-
   // Defining a function to add an item to the user's blacklist
   const addToBlacklist = async (type, content) => {
 
@@ -165,7 +164,6 @@ function ReccList(props) {
       });
     }
 
-    console.log(`http://localhost:8000/Profile/UpdateDetails`, request);
     const response = await fetch(`http://localhost:8000/Profile/UpdateDetails`, request);
 
     if (response.status != 200) {
@@ -182,12 +180,14 @@ function ReccList(props) {
         onMouseEnter={() => setHoveredElement(element)}
         onMouseLeave={() => setHoveredElement(null)}
         className="ItemContainer"
+        data-testid="recc-list"
       >
         <AudioPlayer
           audioSrc={element.sample}
           imageSrc={element.album_image}
           id={element.id}
           handlePlay={() => handleAudioPlay(element.id)}
+          data-testid="audio-player"
         />
         <Link
           to={`https://open.spotify.com/track/${element.id}`}

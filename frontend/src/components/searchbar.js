@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 function Searchbar(props) {
+  // State variables
   const [searchString, setSearchString] = useState("");
   const [usePropsSearchString, setUsePropsSearchString] = useState(true);
   const [songResults, setSongResults] = useState([]);
@@ -12,23 +13,27 @@ function Searchbar(props) {
   const timeoutRef = useRef(null);
   const searchbarRef = useRef(null);
 
+  // Handler for selecting a song from the dropdown
   const handleSelectSong = (songName) => {
     setSearchString(songName);
     setShowDropdown(false);
   };
 
   useEffect(() => {
+    // Check if the search string is received from props and set it
     if (usePropsSearchString && searchString === "" && props.searchString) {
       setSearchString(props.searchString);
       setUsePropsSearchString(false);
     } else if (searchString === props.searchString) {
       return;
-    } else if (searchString.length > 0) {
+    } else if (searchString.trim().length > 0) {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+      // Delay the autocomplete API call
       timeoutRef.current = setTimeout(async () => {
         try {
+          // Fetch autocomplete suggestions
           const response = await fetch(`http://127.0.0.1:8000/Autocomplete?query=${searchString}`);
           if (response.ok) {
             const data = await response.json();
@@ -56,6 +61,7 @@ function Searchbar(props) {
   }, [searchString, props.searchString, usePropsSearchString]);
 
   useEffect(() => {
+    // Handler for closing the dropdown when clicked outside
     const handleClickOutside = (event) => {
       if (searchbarRef.current && !searchbarRef.current.contains(event.target)) {
         setShowDropdown(false);
@@ -69,24 +75,31 @@ function Searchbar(props) {
     };
   }, [searchbarRef]);
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    if (searchString.trim() === '') {
-      return;
-    }
-    if (songResults.length === 0) {
-      return;
-    }
-    const query = songResults[0].song;
-    const trackID = songResults[0].trackID;
-    const searchTerm = encodeURIComponent(query);
-    const trackIdParam = encodeURIComponent(trackID);
-    <Link to={`/reccs?searchTerm=${searchTerm}&trackId=${trackIdParam}`} />
-  };
+  // Handler for search button click (deprecated)
+  // const handleSearch = (event) => {
+  //   event.preventDefault();
+  //   if (searchString.trim() === '') {
+  //     return;
+  //   }
+  //   if (songResults.length === 0) {
+  //     return;
+  //   }
+  //   const query = songResults[0].song;
+  //   const trackID = songResults[0].trackID;
+  //   const searchTerm = encodeURIComponent(query);
+  //   const trackIdParam = encodeURIComponent(trackID);
+  //   // Navigate to the search results page
+
+  //   <Link
+  //     to={`/reccs?searchTerm=${searchTerm}&trackId=${trackIdParam}`}
+  //     onClick={() => handleSelectSong(query)}
+  //   />
+  // };
 
   return (
     <div className="search-bar drop-shadow" ref={searchbarRef}>
       <div className="wrapper">
+        {/* Search input */}
         <input
           className="search-txt"
           value={searchString}
@@ -124,29 +137,29 @@ function Searchbar(props) {
           }}
           placeholder="Type Song to Search"
         />
-        <button className="search-button" onClick={handleSearch}>
+
+        {/* Search button */}
+        <button className="search-button no-pointer">
           <FontAwesomeIcon icon={solid('magnifying-glass')} />
         </button>
+
+        {/* Dropdown results */}
         {showDropdown && songResults.length > 0 && searchString.length > 0 && (
-        <div className="recc-item" style={{ userSelect: "none" }}>
-          {songResults.map((song, index) => (
-            <Link
-              key={`${song.song}-${index}`}
-              to={`/reccs?searchTerm=${encodeURIComponent(song.song)}&trackId=${encodeURIComponent(song.trackID)}`}
-              onClick={() => handleSelectSong(song.song)}
-            >
-              <div className="individual-items">({song.year}) {song.song} - {song.artist}</div>
-            </Link>
-          ))}
-        </div>
-      )}
+          <div className="recc-item" style={{ userSelect: "none" }}>
+            {songResults.map((song, index) => (
+              <Link
+                key={`${song.song}-${index}`}
+                to={`/reccs?searchTerm=${encodeURIComponent(song.song)}&trackId=${encodeURIComponent(song.trackID)}`}
+                onClick={() => handleSelectSong(song.song)}
+              >
+                <div className="individual-items">({song.year}) {song.song} - {song.artist}</div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
-
-
-
-
-};
+}
 
 export default Searchbar;

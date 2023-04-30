@@ -22,7 +22,8 @@ const ProgressBar = ({ bgcolor, progress, height }) => {
     backgroundColor: "whitesmoke",
     overflow: "hidden",
     borderRadius: 40,
-    position: "relative"
+    position: "relative",
+    zIndex: 2
   };
 
   const Childdiv = {
@@ -46,11 +47,11 @@ const ProgressBar = ({ bgcolor, progress, height }) => {
   };
 
   return (
-    React.createElement("div", { style: Parentdiv },
-      React.createElement("div", { style: Childdiv },
-        React.createElement("span", { style: progresstext }, `${progress}%`)
-      )
-    )
+    <div style={Parentdiv}>
+      <div style={Childdiv}>
+        <span style={progresstext}>{`${progress}%`}</span>
+      </div>
+    </div>
   );
 };
 
