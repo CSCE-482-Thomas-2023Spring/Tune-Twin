@@ -293,7 +293,7 @@ function ReccList(props) {
       {isLoading ? (
         <div className="loader">Loading{dots}</div>
       ) : (
-        <div className="AutoComplete">
+        <div className="ReccList">
           {renderRecommendations(recommendations)}
         </div>
       )}
