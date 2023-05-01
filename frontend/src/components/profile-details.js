@@ -61,24 +61,30 @@ class ProfileInfo extends Component {
     render() {
         let title = this.props.firstName ? "First Name" : this.props.lastName ? "Last Name" : this.props.email ? "Email" : "Password";
         let value = this.props.firstName ? this.props.firstName : this.props.lastName ? this.props.lastName : this.props.email ? this.props.email : this.props.password;
+        value = (this.props.password === value && !this.state.updating) ? "****" : value;
+
+        //Testing
+        const submitTestId = this.props.testId + "-submit";
+        const buttonTestId = this.props.testId + "-toggle";
+        const inputTestId = this.props.testId + "-input";
 
         if(this.state.updating) {
             return (
-                <div className="profile-info">
+                <div className="profile-info" data-testid={this.props.testId}>
                     <h4>{title}: </h4>
-                    <input defaultValue={value} onChange={evt => this.updateValue(evt)}></input>
+                    <input defaultValue={value} onChange={evt => this.updateValue(evt)} data-testid={inputTestId}></input>
                     <div>
-                        <button className="edit-profile-info-button" onClick={this.editInfo}>Submit Edits</button>
-                        <button className="edit-profile-info-cancel" onClick={this.changeUpdating}>Cancel</button>
+                        <button className="edit-profile-info-button" onClick={this.editInfo} data-testid={submitTestId}>Submit Edits</button>
+                        <button className="edit-profile-info-cancel" onClick={this.changeUpdating} data-testid={buttonTestId}>Cancel</button>
                     </div>
                 </div>
             );
         } else {
             return(
-                <div className="profile-info">
+                <div className="profile-info" data-testid={this.props.testId}>
                     <h4>{title}: </h4>
                     <p>{value}</p>
-                    <button className="profile-info-button" onClick={this.changeUpdating}>Edit</button>
+                    <button className="profile-info-button" onClick={this.changeUpdating} data-testid={buttonTestId}>Edit</button>
                 </div>
             );
         }
@@ -197,23 +203,23 @@ class ProfileDetails extends Component {
 
     render() {
         return (
-            <div>
+            <div data-testid="profile-details">
                 <h3>Profile Details</h3>
                 {
                     this.state.firstName === "Loading..." ? <div>Loading...</div> :
-                    <ProfileInfo firstName={this.state.firstName} updateFunc={this.updateFirstName}/>
+                    <ProfileInfo firstName={this.state.firstName} updateFunc={this.updateFirstName} testId="profile-fname"/>
                 }
                 {
                     this.state.lastName === "Loading..." ? <div>Loading...</div> :
-                    <ProfileInfo lastName={this.state.lastName} updateFunc={this.updateLastName}/>
+                    <ProfileInfo lastName={this.state.lastName} updateFunc={this.updateLastName} testId="profile-lname"/>
                 }
                 {
                     this.state.email === "Loading..." ? <div>Loading...</div> :
-                    <ProfileInfo email={this.state.email} updateFunc={this.updateEmail}/>
+                    <ProfileInfo email={this.state.email} updateFunc={this.updateEmail} testId="profile-email"/>
                 }
                 {
                     this.state.email === "Loading..." ? <div>Loading...</div> :
-                    <ProfileInfo password={this.state.password} updateFunc={this.updatePassword}/>
+                    <ProfileInfo password={this.state.password} updateFunc={this.updatePassword} testId="profile-password"/>
                 }
                 {
                     this.state.updated &&
