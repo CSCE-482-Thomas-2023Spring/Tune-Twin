@@ -52,7 +52,7 @@ class Login extends Component {
                 </div>
                 <div className="login-card">
                     <h3>Password: </h3>
-                    <input value={this.state.password} onChange={(evt) => this.setState({password: evt.target.value})}></input>
+                    <input value={this.state.password} type="password" onChange={(evt) => this.setState({password: evt.target.value})}></input>
                 </div>
                 {
                     this.state.error &&
