@@ -255,7 +255,7 @@ function ReccList(props) {
                 style={{ alignSelf: "center" }}
               />
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span style={{ alignSelf: "center" }}>Key:</span>
               <ProgressBar
                 bgcolor="#3BBA9C"
@@ -263,7 +263,7 @@ function ReccList(props) {
                 height={20}
                 style={{ alignSelf: "center" }}
               />
-            </div>
+            </div> */}
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <span style={{ alignSelf: "center" }}>Liveness:</span>
               <ProgressBar
