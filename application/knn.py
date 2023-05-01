@@ -59,17 +59,14 @@ def get_nearest_neighbors(track_id, features, k, use_cache=True):
         scaler = MinMaxScaler()
 
         targetFeatures = [
-            "danceability",
-            "energy",
-            "key",
-            "loudness",
-            "mode",
-            "speechiness",
-            "acousticness",
-            "instrumentalness",
-            "liveness",
-            "valence",
-            "tempo",
+           "acousticness" ,
+        "danceability" ,
+        "energy",
+        "liveness",
+        "loudness",
+        "mode" , 
+        "tempo" ,
+        "valence" 
         ]
 
         # All feature data for a track will be between columns 6 - end of the dataframe (this includes things like acousticness, danceability, etc)
@@ -82,14 +79,10 @@ def get_nearest_neighbors(track_id, features, k, use_cache=True):
         with open("dataframe.pickle", "wb") as f:
             pickle.dump(track_df, f)
     # Find nearest neighbors
-    track_features = get_track_features(track_id)
-    for feature in features:
-        track_features[feature] *= features[feature]
-    point = np.array([list(track_features.values())[6:]])
-    _, indices = tree.query(point, k)
+    point = np.array(list(features.values()))
+    _, indices = tree.query([point], k)
     nearest_neighbors = []
     for i in indices[0]:
         nearest_neighbors.append(track_df.iloc[i])
     # returns a list of data frame series object
     return nearest_neighbors
-

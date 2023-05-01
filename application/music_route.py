@@ -13,6 +13,8 @@ from profile_details_route import get_blacklist_details
 from knn import get_nearest_neighbors
 from knn import get_track_features
 from itertools import chain
+import tensorflow as tf
+from autoencoder import Autoencoder
 
 
 @app.route("/Music", methods=["GET"])
@@ -53,7 +55,7 @@ def get_song_recommendations():
     # Get actual values for feature selection
     acoustic_val = acousticness_map.get(
         acousticness_str, 1
-    )  # default value is 0 if danceability_str is not a valid key
+    )  # default value is 0 if selection is not a valid key
     danceability_val = danceability_map.get(danceability_str, 1)
     energy_val = energy_map.get(energy, 1)
     liveness_val = liveness_map.get(liveness, 1)
@@ -176,10 +178,24 @@ def gaussian(x, y, sigma=1):
     exponent = -((x - y) ** 2) / (2 * sigma**2)
     return math.exp(exponent)
 
-
-def get_recommendations(track_id, features):
-    # find nearest neighbors based on track
-    recommendations = get_nearest_neighbors(track_id, features, k=15)
+def get_recommendations(track, user_features):
+    # get the features of the track
+    track_features = get_track_features(track)
+    # update the feature weights based on the user_features
+    for feature in user_features:
+        if user_features[feature] != None:
+            user_features[feature] = track_features[feature] * user_features[feature]
+    # normalize the numerical feature values of the track
+    target_vals = tf.keras.utils.normalize(list(track_features.values())[6:])
+    # pass features into machine learning model
+    model = Autoencoder()
+    model.built = True
+    model.load_weights("model_weights/.index")
+    preds = model.encoder(target_vals).numpy()
+    predicted_vals = preds[0]
+    for i, feature in enumerate(user_features):
+        user_features[feature] = user_features[feature] + predicted_vals[i]
+    recommendations = get_nearest_neighbors(track, user_features, k=15)
     return recommendations
 
 
@@ -204,4 +220,4 @@ def autocomplete():
     return []
 
 
-# filter_recommendations([],'roman.com')
+
