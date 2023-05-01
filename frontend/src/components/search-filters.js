@@ -1,7 +1,5 @@
 import React from 'react';
 import "../style/search-filters.css";
-import { connect } from 'react-redux';
-import { setFilter, clearFilters } from '../redux/actions/filterActions';
 
 const SearchFilters = ({ filters, setFilter, clearFilters }) => {
 
@@ -112,14 +110,5 @@ const SearchFilters = ({ filters, setFilter, clearFilters }) => {
         </div>
     );
 }
-
-const mapStateToProps = (state) => ({
-    filters: state.filter
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    setFilter: (filterType, filterValue) => dispatch(setFilter(filterType, filterValue)),
-    clearFilters: () => dispatch(clearFilters())
-});
 
 export default SearchFilters;

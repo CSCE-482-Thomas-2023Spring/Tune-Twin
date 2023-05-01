@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Searchbar from '../components/searchbar.jsx';
-import ReccList from '../components/recc-list.jsx';
+import Searchbar from '../components/searchbar.js';
+import ReccList from '../components/recc-list.js';
 import SearchFilters from '../components/search-filters.js';
 import { connect } from 'react-redux';
 import { setFilter, clearFilters } from '../redux/actions/filterActions';
@@ -38,17 +38,17 @@ class RecPage extends Component {
                     <Searchbar searchString={this.state.searchString} />
                     <button className="filters-button" onClick={this.filtersPopUp}>{this.state.filterButtonText}</button>
                     {
-                    this.state.filtersPresent && (
-                        <SearchFilters
-                            filters={this.props.filters}
-                            setFilter={this.props.setFilter}
-                            clearFilters={this.props.clearFilters}
-                        />
-                    )
-                }
+                        this.state.filtersPresent && (
+                            <SearchFilters
+                                filters={this.props.filters}
+                                setFilter={this.props.setFilter}
+                                clearFilters={this.props.clearFilters}
+                            />
+                        )
+                    }
                 </div>
                 <div className="row">
-                <ReccList spotifyId={this.state.spotifyId} userId={this.props.userId} filters={this.props.filters}/>
+                    <ReccList spotifyId={this.state.spotifyId} userId={this.props.userId} filters={this.props.filters} />
                 </div>
             </div>
         );
