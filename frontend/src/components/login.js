@@ -40,7 +40,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="login-body">
+            <div className="login-body" data-testid="login-card">
                 {
                     this.state.loggedIn &&
                     <Navigate to="/" />
@@ -56,9 +56,9 @@ class Login extends Component {
                 </div>
                 {
                     this.state.error &&
-                    <div className="login-error">Login failed. An account could not be found with these login credentials.</div>
+                    <div className="login-error" data-testid="login-error">Login failed. An account could not be found with these login credentials.</div>
                 }
-                <button className="login-button" onClick={this.accountLogin}>Login</button><br></br>
+                <button className="login-button" onClick={this.accountLogin} data-testid="login-button">Login</button><br></br>
                 <Link className="login-to-signup" to="/signup">I don't have an account!</Link>
             </div>
         );

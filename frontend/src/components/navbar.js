@@ -32,7 +32,7 @@ class NavBar extends Component {
     render() {
         if (this.props.userId === "-1") {
             return (
-                <nav className="Nav-Bar">
+                <nav className="Nav-Bar" data-testid="navbar-test">
                     <h1>
                         <Link className="Nav-Title" to="/">TuneTwin</Link>
                     </h1>
@@ -54,7 +54,7 @@ class NavBar extends Component {
             );
         } else {
             return (
-                <nav className="Nav-Bar">
+                <nav className="Nav-Bar" data-testid="navbar-test">
                     <h1>
                         <Link className="Nav-Title" to="/">TuneTwin</Link>
                     </h1>

@@ -1,6 +1,9 @@
-import { render, fireEvent, screen } from '@testing-library/react';
-import fetchMock from 'jest-fetch-mock';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { ProfileDetails } from '../components/index.js';
+
+beforeEach(() => {
+    fetch.resetMocks();
+});
 
 const getTestProfileData = (email1, password1, fName, lName) => {
     const profileData = {
@@ -37,4 +40,23 @@ test('Profile Details: Toggle Profile Details', () => {
     passwordButton = screen.getByTestId("profile-password-toggle");
     fireEvent.click(passwordButton);
     expect(password).toHaveTextContent("****");
+});
+
+test('Profile Details: Update Profile ELement', async () => {
+    fetch.mockResponseOnce(JSON.stringify({ status: 200 }));
+    render(<ProfileDetails profileData={getTestProfileData("testemail@email.com", "testpass", "Test", "User")}/>);
+
+    let passwordButton = screen.getByTestId("profile-password-toggle");
+    fireEvent.click(passwordButton);
+    let passwordInput = screen.getByTestId("profile-password-input");
+    expect(passwordInput).toHaveProperty("value", "testpass");
+    fireEvent.change(passwordInput, { target: { value: "newpass"}});
+    expect(passwordInput.value).toBe("newpass");
+
+    passwordButton = screen.getByTestId("profile-password-submit");
+    fireEvent.click(passwordButton);
+    await waitFor(() => {
+        const details = screen.getByTestId("profile-details");
+        expect(details).toHaveTextContent("Profile information updated successfully");
+    })
 });

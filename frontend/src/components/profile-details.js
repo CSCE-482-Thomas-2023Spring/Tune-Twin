@@ -64,6 +64,7 @@ class ProfileInfo extends Component {
         value = (this.props.password === value && !this.state.updating) ? "****" : value;
 
         //Testing
+        const submitTestId = this.props.testId + "-submit";
         const buttonTestId = this.props.testId + "-toggle";
         const inputTestId = this.props.testId + "-input";
 
@@ -73,7 +74,7 @@ class ProfileInfo extends Component {
                     <h4>{title}: </h4>
                     <input defaultValue={value} onChange={evt => this.updateValue(evt)} data-testid={inputTestId}></input>
                     <div>
-                        <button className="edit-profile-info-button" onClick={this.editInfo}>Submit Edits</button>
+                        <button className="edit-profile-info-button" onClick={this.editInfo} data-testid={submitTestId}>Submit Edits</button>
                         <button className="edit-profile-info-cancel" onClick={this.changeUpdating} data-testid={buttonTestId}>Cancel</button>
                     </div>
                 </div>
@@ -202,7 +203,7 @@ class ProfileDetails extends Component {
 
     render() {
         return (
-            <div>
+            <div data-testid="profile-details">
                 <h3>Profile Details</h3>
                 {
                     this.state.firstName === "Loading..." ? <div>Loading...</div> :

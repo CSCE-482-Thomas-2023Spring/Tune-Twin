@@ -40,13 +40,17 @@ class BlackListElement extends Component {
     }
 
     render() {
+        //Testing
+        const testId = "ble-test-" + this.state.content[0];
+        const bTestId = "bleb-test-" + this.state.content[0];
+
         if(!this.state.removed) {
             return (
                 <div>
-                    <div className="black-list-element">
+                    <div className="black-list-element" data-testid={testId}>
                         <img className="ble-image" src={this.state.content[2]} />
                         <div>{this.state.content[1]}</div>
-                        <button className="ble-button" onClick={this.removeFromBlacklist}>Remove</button>
+                        <button className="ble-button" onClick={this.removeFromBlacklist} data-testid={bTestId}>Remove</button>
                     </div>
                 </div>
             )

@@ -1,6 +1,9 @@
-import { render, fireEvent, screen } from '@testing-library/react';
-import fetchMock from 'jest-fetch-mock';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { BlackList } from '../components/index.js';
+
+beforeEach(() => {
+    fetch.resetMocks();
+});
 
 const getTestProfileData = (songs, artists) => {
     const profileData = {
@@ -41,20 +44,21 @@ test('Blacklist: One blacklist artist', () => {
     expect(blacklistElements).toHaveTextContent("Test Artist Name");
 });
 
-test('Blacklist: Blacklist songs & artists', () => {
+test('Blacklist: Remove only song', async () => {
     const song = [[
         "test-id",
         "Test Song Name",
         "test-song-image"
     ]];
-    const artist = [[
-        "test-id",
-        "Test Artist Name",
-        "test-artist-image"
-    ]];
 
-    render(<BlackList profileData={getTestProfileData(song, artist)}/>);
-    const blacklistElements = screen.getByTestId("blacklist-elements");
-    expect(blacklistElements).toHaveTextContent("Test Song Name");
-    expect(blacklistElements).toHaveTextContent("Test Artist Name");
+    fetch.mockResponseOnce(JSON.stringify({ status: 200 }));
+    render(<BlackList profileData={getTestProfileData(song, [])}/>);
+
+    
+    const blacklistButton = screen.getByTestId("bleb-test-test-id");
+    fireEvent.click(blacklistButton);
+    await waitFor(() => {
+        const blacklist = screen.getByTestId("blacklist-elements");
+        expect(blacklist).toHaveTextContent("Your blacklist has been updated.");
+    })
 });
