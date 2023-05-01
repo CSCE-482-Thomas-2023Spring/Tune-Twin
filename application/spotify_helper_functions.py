@@ -68,6 +68,7 @@ def get_song_data(tracks):
         header = {'Authorization': "Bearer " + get_token()}
         URL = f'https://api.spotify.com/v1/tracks/{track}'
         data = requests.get(url = URL, headers=header).json()
+        print("song data is: ", data, URL, header, "track is: ", track)
         # get package the track id, name, and first image
         results.append([track, data.get("name"), data.get("album").get("images")[0].get("url")])
     return results

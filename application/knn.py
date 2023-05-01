@@ -8,6 +8,8 @@ from sklearn.neighbors import KDTree
 import pickle
 import os.path
 import numpy as np
+from spotify_helper_functions import get_token
+import requests
 
 config = configparser.ConfigParser()
 config.read("spotify.cfg")
@@ -16,13 +18,23 @@ CLIENT_SECRET = config.get("Spotify", "CLIENT_SECRET")
 client_credentials_manager = SpotifyClientCredentials(
     client_id=CLIENT_ID, client_secret=CLIENT_SECRET
 )
+print("CRED: ", CLIENT_ID, CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
 
 def get_track_features(track_id):
-    track_info = sp.track(track_id)
-    track_features = sp.audio_features(track_id)
+    # print("TRACK ID: ", get_song_data([track_id]))
+    # track_info = sp.track(track_id)
+    # print("TRACK INFO: ", track_info)
+    # track_features = sp.audio_features(track_id)
+    header = {'Authorization': "Bearer " + get_token()}
+    URL = f'https://api.spotify.com/v1/tracks/{track_id}'
+    track_info = requests.get(url = URL, headers=header).json()
+    FEATURE_URL = f'https://api.spotify.com/v1/audio-features?ids={track_id}'
+    track_features = requests.get(url = FEATURE_URL, headers=header).json()
+    print("TRACK FEATURES; ", track_features)
+    track_features = track_features['audio_features']
     features = {
         "id": track_id,
         "name": track_info["name"],

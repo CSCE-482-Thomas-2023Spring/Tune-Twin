@@ -21,7 +21,7 @@ from autoencoder import Autoencoder
 def get_song_recommendations():
     track = request.args.get("query")
     user_email = request.args.get("user_email")
-
+    
     # get feature values
     acousticness_str = request.args.get("acousticness")
     danceability_str = request.args.get("danceability")
@@ -31,6 +31,7 @@ def get_song_recommendations():
     mode = request.args.get("mode")
     tempo = request.args.get("tempo")
     valence = request.args.get("valence")
+    print("DATA: ", acousticness_str, track, user_email)
 
     # Map feature values
     acousticness_map = {
