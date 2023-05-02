@@ -52,7 +52,7 @@ Folder. Move them to the application folder in the cloned GitHub repository.
 <a name="br3"></a>9. Run the backend of the system using ‘python3 app.py’ while in the application
 directory of the cloned GitHub repository.
 
-Everything is now set up to run Tune Twin. Please reference the [user](https://docs.google.com/document/d/1tnoYfIgdO5P5udbo3AkGtmlS8IKGEL8wx324sqhWfYo/edit?usp=sharing)[ ](https://docs.google.com/document/d/1tnoYfIgdO5P5udbo3AkGtmlS8IKGEL8wx324sqhWfYo/edit?usp=sharing)[manual](https://docs.google.com/document/d/1tnoYfIgdO5P5udbo3AkGtmlS8IKGEL8wx324sqhWfYo/edit?usp=sharing)[ ](https://docs.google.com/document/d/1tnoYfIgdO5P5udbo3AkGtmlS8IKGEL8wx324sqhWfYo/edit?usp=sharing)for any
+Everything is now set up to run Tune Twin. Please reference the user [manual](https://docs.google.com/document/d/1tnoYfIgdO5P5udbo3AkGtmlS8IKGEL8wx324sqhWfYo/edit?usp=sharing)[ ](https://docs.google.com/document/d/1tnoYfIgdO5P5udbo3AkGtmlS8IKGEL8wx324sqhWfYo/edit?usp=sharing)for any
 questions regarding using the Tune Twin application.
 
 Running the Backend and viewing Swagger Documentation
