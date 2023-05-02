@@ -9,23 +9,20 @@ Getting started with Installation
 
 1\. Clone the Tune Twin GitHub Repository
 
-a. Clone the GitHub repository. Instructions for how to clone a GitHub repository
+●  Clone the GitHub repository. Instructions for how to clone a GitHub repository
 can also be found [here](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
 
 2\. Activate the Virtual Environment
 
-a. Utilizing the command line, navigate to the cloned repository and activate the
+●  Utilizing the command line, navigate to the cloned repository and activate the
 virtual environment with the command ‘source myenv/bin/activate’
-
-To confirm that the activation was successful, confirm that (myenv)
- appears next to the username provided on the command line.
 
 3\. Install appropriate Frontend Packages
 
-a. Navigate to the frontend directory in the same terminal window
-b. Download node modules using the ‘npm install’ command
+●  Navigate to the frontend directory in the same terminal window
+●  Download node modules using the ‘npm install’ command
 
-c. Download redux using the ‘npm install redux’ command
+●  Download redux using the ‘npm install redux’ command
 
 4\. Start the frontend by running ‘npm start’. The frontend should run on
 [http://localhost:3000](http://localhost:3000/)[/](http://localhost:3000/).
