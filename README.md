@@ -43,7 +43,7 @@ step two.
 7\. Navigate to the application folder. This folder contains the endpoints and functions
 that comprise the backend of the Tune Twin system.
 
-8\. Navigate to [t](https://drive.google.com/drive/folders/1p2N1FGK4HI-rTArWvTidsVqXJAThJpxx?usp=sharing)[his](https://drive.google.com/drive/folders/1p2N1FGK4HI-rTArWvTidsVqXJAThJpxx?usp=sharing)[ ](https://drive.google.com/drive/folders/1p2N1FGK4HI-rTArWvTidsVqXJAThJpxx?usp=sharing)[link](https://drive.google.com/drive/folders/1p2N1FGK4HI-rTArWvTidsVqXJAThJpxx?usp=sharing)[ ](https://drive.google.com/drive/folders/1p2N1FGK4HI-rTArWvTidsVqXJAThJpxx?usp=sharing)in a web browser and download the files in the Google Drive
+8\. Navigate to this [link](https://drive.google.com/drive/folders/1p2N1FGK4HI-rTArWvTidsVqXJAThJpxx?usp=sharing)[ ](https://drive.google.com/drive/folders/1p2N1FGK4HI-rTArWvTidsVqXJAThJpxx?usp=sharing)in a web browser and download the files in the Google Drive
 Folder. Move them to the application folder in the cloned GitHub repository.
 
 
