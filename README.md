@@ -1,4 +1,4 @@
-<a name="br1"></a>ReadMe
+<a name="br1"></a>Tune Twin
 
 The goal of Tune Twin is to provide users with a powerful, new way to discover a
 diverse set of music recommendations based on songs they like. All it takes to get
@@ -17,7 +17,7 @@ can also be found [here](https://docs.github.com/en/repositories/creating-and-ma
 a. Utilizing the command line, navigate to the cloned repository and activate the
 virtual environment with the command ‘source myenv/bin/activate’
 
-` `To confirm that the activation was successful, confirm that (myenv)
+To confirm that the activation was successful, confirm that (myenv)
  appears next to the username provided on the command line.
 
 3\. Install appropriate Frontend Packages
